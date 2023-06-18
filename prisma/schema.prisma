@@ -11,8 +11,61 @@ datasource db {
   relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model User {
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  email     String    @unique
+  password  String
+  projects  ProjectUser[]
 }
+
+model Project {
+  id          Int             @id @default(autoincrement())
+  name        String
+  owner       User            @relation(fields: [ownerId], references: [id])
+  ownerId     Int
+  projectUsers ProjectUser[]
+  columns     Column[]
+}
+
+model ProjectUser {
+  id        Int      @id @default(autoincrement())
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId Int
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  role      UserRole
+}
+
+model Column {
+  id        Int       @id @default(autoincrement())
+  name      String
+  color     String    @default("gray")
+  project   Project   @relation(fields: [projectId], references: [id])
+  projectId Int
+  tasks     Task[]
+}
+
+model Task {
+  id          Int        @id @default(autoincrement())
+  name        String
+  description String?
+  column      Column     @relation(fields: [columnId], references: [id])
+  columnId    Int
+  subtasks    Subtask[]
+}
+
+model Subtask {
+  id          Int       @id @default(autoincrement())
+  name        String
+  isCompleted Boolean   @default(false)
+  task        Task      @relation(fields: [taskId], references: [id])
+  taskId      Int
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
