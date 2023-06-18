@@ -2,8 +2,7 @@
 
 🚀 Welcome to the Kanban Web App!
 
-This project is a kanban board application built using technologies such as TypeScript, [React](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/), Clerk for authentication, and PlanetScale for the database. It utilizes the [T3 Stack](https://create.t3.gg/) with [Next.js](https://nextjs.org/), [Clerk](https://clerk.com/), [Axiom](https://axiom.co/#ingestandstore), [Prisma](https://www.prisma.io/), and [tRPC](https://trpc.io/).
-
+This project is a kanban board application built using technologies such as TypeScript, [React](https://react.dev/), [Tailwind CSS](https://tailwindcss.com/), Clerk for authentication, PlanetScale for the database and  [Axiom](https://axiom.co/#ingestandstore) for log analytics and observability.
 ## File Structure
 
 The project's file structure is organized as follows:
