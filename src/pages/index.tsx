@@ -13,6 +13,7 @@ export default function Home() {
 
   const { isLoaded, isSignedIn, user } = useUser()
   const [inputValue, setInputValue] = useState('')
+  const [selected, setSelected] = useState('Doing')
 
   return (
     <>
@@ -36,7 +37,7 @@ export default function Home() {
             <TextField value={inputValue} setValue={setInputValue} isValid={(text) => false} />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
-            <Dropdown />
+            <Dropdown options={['Todo', 'Doing', 'Done']} selected={selected} setSelected={setSelected} />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
             <SubtaskCheckbox />
