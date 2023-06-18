@@ -58,14 +58,6 @@ To get started with the Kanban Web App, follow these steps:
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-## Deployment
-
-The Kanban Web App can be deployed using various platforms. Refer to the deployment guides provided by the T3 Stack for detailed instructions on deploying to Vercel, Netlify, or Docker:
-
-- [Vercel Deployment Guide](https://create.t3.gg/en/deployment/vercel)
-- [Netlify Deployment Guide](https://create.t3.gg/en/deployment/netlify)
-- [Docker Deployment Guide](https://create.t3.gg/en/deployment/docker)
-
 ## Learn More
 
 To learn more about the T3 Stack and the technologies used in this project, check out the following resources:
@@ -75,7 +67,6 @@ To learn more about the T3 Stack and the technologies used in this project, chec
 - [Clerk Documentation](https://docs.clerk.dev/)
 - [PlanetScale Documentation](https://docs.planetscale.com/)
 - [Next.js Documentation](https://nextjs.org/docs)
-- [NextAuth.js Documentation](https://next-auth.js.org/getting-started/introduction)
 - [Prisma Documentation](https://prisma.io/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [tRPC Documentation](https://trpc.io/docs)
