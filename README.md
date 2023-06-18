@@ -17,8 +17,8 @@ The project's file structure is organized as follows:
   📁 server           // Backend code
   📁 styles           // Stylesheets and Tailwind CSS configuration
   📁 utils            // Utility functions and helpers
-📄 next.config.js   // Next.js configuration file
-📄 tsconfig.json    // TypeScript configuration file
+📄 next.config.js     // Next.js configuration file
+📄 tsconfig.json      // TypeScript configuration file
 📄 package.json       // Project dependencies and scripts
 📄 .env               // Environment variables
 ```
@@ -57,26 +57,4 @@ To get started with the Kanban Web App, follow these steps:
    ```
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
-
-## Deployment
-
-The Kanban Web App can be deployed using various platforms. Refer to the deployment guides provided by the T3 Stack for detailed instructions on deploying to Vercel, Netlify, or Docker:
-
-- [Vercel Deployment Guide](https://create.t3.gg/en/deployment/vercel)
-- [Netlify Deployment Guide](https://create.t3.gg/en/deployment/netlify)
-- [Docker Deployment Guide](https://create.t3.gg/en/deployment/docker)
-
-## Learn More
-
-To learn more about the T3 Stack and the technologies used in this project, check out the following resources:
-
-- [T3 Stack Documentation](https://create.t3.gg/)
-- [T3 Stack Learning Resources](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available)
-- [Clerk Documentation](https://docs.clerk.dev/)
-- [PlanetScale Documentation](https://docs.planetscale.com/)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [NextAuth.js Documentation](https://next-auth.js.org/getting-started/introduction)
-- [Prisma Documentation](https://prisma.io/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [tRPC Documentation](https://trpc.io/docs)
 
