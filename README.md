@@ -58,16 +58,3 @@ To get started with the Kanban Web App, follow these steps:
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-## Learn More
-
-To learn more about the T3 Stack and the technologies used in this project, check out the following resources:
-
-- [T3 Stack Documentation](https://create.t3.gg/)
-- [T3 Stack Learning Resources](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available)
-- [Clerk Documentation](https://docs.clerk.dev/)
-- [PlanetScale Documentation](https://docs.planetscale.com/)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Prisma Documentation](https://prisma.io/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [tRPC Documentation](https://trpc.io/docs)
-
