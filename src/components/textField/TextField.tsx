@@ -35,7 +35,7 @@ export const TextField = ({ width, height, placeholder, value, setValue, isValid
             style={{ color: colors.red, ...typography.body.M }}
             className='absolute items-center justify-center flex mr-6'
           >
-            Can't be empty
+            <p>Cant be empty</p>
           </div>
           : null
       }
