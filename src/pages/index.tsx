@@ -14,6 +14,7 @@ export default function Home() {
   const { isLoaded, isSignedIn, user } = useUser()
   const [inputValue, setInputValue] = useState('')
   const [selected, setSelected] = useState('Doing')
+  const [checked, setChecked] = useState(false)
 
   return (
     <>
@@ -40,7 +41,7 @@ export default function Home() {
             <Dropdown options={['Todo', 'Doing', 'Done']} selected={selected} setSelected={setSelected} />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
-            <SubtaskCheckbox />
+            <SubtaskCheckbox checked={checked} setChecked={setChecked} text={"Hello"} />
           </div>
         </div>
       </PageLayout>

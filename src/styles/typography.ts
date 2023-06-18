@@ -1,4 +1,8 @@
 export const typography = {
+  fontFamily: 'Plus Jakarta Sans',
+  bold: {
+    fontWeight: '700',
+  },
   heading: {
     XL: {
       fontFamily: 'Plus Jakarta Sans',
