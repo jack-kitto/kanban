@@ -16,7 +16,7 @@ export const Sidebar = () => {
       </div>
       <div className="gap-3 flex flex-col items-start justify-start h-full w-full">
         {
-          items.map((item) => <SidebarItem key={item} text={item} onClick={() => console.log(item)} active={activeItem == item} />)
+          items.map((item) => <SidebarItem key={item} text={item} setActive={setActiveItem} onClick={() => console.log(item)} active={activeItem == item} />)
         }
       </div>
     </div>
