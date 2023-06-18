@@ -8,6 +8,7 @@ import { TextField } from "~/components/textField";
 import { Dropdown } from "~/components/dropdown";
 import { SubtaskCheckbox } from "~/components/subtaskCheckbox";
 import { useState } from "react";
+import Signup from "./signup";
 
 export default function Home() {
 
@@ -16,8 +17,16 @@ export default function Home() {
   const [selected, setSelected] = useState('Doing')
   const [checked, setChecked] = useState(false)
 
+  if (!isLoaded) return null
+  if (!isSignedIn) return (
+    <div className='flex items-center justify-center h-screen w-screen'>
+      <SignUp />
+    </div>
+  )
+  if (!user) return null
   return (
     <>
+
       <PageLayout>
         <div className="flex justify-evenly h-full">
           <div className="h-full items-center justify-evenly flex flex-col">

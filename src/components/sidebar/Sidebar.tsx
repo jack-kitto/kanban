@@ -10,9 +10,9 @@ export const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   return (
     <div className="flex flex-col h-full w-1/6 border-2 border-linesLight">
-      <div className="flex flex-row items-center  p-10 , h-24 w-full">
+      <div className="flex flex-row items-center  p-10 , h-50 w-full">
         <Image src="/logo.png" alt="Logo" width="24" height="25" />
-        <div className=" ml-5 mt-2 text-xl font-bold">kanban</div>
+        <div className=" ml-5 mt-2 text-xl font-bold items-center justify-center h-full w-full">kanban</div>
       </div>
       <div className="gap-3 flex flex-col items-start justify-start h-full w-full">
         {
