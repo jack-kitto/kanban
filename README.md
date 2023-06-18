@@ -17,8 +17,8 @@ The project's file structure is organized as follows:
   📁 server           // Backend code
   📁 styles           // Stylesheets and Tailwind CSS configuration
   📁 utils            // Utility functions and helpers
-📄 next.config.js   // Next.js configuration file
-📄 tsconfig.json    // TypeScript configuration file
+📄 next.config.js     // Next.js configuration file
+📄 tsconfig.json      // TypeScript configuration file
 📄 package.json       // Project dependencies and scripts
 📄 .env               // Environment variables
 ```
