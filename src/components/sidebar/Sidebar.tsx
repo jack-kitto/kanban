@@ -18,6 +18,14 @@ export const Sidebar = () => {
         {
           items.map((item) => <SidebarItem key={item} text={item} setActive={setActiveItem} onClick={() => console.log(item)} active={activeItem == item} />)
         }
+        <button className='flex flex-col rounded-r-full justify-center pl-6'>
+          <div className='flex flex-row'>
+            <div className='mr-2 justify-center items-center flex flex-col'>
+              <Image src={`/project-regular.png`} alt="boardIcon" width="16" height="16" />
+            </div>
+            <p className='text-mainPurple font-bold hover:font-black'>+ Create New Board</p>
+          </div>
+        </button>
       </div>
     </div>
   );
