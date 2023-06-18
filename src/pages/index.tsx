@@ -7,10 +7,12 @@ import { Button } from "~/components/button";
 import { TextField } from "~/components/textField";
 import { Dropdown } from "~/components/dropdown";
 import { SubtaskCheckbox } from "~/components/subtaskCheckbox";
+import { useState } from "react";
 
 export default function Home() {
 
   const { isLoaded, isSignedIn, user } = useUser()
+  const [inputValue, setInputValue] = useState('')
 
   return (
     <>
@@ -31,7 +33,7 @@ export default function Home() {
             <Button onPress={() => console.log("Hello")} type="destructive" theme="dark" size="lg" text="dark Button destructive L" />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
-            <TextField />
+            <TextField value={inputValue} setValue={setInputValue} isValid={(text) => false} />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
             <Dropdown />
