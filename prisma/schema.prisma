@@ -24,7 +24,6 @@ model Column {
   name      String
   color     String    @default("gray")
   project   Project   @relation(fields: [projectId], references: [id])
-  projectId Int
   tasks     Task[]
 }
 
