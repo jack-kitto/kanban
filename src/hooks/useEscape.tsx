@@ -2,7 +2,7 @@ import { useCallback, useEffect } from 'react';
 const KEY_NAME_ESC = 'Escape';
 const KEY_EVENT_TYPE = 'keyup';
 
-export const useEscapeKey = (handleClose: Function) => {
+export const useEscapeKey = (handleClose: any) => {
   const handleEscKey = useCallback((event: any) => {
     if (event.key === KEY_NAME_ESC) {
       handleClose()
