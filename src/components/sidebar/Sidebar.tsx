@@ -13,7 +13,7 @@ export const Sidebar = () => {
   ]
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
-  const { data, isLoading } = api.projects.getAll.useQuery()
+  const { data, isLoading, refetch } = api.projects.getAll.useQuery()
 
   const afterOpenModal = () => { }
   const closeModal = () => { }
@@ -46,7 +46,7 @@ export const Sidebar = () => {
           contentLabel="Example Modal"
           style={customStyles}
         >
-          <CreateBoard close={() => setIsOpen(false)} />
+          <CreateBoard onSuccess={() => refetch()} close={() => setIsOpen(false)} />
         </Modal>
       </div>
     </div>

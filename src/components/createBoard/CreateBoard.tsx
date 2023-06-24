@@ -12,16 +12,20 @@ import { BeatLoader } from "react-spinners";
 
 interface CreateBoardProps {
   close: () => void
+  onSuccess: () => void
 }
-export const CreateBoard = ({ close }: CreateBoardProps) => {
+export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
   const [boardName, setBoardName] = useState("")
   const [columnName, setColumnName] = useState("")
   const [columns, setColumns] = useState(["Todo", "Doing", "Done"])
+  const ctx = api.useContext()
   useEscapeKey(close)
 
   const { mutate, isLoading } = api.projects.create.useMutation({
     onSuccess: () => {
+      ctx.projects.getAll.invalidate
       close()
+      onSuccess()
     },
     onError: (e: any) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
