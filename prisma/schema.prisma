@@ -13,33 +13,34 @@ datasource db {
 }
 
 model Project {
-  id             Int            @id @default(autoincrement())
-  name           String
-  userId         String
-  columns        Column[]
+  id      Int      @id @default(autoincrement())
+  name    String
+  userId  String
+  columns Column[]
 }
 
 model Column {
-  id        Int       @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   name      String
-  color     String    @default("gray")
-  project   Project   @relation(fields: [projectId], references: [id])
+  color     String  @default("gray")
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
   tasks     Task[]
 }
 
 model Task {
-  id          Int        @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   name        String
   description String?
-  column      Column     @relation(fields: [columnId], references: [id])
+  column      Column    @relation(fields: [columnId], references: [id])
   columnId    Int
   subtasks    Subtask[]
 }
 
 model Subtask {
-  id          Int       @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   name        String
-  isCompleted Boolean   @default(false)
-  task        Task      @relation(fields: [taskId], references: [id])
+  isCompleted Boolean @default(false)
+  task        Task    @relation(fields: [taskId], references: [id])
   taskId      Int
 }
