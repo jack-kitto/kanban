@@ -66,9 +66,12 @@ export const CreateBoard = ({ close }: CreateBoardProps) => {
       <div className="w-full flex-row flex mt-6">
         <TextField canBeEmpty={true} width="100%" placeholder="Enter column name" value={columnName} setValue={setColumnName} />
       </div>
-      <div className="mt-4 w-full">
-        <Button fillContainer={true} text="+ Add New Column" type="secondary" theme="light" size="sm" onPress={addColumn} />
-      </div>
+      {
+        columnName.length > 0 &&
+        <div className="mt-4 w-full">
+          <Button disabled={columnName.length < 1} fillContainer={true} text="+ Add New Column" type="secondary" theme="light" size="sm" onPress={addColumn} />
+        </div>
+      }
       <div className="mt-4 w-full">
         <Button fillContainer={true} text="Create New Board" type="secondary" theme="light" size="sm" onPress={createProject} />
       </div>
