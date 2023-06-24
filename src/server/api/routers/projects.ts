@@ -22,5 +22,14 @@ export const projectsRouter = createTRPCRouter({
         },
       })
       return response
+    }),
+  getAll: privateProcedure.query(async ({ ctx }) => {
+    const response = await ctx.prisma.project.findMany({
+      where: {
+        userId: ctx.userId,
+      },
     })
+    return response
+  })
+
 })
