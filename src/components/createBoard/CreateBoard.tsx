@@ -1,0 +1,77 @@
+import { useState } from "react"
+import { GrFormClose } from "react-icons/gr";
+import { TextField } from "../textField"
+import { typography } from "~/styles/typography"
+import { colors } from "~/styles/colors";
+import { Button } from "../button";
+import { api } from "~/utils/api";
+
+interface CreateBoardProps {
+  close: () => void
+}
+export const CreateBoard = ({ close }: CreateBoardProps) => {
+  const [boardName, setBoardName] = useState("")
+  const [columnName, setColumnName] = useState("")
+  const [columns, setColumns] = useState(["Todo", "Doing", "Done"])
+  const { mutate, isLoading: isPosting } = api.projects.create.useMutation({
+    onSuccess: (res: any) => {
+      console.log("Success", res)
+    },
+    onError: (e: any) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      console.log("Error", e)
+    },
+  });
+
+  const deleteColumn = (index: number) => {
+    const newColumns = [...columns]
+    newColumns.splice(index, 1)
+    setColumns(newColumns)
+  }
+
+  const addColumn = () => {
+    const newColumns = [...columns]
+    newColumns.push(columnName)
+    setColumnName("")
+    setColumns(newColumns)
+  }
+
+  const createProject = () => { }
+  return (
+    <div className="p-6 justify-start items-start w-full h-full flex-col flex">
+      <div className="w-full justify-between flex flex-row">
+        <p style={typography.heading.L}>Add New Board</p>
+        <button className="hover:opacity-50" onClick={() => close()}><GrFormClose size={32} /></button>
+      </div>
+      <div className="mt-4 flex-col items-center justify-center w-full">
+        <p style={{ ...typography.body.M, color: colors.mediumGrey }}>Name</p>
+        <TextField canBeEmpty={false} placeholder="Enter board name" width="100%" value={boardName} setValue={setBoardName} />
+      </div>
+      <p className="mt-4" style={{ ...typography.body.M, color: colors.mediumGrey }}>Columns</p>
+      {
+        columns.length > 0 &&
+        <div className="w-full">
+          {
+            columns.map((column: string, index: number) => (
+              <div className="w-full flex flex-row items-center justify-center">
+                <div className="w-full flex mt-2 flex-row border-linesLight border-2 rounded-md p-2">
+                  <p style={typography.body.L}>{column}</p>
+                </div>
+                <button className="hover:opacity-50" onClick={() => deleteColumn(index)}><GrFormClose size={32} /></button>
+              </div>
+            ))
+          }
+        </div>
+      }
+      <div className="w-full flex-row flex mt-6">
+        <TextField canBeEmpty={true} width="100%" placeholder="Enter column name" value={columnName} setValue={setColumnName} />
+      </div>
+      <div className="mt-4 w-full">
+        <Button fillContainer={true} text="+ Add New Column" type="secondary" theme="light" size="sm" onPress={addColumn} />
+      </div>
+      <div className="mt-4 w-full">
+        <Button fillContainer={true} text="Create New Board" type="secondary" theme="light" size="sm" onPress={createProject} />
+      </div>
+    </div>
+  )
+}

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { SidebarItem } from './SidebarItem';
 import Modal from 'react-modal';
 import { useState } from 'react';
-import { api } from '~/utils/api';
+import { CreateBoard } from '../createBoard';
 export const Sidebar = () => {
   const items = [
     "Platform Launch",
@@ -11,19 +11,7 @@ export const Sidebar = () => {
   ]
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
-  const { mutate, isLoading: isPosting } = api.projects.create.useMutation({
-    onSuccess: (res) => {
-      console.log("Success", res)
-    },
-    onError: (e) => {
-      const errorMessage = e.data?.zodError?.fieldErrors.content;
-      console.log("Error", e)
-    },
-  });
-  const createBoard = () => {
-    console.log("Mutating")
-    mutate({ name: "Roadmap" })
-  }
+
   const afterOpenModal = () => { }
   const closeModal = () => { }
 
@@ -51,12 +39,22 @@ export const Sidebar = () => {
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           contentLabel="Example Modal"
+          style={customStyles}
         >
-          <h2>Hello</h2>
-          <button onClick={closeModal}>close</button>
-          <div>I am a modal</div>
-        </Modal>     </div>
+          <CreateBoard close={() => setIsOpen(false)} />
+        </Modal>
+      </div>
     </div>
   );
 }
-
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    width: '40%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
