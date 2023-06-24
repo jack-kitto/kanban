@@ -8,17 +8,18 @@ interface ButtonProps {
   height?: number,
   width?: number,
   borderRadius?: string
+  fillContainer?: boolean,
   onPress: () => void
 }
-export const Button = ({ theme, type, text, width, borderRadius, height, size, onPress }: ButtonProps) => {
+export const Button = ({ theme, type, text, width, borderRadius, height, size, onPress, fillContainer }: ButtonProps) => {
   const styles = {
     sm: {
-      width: width ? width : "255px",
+      width: fillContainer ? "100%" : width ? width : "255px",
       height: height ? height : "40px",
       borderRadius: borderRadius ? borderRadius : "24px",
     },
     lg: {
-      width: width ? width : "255px",
+      width: fillContainer ? "100%" : width ? width : "255px",
       height: height ? height : "48px",
       borderRadius: borderRadius ? borderRadius : "24px",
     },
