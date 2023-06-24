@@ -11,9 +11,29 @@ interface TextFieldProps {
   setValue: (value: string) => void,
   isValid?: (text: string) => boolean,
   maxLength?: number,
+  disabled?: boolean
+  canBeEmpty: boolean
 }
 
-export const TextField = ({ width, height, placeholder, value, setValue, isValid, maxLength }: TextFieldProps) => {
+export const TextField = ({ width, height, placeholder, value, setValue, isValid, maxLength, disabled, canBeEmpty }: TextFieldProps) => {
+  if (canBeEmpty) return (
+    <div className='items-center justify-end flex' style={{
+      width: width ? width : '350px',
+      height: height ? height : '40px',
+    }}>
+      <input
+        maxLength={maxLength ? maxLength : undefined}
+        disabled={disabled ? disabled : false}
+        onInvalid={() => console.log("invalid")}
+        type='text'
+        placeholder={placeholder ? placeholder : 'Enter task name'}
+        className={'w-full h-full border-2 border-linesLight rounded-md p-2 outline-none'}
+        style={typography.body.L}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
+    </div>
+  )
   return (
     <div className='items-center justify-end flex' style={{
       width: width ? width : '350px',
@@ -21,6 +41,7 @@ export const TextField = ({ width, height, placeholder, value, setValue, isValid
     }}>
       <input
         maxLength={maxLength ? maxLength : undefined}
+        disabled={disabled ? disabled : false}
         onInvalid={() => console.log("invalid")}
         type='text'
         placeholder={placeholder ? placeholder : 'Enter task name'}
