@@ -40,7 +40,7 @@ export default function Home() {
             <Button onPress={() => console.log("Hello")} type="destructive" theme="dark" size="lg" text="dark Button destructive L" />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
-            <TextField value={inputValue} setValue={setInputValue} isValid={(text) => false} />
+            <TextField canBeEmpty={false} value={inputValue} setValue={setInputValue} isValid={(text) => false} />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
             <Dropdown options={['Todo', 'Doing', 'Done']} selected={selected} setSelected={setSelected} />
