@@ -25,7 +25,7 @@ export const Button = ({ theme, type, text, width, borderRadius, height, size, o
       borderRadius: borderRadius ? borderRadius : "24px",
     },
     primary: {
-      container: 'bg-mainPurple hover:bg-mainPurpleHover',
+      container: disabled ? "bg-mainPurple opacity-50" : 'bg-mainPurple hover:bg-mainPurpleHover',
       text: {
         fontFamily: 'Plus Jakarta Sans',
         fontWeight: 700,
@@ -35,7 +35,7 @@ export const Button = ({ theme, type, text, width, borderRadius, height, size, o
       }
     },
     secondary: {
-      container: 'bg-btnSecondary hover:bg-btnSecondaryHover',
+      container: disabled ? "bg-btnSecondary opacity-50" : 'bg-btnSecondary hover:bg-btnSecondaryHover',
       text: {
         fontFamily: 'Plus Jakarta Sans',
         fontWeight: 700,

@@ -17,7 +17,7 @@ interface CreateBoardProps {
 export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
   const [boardName, setBoardName] = useState("")
   const [columnName, setColumnName] = useState("")
-  const [columns, setColumns] = useState(["Todo", "Doing", "Done"])
+  const [columns, setColumns] = useState([])
   const ctx = api.useContext()
   useEscapeKey(close)
 
@@ -41,9 +41,9 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
 
   const addColumn = () => {
     const newColumns = [...columns]
+    //@ts-ignore
     newColumns.push(columnName)
     setColumnName("")
-    setColumns(newColumns)
   }
 
   const createProject = () => {
@@ -91,7 +91,7 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
       <div className="mt-4 w-full flex justify-center items-center">
         {
           isLoading ? <BeatLoader color={colors.mainPurple} />
-            : <Button fillContainer={true} text="Create New Board" type="secondary" theme="light" size="sm" onPress={createProject} />
+            : <Button disabled={boardName.length < 1} fillContainer={true} text="Create New Board" type="secondary" theme="light" size="sm" onPress={createProject} />
         }
       </div>
     </div>
