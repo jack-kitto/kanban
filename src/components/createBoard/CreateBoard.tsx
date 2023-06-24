@@ -5,6 +5,7 @@ import { typography } from "~/styles/typography"
 import { colors } from "~/styles/colors";
 import { Button } from "../button";
 import { api } from "~/utils/api";
+import { useEscapeKey } from "~/hooks";
 
 interface CreateBoardProps {
   close: () => void
@@ -13,9 +14,11 @@ export const CreateBoard = ({ close }: CreateBoardProps) => {
   const [boardName, setBoardName] = useState("")
   const [columnName, setColumnName] = useState("")
   const [columns, setColumns] = useState(["Todo", "Doing", "Done"])
+  useEscapeKey(close)
+
   const { mutate, isLoading: isPosting } = api.projects.create.useMutation({
     onSuccess: (res: any) => {
-      console.log("Success", res)
+      close()
     },
     onError: (e: any) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -36,7 +39,13 @@ export const CreateBoard = ({ close }: CreateBoardProps) => {
     setColumns(newColumns)
   }
 
-  const createProject = () => { }
+  const createProject = () => {
+    mutate({
+      name: boardName,
+      columns: columns
+    })
+  }
+
   return (
     <div className="p-6 justify-start items-start w-full h-full flex-col flex">
       <div className="w-full justify-between flex flex-row">
