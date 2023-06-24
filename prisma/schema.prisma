@@ -12,31 +12,11 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User {
-  id            Int            @id @default(autoincrement())
-  uid           String         @unique
-  firstName     String
-  lastName      String
-  projects      ProjectUser[]
-  ownedProjects Project[]      @relation("OwnedProjects")
-}
-
 model Project {
   id             Int            @id @default(autoincrement())
   name           String
-  ownerId        Int
-  owner          User           @relation("OwnedProjects", fields: [ownerId], references: [id])
-  projectUsers   ProjectUser[]
+  userId         String
   columns        Column[]
-}
-
-model ProjectUser {
-  id             Int            @id @default(autoincrement())
-  projectId      Int
-  userId         Int
-  project        Project        @relation(fields: [projectId], references: [id])
-  user           User           @relation(fields: [userId], references: [id])
-  role           UserRole
 }
 
 model Column {
@@ -64,10 +44,3 @@ model Subtask {
   task        Task      @relation(fields: [taskId], references: [id])
   taskId      Int
 }
-
-enum UserRole {
-  OWNER
-  ADMIN
-  MEMBER
-}
-
