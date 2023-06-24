@@ -9,9 +9,10 @@ interface ButtonProps {
   width?: number,
   borderRadius?: string
   fillContainer?: boolean,
+  disabled?: boolean,
   onPress: () => void
 }
-export const Button = ({ theme, type, text, width, borderRadius, height, size, onPress, fillContainer }: ButtonProps) => {
+export const Button = ({ theme, type, text, width, borderRadius, height, size, onPress, fillContainer, disabled }: ButtonProps) => {
   const styles = {
     sm: {
       width: fillContainer ? "100%" : width ? width : "255px",
@@ -56,7 +57,7 @@ export const Button = ({ theme, type, text, width, borderRadius, height, size, o
   }
   return (
     <div style={styles[size]} className={styles[type].container}>
-      <button onClick={onPress} className='items-center justify-center flex w-full h-full'>
+      <button disabled={disabled} onClick={onPress} className='items-center justify-center flex w-full h-full'>
         <div style={styles[type].text} className={'h-full w-full flex justify-center items-center'}>{text}</div>
       </button>
     </div>
