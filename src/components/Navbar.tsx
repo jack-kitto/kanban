@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { ClerkProvider, useUser, SignIn, SignedOut, SignUp, SignOutButton, SignInButton, SignUpButton } from '@clerk/nextjs'
+import { ClerkProvider, useUser, SignIn, SignedOut, SignUp, SignOutButton, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 export const Navbar = () => {
   const { isLoaded, isSignedIn, user } = useUser()
   if (!isLoaded) return null
@@ -11,9 +11,8 @@ export const Navbar = () => {
       <div className="flex items-center w-full ml-6 mr-6">
         {
           isSignedIn ?
-            <div className='w-full flex justify-between items-center'>
-              Hi {user.firstName} !
-              <SignOutButton />
+            <div className='w-full flex justify-end items-center'>
+              <UserButton />
             </div>
             :
             <div>
