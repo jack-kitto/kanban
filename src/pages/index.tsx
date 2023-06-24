@@ -1,14 +1,10 @@
-import Head from "next/head";
-import Link from "next/link";
-import { api } from "~/utils/api";
-import { ClerkProvider, useUser, SignIn, SignedOut, SignUp } from '@clerk/nextjs'
+import { useUser, SignUp } from '@clerk/nextjs'
 import { PageLayout } from "~/components/layout";
 import { Button } from "~/components/button";
 import { TextField } from "~/components/textField";
 import { Dropdown } from "~/components/dropdown";
 import { SubtaskCheckbox } from "~/components/subtaskCheckbox";
 import { useState } from "react";
-import Signup from "./signup";
 
 export default function Home() {
 
