@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { CreateBoard } from '../createBoard';
 import { api } from '~/utils/api';
 import { Loading } from '../loading';
+import Link from 'next/link';
 export const Sidebar = () => {
   const items = [
     "Platform Launch",
@@ -20,6 +21,7 @@ export const Sidebar = () => {
 
   Modal.setAppElement('#root');
   if (isLoading) return <Loading />
+  console.log(data)
   return (
     <div className={"flex flex-col h-full w-1/6 border-2 border-linesLight"}>
       <div className="flex flex-row items-center  p-10 , h-50 w-full">
@@ -28,7 +30,7 @@ export const Sidebar = () => {
       </div>
       <div className="gap-3 flex flex-col items-start justify-start h-full w-full">
         {
-          data ? data.map((project) => <SidebarItem key={project.id} text={project.name} setActive={setActiveItem} onClick={() => console.log(project)} active={activeItem == project.name} />)
+          data ? data.map((project) => <Link href={`/${project.id}`}><SidebarItem key={project.id} text={project.name} setActive={setActiveItem} onClick={() => console.log(project)} active={activeItem == project.name} /></Link>)
             : null
         }
         <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
