@@ -6,6 +6,7 @@ import { CreateBoard } from '../createBoard';
 import { api } from '~/utils/api';
 import { Loading } from '../loading';
 import Link from 'next/link';
+import { Toggle } from '../toggle';
 export const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -23,28 +24,33 @@ export const Sidebar = () => {
         <Image src="/logo.png" alt="Logo" width="24" height="25" />
         <div className=" ml-5 mt-2 text-xl font-bold items-center justify-center h-full w-full">kanban</div>
       </div>
-      <div className="gap-3 flex flex-col items-start justify-start h-full w-full">
-        {
-          data ? data.map((project) =>
-            <Link href={`/${project.id}/${project.name}`}>
-              <SidebarItem
-                key={project.id}
-                text={project.name} setActive={setActiveItem}
-                onClick={() => console.log(project)}
-                active={activeItem == project.name}
-              />
-            </Link>
-          )
-            : null
-        }
-        <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
-          <div className='flex flex-row'>
-            <div className='mr-2 justify-center items-center flex flex-col'>
-              <Image src={`/project-regular.png`} alt="boardIcon" width="16" height="16" />
+      <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
+        <div>
+          {
+            data ? data.map((project) =>
+              <Link href={`/${project.id}/${project.name}`}>
+                <SidebarItem
+                  key={project.id}
+                  text={project.name} setActive={setActiveItem}
+                  onClick={() => console.log(project)}
+                  active={activeItem == project.name}
+                />
+              </Link>
+            )
+              : null
+          }
+          <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
+            <div className='flex flex-row'>
+              <div className='mr-2 justify-center items-center flex flex-col'>
+                <Image src={`/project-regular.png`} alt="boardIcon" width="16" height="16" />
+              </div>
+              <p className='text-mainPurple font-bold hover:font-black'>+ Create New Board</p>
             </div>
-            <p className='text-mainPurple font-bold hover:font-black'>+ Create New Board</p>
-          </div>
-        </button>
+          </button>
+        </div>
+        <div>
+          <Toggle />
+        </div>
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
