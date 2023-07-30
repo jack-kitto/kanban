@@ -5,8 +5,9 @@ import { Loading } from '~/components/loading'
 import { api } from '~/utils/api'
 export default function Project() {
   const router = useRouter()
-  const { projectId } = router.query
+  const { projectId, projectName } = router.query
   const id = z.number().safeParse(parseInt(`${projectId}`))
+  const name = z.string().safeParse(`${projectName}`)
   if (!id.success) {
     toast('Invalid ID')
     return null
@@ -22,6 +23,7 @@ export default function Project() {
   return (
     <div>
       <div>projectId {projectId}</div>
+      <div>projectName {projectName}</div>
     </div>
   )
 }
