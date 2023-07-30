@@ -7,11 +7,6 @@ import { api } from '~/utils/api';
 import { Loading } from '../loading';
 import Link from 'next/link';
 export const Sidebar = () => {
-  const items = [
-    "Platform Launch",
-    "Marketing Plan",
-    "Roadmap",
-  ]
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
@@ -30,7 +25,16 @@ export const Sidebar = () => {
       </div>
       <div className="gap-3 flex flex-col items-start justify-start h-full w-full">
         {
-          data ? data.map((project) => <Link href={`/${project.id}`}><SidebarItem key={project.id} text={project.name} setActive={setActiveItem} onClick={() => console.log(project)} active={activeItem == project.name} /></Link>)
+          data ? data.map((project) =>
+            <Link href={`/${project.id}/${project.name}`}>
+              <SidebarItem
+                key={project.id}
+                text={project.name} setActive={setActiveItem}
+                onClick={() => console.log(project)}
+                active={activeItem == project.name}
+              />
+            </Link>
+          )
             : null
         }
         <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
