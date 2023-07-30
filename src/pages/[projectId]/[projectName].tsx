@@ -12,12 +12,17 @@ export default function Project() {
     toast('Invalid ID')
     return null
   }
-  const { data, isLoading } = api.projects.getProjectById.useQuery({ id: id.data })
-  console.log(data)
-  if (!data) {
-    toast('No project found')
+  const { data, isLoading, error, isError } = api.projects.getProjectById.useQuery({ id: id.data })
+  if (isError) {
+    toast(`Error: ${error?.message}`)
     return null
   }
+
+  if (!data && !isLoading) {
+    toast(`No project found.`)
+    return null
+  }
+
   if (isLoading) return <Loading />
   console.log(data)
   return (
