@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import { SidebarItem } from './SidebarItem';
 import Modal from 'react-modal';
@@ -7,6 +8,7 @@ import { api } from '~/utils/api';
 import { Loading } from '../loading';
 import Link from 'next/link';
 import { Toggle } from '../toggle';
+import { colors } from '~/styles/colors';
 export const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -49,7 +51,11 @@ export const Sidebar = () => {
           </button>
         </div>
         <div>
-          <Toggle />
+          <div className='flex w-full items-center justify-evenly bg-red rounded-lg p-4 mx-4' style={{ backgroundColor: colors.linesLight, }} >
+            light
+            <Toggle size='lg' />
+            dark
+          </div>
         </div>
         <Modal
           isOpen={modalIsOpen}

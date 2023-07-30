@@ -8,7 +8,6 @@ export const Toggle = ({ size, isDisabled, isChecked }:
   }) => {
   return (
     <div>
-      toggle
       <Switch size={size} isChecked={isChecked} isDisabled={isDisabled} />
     </div>
   )
