@@ -22,7 +22,6 @@ export default function Home() {
   if (!user) return null
   return (
     <>
-
       <PageLayout>
         <div className="flex justify-evenly h-full">
           <div className="h-full items-center justify-evenly flex flex-col">
