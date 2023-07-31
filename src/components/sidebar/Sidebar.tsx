@@ -9,6 +9,8 @@ import { Loading } from '../loading';
 import Link from 'next/link';
 import { Toggle } from '../toggle';
 import { colors } from '~/styles/colors';
+import { typography } from '~/styles/typography';
+import { Icon } from '../icon';
 export const Sidebar = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -23,7 +25,7 @@ export const Sidebar = () => {
   return (
     <div className={"flex flex-col h-full w-1/6 border-2 border-linesLight"}>
       <div className="flex flex-row items-center  p-10 , h-50 w-full">
-        <Image src="/logo.png" alt="Logo" width="24" height="25" />
+        <Icon icon='logo' size='large' />
         <div className=" ml-5 mt-2 text-xl font-bold items-center justify-center h-full w-full">kanban</div>
       </div>
       <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
@@ -44,19 +46,23 @@ export const Sidebar = () => {
           <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
             <div className='flex flex-row'>
               <div className='mr-2 justify-center items-center flex flex-col'>
-                <Image src={`/project-regular.png`} alt="boardIcon" width="16" height="16" />
+                <Icon icon='projectRegular' />
               </div>
               <p className='text-mainPurple font-bold hover:font-black'>+ Create New Board</p>
             </div>
           </button>
         </div>
-        <div>
-          <div className='flex w-full items-center justify-evenly bg-red rounded-lg p-4 mx-4' style={{ backgroundColor: colors.linesLight, }} >
-            light
+        <div className='w-full items-center flex-col px-4 mb-8'>
+          <div className='flex w-full items-center justify-evenly bg-linesLight rounded-lg p-4' >
+            <Icon icon='sun' size='medium' />
             <Toggle size='lg' />
-            dark
+            <Icon icon='darkTheme' size='medium' />
+          </div>
+          <div className='mt-4 w-full hover:opacity-50 cursor-pointer'>
+            <p style={{ ...typography.heading.M, color: colors.mediumGrey }}>Hide Sidebar</p>
           </div>
         </div>
+
         <Modal
           isOpen={modalIsOpen}
           onAfterOpen={afterOpenModal}
