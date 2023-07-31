@@ -29,10 +29,10 @@ export const Sidebar = () => {
         <div className=" ml-5 mt-2 text-xl font-bold items-center justify-center h-full w-full">kanban</div>
       </div>
       <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
-        <div>
+        <div className='w-full'>
           {
             data ? data.map((project) =>
-              <Link href={`/${project.id}/${project.name}`}>
+              <Link className='w-full' href={`/${project.id}/${project.name}`}>
                 <SidebarItem
                   key={project.id}
                   text={project.name} setActive={setActiveItem}
@@ -44,11 +44,11 @@ export const Sidebar = () => {
               : null
           }
           <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
-            <div className='flex flex-row'>
+            <div className='flex flex-row w-full hover:opacity-50'>
               <div className='mr-2 justify-center items-center flex flex-col'>
                 <Icon icon='projectRegular' />
               </div>
-              <p className='text-mainPurple font-bold hover:font-black'>+ Create New Board</p>
+              <p className='text-mainPurple font-bold'>+ Create New Board</p>
             </div>
           </button>
         </div>

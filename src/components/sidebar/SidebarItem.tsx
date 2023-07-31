@@ -16,7 +16,7 @@ export const SidebarItem = ({ text, active, onClick, setActive }: SidebarItemPro
         height: '48px',
         backgroundColor: active ? colors.mainPurple : undefined
       }}
-      className='flex flex-col rounded-r-full h-full w-full justify-center pl-6'
+      className='flex flex-col rounded-r-full h-full w-full justify-center pl-6 hover:opacity-50'
       onClick={() => {
         setActive(text)
         onClick()
@@ -26,10 +26,10 @@ export const SidebarItem = ({ text, active, onClick, setActive }: SidebarItemPro
         <div className='mr-2 justify-center items-center flex flex-col'>
           <Image src={`/project-regular${active ? "-active" : ""}.png`} alt="boardIcon" width="16" height="16" />
         </div>
-        <div style={{
+        <div className='w-full' style={{
           ...typography.heading.M,
           color: active ? colors.white : colors.darkGrey,
-        }}><p className={!active ? 'hover:font-black' : undefined}>{text}</p></div>
+        }}><p style={{ color: active ? colors.white : colors.mediumGrey }}>{text}</p></div>
       </div>
     </button>
   );
