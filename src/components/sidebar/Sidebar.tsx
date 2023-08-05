@@ -25,8 +25,10 @@ export const Sidebar = () => {
   return (
     <div className={"flex flex-col h-full w-1/6 border-2 border-linesLight"}>
       <div className="flex flex-row items-center  p-10 , h-50 w-full">
-        <Icon icon='logo' size='large' />
-        <div className=" ml-5 mt-2 text-xl font-bold items-center justify-center h-full w-full">kanban</div>
+        <div className='mr-4'>
+          <Icon icon='logo' size='large' />
+        </div>
+        <Image src={'/kanban.png'} width={112} height={50} alt='logo' />
       </div>
       <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
         <div className='w-full'>

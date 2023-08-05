@@ -25,4 +25,5 @@ const iconRegistry = {
   logo: '/logo.png',
   sun: '/sun.png',
   darkTheme: '/darkTheme.png',
+  kanban: '/kanban.png',
 }
