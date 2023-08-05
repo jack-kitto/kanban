@@ -18,7 +18,7 @@ const SidebarObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
-  const { theme } = useStores()
+  const { theme, uiState } = useStores()
   const afterOpenModal = () => { }
   const closeModal = () => { }
 
@@ -62,9 +62,10 @@ const SidebarObserver = () => {
             <Toggle toggle={() => theme.setProp("darkMode", !theme.darkMode)} size='lg' />
             <Icon icon='darkTheme' size='medium' />
           </div>
-          <div className='mt-4 w-full hover:opacity-50 cursor-pointer'>
+          <button onClick={() => uiState.setProp('sidebarOpen', false)} className='mt-4 w-full hover:opacity-50 cursor-pointer flex flex-row gap-4 ml-4'>
+            <Icon icon='eyeSlash' size='medium' />
             <p style={{ ...typography.heading.M, color: colors.mediumGrey }}>Hide Sidebar</p>
-          </div>
+          </button>
         </div>
 
         <Modal
