@@ -21,10 +21,12 @@ const sizes = {
 }
 
 const iconRegistry = {
+  eyeSlash: '/eye-slash.1.png',
   projectRegular: '/project-regular.png',
   logo: '/logo.png',
   sun: '/sun.png',
   darkTheme: '/darkTheme.png',
   kanbanLight: '/kanban-ligh.png',
   kanbanDark: '/kanban-dark.png',
+  eye: '/eye.png',
 }
