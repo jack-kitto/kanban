@@ -14,10 +14,14 @@ export const Icon = ({ icon, size = 'normal', alt = "icon" }: IconProps) => {
 }
 
 const sizes = {
-  normal: 16,
+  xxxs: 4,
+  xxs: 8,
+  xs: 10,
   small: 12,
+  normal: 16,
   medium: 20,
   large: 24,
+
 }
 
 const iconRegistry = {
@@ -29,4 +33,5 @@ const iconRegistry = {
   kanbanLight: '/kanban-ligh.png',
   kanbanDark: '/kanban-dark.png',
   eye: '/eye.png',
+  options: '/options.png',
 }
