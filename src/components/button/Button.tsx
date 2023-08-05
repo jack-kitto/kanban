@@ -1,7 +1,7 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { colors } from '~/styles/colors';
 interface ButtonProps {
-  theme: 'light' | 'dark',
   type: 'primary' | 'secondary' | 'destructive',
   text: string,
   size: 'sm' | 'lg'
@@ -10,22 +10,25 @@ interface ButtonProps {
   borderRadius?: string
   fillContainer?: boolean,
   disabled?: boolean,
+  fitText?: boolean,
   onPress: () => void
 }
-export const Button = ({ theme, type, text, width, borderRadius, height, size, onPress, fillContainer, disabled }: ButtonProps) => {
+const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, size, onPress, fillContainer, disabled }: ButtonProps) => {
   const styles = {
     sm: {
-      width: fillContainer ? "100%" : width ? width : "255px",
+      width: fitText ? undefined : fillContainer ? "100%" : width ? width : "255px",
       height: height ? height : "40px",
       borderRadius: borderRadius ? borderRadius : "24px",
+      padding: fitText ? "16px" : undefined,
     },
     lg: {
-      width: fillContainer ? "100%" : width ? width : "255px",
+      width: fitText ? undefined : fillContainer ? "100%" : width ? width : "255px",
       height: height ? height : "48px",
       borderRadius: borderRadius ? borderRadius : "24px",
+      padding: fitText ? "16px" : undefined,
     },
     primary: {
-      container: disabled ? "bg-mainPurple opacity-50" : 'bg-mainPurple hover:bg-mainPurpleHover',
+      container: disabled ? "bg-mainPurple opacity-50" : 'bg-mainPurple hover:bg-mainPurpleHover cursor-pointer',
       text: {
         fontFamily: 'Plus Jakarta Sans',
         fontWeight: 700,
@@ -63,3 +66,4 @@ export const Button = ({ theme, type, text, width, borderRadius, height, size, o
     </div>
   )
 }
+export const Button = observer(ButtonComponent)
