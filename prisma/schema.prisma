@@ -13,7 +13,7 @@ datasource db {
 }
 
 model Project {
-  id      Int      @id @default(autoincrement())
+  id      String   @id
   name    String
   userId  String
   columns Column[]
@@ -24,7 +24,7 @@ model Column {
   name      String
   color     String  @default("gray")
   project   Project @relation(fields: [projectId], references: [id])
-  projectId Int
+  projectId String
   tasks     Task[]
 }
 

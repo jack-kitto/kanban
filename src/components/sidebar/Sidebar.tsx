@@ -19,8 +19,6 @@ const SidebarObserver = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
   const { theme } = useStores()
-  useEffect(() => { toast(theme.darkMode ? "Dark Mode" : "Light Mode") }, [theme.darkMode])
-
   const afterOpenModal = () => { }
   const closeModal = () => { }
 

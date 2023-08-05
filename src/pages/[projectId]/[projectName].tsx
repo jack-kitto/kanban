@@ -7,7 +7,7 @@ import { api } from '~/utils/api'
 export default function Project() {
   const router = useRouter()
   const { projectId, projectName } = router.query
-  const id = z.number().safeParse(parseInt(`${projectId}`))
+  const id = z.string().safeParse(`${projectId}`)
   if (!id.success) {
     toast('Invalid ID')
     return null

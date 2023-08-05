@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { GrFormClose } from "react-icons/gr";
 import { TextField } from "../textField"
 import { typography } from "~/styles/typography"
@@ -7,8 +7,8 @@ import { Button } from "../button";
 import { api } from "~/utils/api";
 import { useEscapeKey } from "~/hooks";
 import { toast } from "react-hot-toast";
-import { Loading } from "../loading";
 import { BeatLoader } from "react-spinners";
+import { nanoid } from "nanoid"
 
 interface CreateBoardProps {
   close: () => void
@@ -19,6 +19,7 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
   const [columnName, setColumnName] = useState("")
   const [columns, setColumns] = useState([])
   const ctx = api.useContext()
+
   useEscapeKey(close)
 
   const { mutate, isLoading } = api.projects.create.useMutation({
@@ -40,16 +41,16 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
   }
 
   const addColumn = () => {
-    const newColumns = [...columns]
-    //@ts-ignore
-    newColumns.push(columnName)
+    const newColumns: any = [...columns, columnName]
+    setColumns(newColumns)
     setColumnName("")
   }
 
   const createProject = () => {
     mutate({
       name: boardName,
-      columns: columns
+      columns: columns,
+      id: nanoid()
     })
   }
 
