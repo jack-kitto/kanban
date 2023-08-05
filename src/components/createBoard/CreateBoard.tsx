@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { GrFormClose } from "react-icons/gr";
 import { TextField } from "../textField"
 import { typography } from "~/styles/typography"
@@ -86,13 +86,13 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
       {
         columnName.length > 0 &&
         <div className="mt-4 w-full">
-          <Button disabled={columnName.length < 1 || isLoading} fillContainer={true} text="+ Add New Column" type="secondary" theme="light" size="sm" onPress={addColumn} />
+          <Button disabled={columnName.length < 1 || isLoading} fillContainer={true} text="+ Add New Column" type="secondary" size="sm" onPress={addColumn} />
         </div>
       }
       <div className="mt-4 w-full flex justify-center items-center">
         {
           isLoading ? <BeatLoader color={colors.mainPurple} />
-            : <Button disabled={boardName.length < 1} fillContainer={true} text="Create New Board" type="secondary" theme="light" size="sm" onPress={createProject} />
+            : <Button disabled={boardName.length < 1} fillContainer={true} text="Create New Board" type="secondary" size="sm" onPress={createProject} />
         }
       </div>
     </div>
