@@ -1,7 +1,7 @@
 import { types, SnapshotIn, Instance } from "mobx-state-tree";
 
 export const ThemeStore = types.model("ThemeStore", {
-  type: types.optional(types.enumeration(["light", "dark"]), "light"),
+  darkMode: types.boolean,
 }).actions((self) => ({
   setProp<
     K extends keyof SnapshotIn<typeof self>,

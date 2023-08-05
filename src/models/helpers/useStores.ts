@@ -17,7 +17,9 @@ import { IThemeStore } from "../ThemeStore"
 
 
 const _rootStore = RootStoreModel.create({
-  theme: {} as IThemeStore,
+  theme: {
+    darkMode: false,
+  } as IThemeStore,
 })
 
 /**
