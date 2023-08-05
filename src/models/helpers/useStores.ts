@@ -20,6 +20,9 @@ const _rootStore = RootStoreModel.create({
   theme: {
     darkMode: false,
   } as IThemeStore,
+  uiState: {
+    sidebarOpen: true
+  }
 })
 
 /**
