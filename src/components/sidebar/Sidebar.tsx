@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { SidebarItem } from './SidebarItem';
 import Modal from 'react-modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CreateBoard } from '../createBoard';
 import { api } from '~/utils/api';
 import { Loading } from '../loading';
@@ -11,24 +11,28 @@ import { Toggle } from '../toggle';
 import { colors } from '~/styles/colors';
 import { typography } from '~/styles/typography';
 import { Icon } from '../icon';
-export const Sidebar = () => {
+import { useStores } from '~/models';
+import { observer } from 'mobx-react-lite';
+import { toast } from 'react-hot-toast';
+const SidebarObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
+  const { theme } = useStores()
+  useEffect(() => { toast(theme.darkMode ? "Dark Mode" : "Light Mode") }, [theme.darkMode])
 
   const afterOpenModal = () => { }
   const closeModal = () => { }
 
   Modal.setAppElement('#root');
   if (isLoading) return <Loading />
-  console.log(data)
   return (
-    <div className={"flex flex-col h-full w-1/6 border-2 border-linesLight"}>
+    <div className={`flex flex-col h-full w-1/6 border-right-2 border-right-linesLight bg-${theme.darkMode ? 'darkGrey' : 'white'}`}>
       <div className="flex flex-row items-center  p-10 , h-50 w-full">
         <div className='mr-4'>
           <Icon icon='logo' size='large' />
         </div>
-        <Image src={'/kanban.png'} width={112} height={50} alt='logo' />
+        <Image src={theme.darkMode ? '/kanban-dark.png' : '/kanban-light.png'} width={112} height={50} alt='logo' />
       </div>
       <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
         <div className='w-full'>
@@ -55,9 +59,9 @@ export const Sidebar = () => {
           </button>
         </div>
         <div className='w-full items-center flex-col px-4 mb-8'>
-          <div className='flex w-full items-center justify-evenly bg-linesLight rounded-lg p-4' >
+          <div className={`flex w-full items-center justify-evenly bg-${theme.darkMode ? 'veryDarkGrey' : 'linesLight'} rounded-lg p-4`} >
             <Icon icon='sun' size='medium' />
-            <Toggle size='lg' />
+            <Toggle toggle={() => theme.setProp("darkMode", !theme.darkMode)} size='lg' />
             <Icon icon='darkTheme' size='medium' />
           </div>
           <div className='mt-4 w-full hover:opacity-50 cursor-pointer'>
@@ -89,3 +93,4 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
   },
 };
+export const Sidebar = observer(SidebarObserver);
