@@ -8,7 +8,7 @@ import type { IColumn, IProject, ISubTask, ITask } from '~/models/ProjectsStore'
 import { api } from '~/utils/api'
 export default function Project() {
   const router = useRouter()
-  const { projectId, projectName } = router.query
+  const { projectId } = router.query
   const { projects } = useStores()
   const id = z.string().safeParse(projectId)
   if (!id.success) {
@@ -72,8 +72,8 @@ export default function Project() {
   return (
     <PageLayout>
       <div>
-        <div>projectId {id.data}</div>
-        <div>projectName {projectName}</div>
+        <div>projectId {projects.currentProject?.id}</div>
+        <div>projectName {projects.currentProject?.name}</div>
       </div>
     </PageLayout>
   )

@@ -103,4 +103,24 @@ export const projectsRouter = createTRPCRouter({
       })
       return response
     }),
+  deleteColumnById: privateProcedure
+    .input(z.object({
+      id: z.number()
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const response = await ctx.prisma.column.delete({
+        where: { id: input.id },
+      })
+      return response
+    }),
+  deleteTaskById: privateProcedure
+    .input(z.object({
+      id: z.number()
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const response = await ctx.prisma.task.delete({
+        where: { id: input.id },
+      })
+      return response
+    }),
 })

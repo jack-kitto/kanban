@@ -11,6 +11,9 @@ export const RightContent = observer(() => {
   const [open, setOpen] = useState(false)
   const { projects } = useStores()
   const { mutate } = api.projects.deleteProjectById.useMutation({
+    onSuccess: () => {
+      projects.deleteCurrentProject()
+    },
     onError: (e) => {
       if (!e.data?.zodError?.fieldErrors?.content) return toast('Something went wrong')
       const errorMessage: string[] = e.data?.zodError?.fieldErrors.content;
@@ -41,7 +44,11 @@ export const RightContent = observer(() => {
                   <p>Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
                   <div className='flex flex-row flex-1 mt-8 mb-12'>
                     <div className='flex flex-col flex-1'>
-                      <Button type='destructive' size='lg' text='Delete Board' onPress={() => mutate({ id: "as" })} />
+                      <Button type='destructive' size='lg' text='Delete Board' onPress={() => {
+                        if (projects.currentProject != null) {
+                          mutate({ id: projects.currentProject.id })
+                        }
+                      }} />
                     </div>
                     <div className='flex flex-col flex-1'>
                       <Button type='secondary' size='lg' text='Cancel' onPress={() => setOpen(false)} />
