@@ -1,7 +1,6 @@
 'use client'
 import { CreateBoard } from '../createBoard';
 import { SidebarItem } from './SidebarItem';
-import Modal from 'react-modal';
 import { useState } from 'react';
 import { api } from '~/utils/api';
 import { Loading } from '../loading';
@@ -10,6 +9,7 @@ import { Icon } from '../icon';
 import { observer } from 'mobx-react-lite';
 import { MainModal } from '../mainModal';
 import { typography } from '~/styles/typography';
+
 const TopContentObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);

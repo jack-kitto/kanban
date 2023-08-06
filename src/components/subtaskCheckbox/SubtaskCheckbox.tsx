@@ -9,7 +9,7 @@ interface SubtaskCheckboxProps {
   checked: boolean;
   setChecked: (checked: boolean) => void;
 }
-export const SubtaskCheckbox = observer(({ text, height = 'h-4', checked, setChecked }: SubtaskCheckboxProps) => {
+export const SubtaskCheckbox = observer(({ text, checked, setChecked }: SubtaskCheckboxProps) => {
   const { theme } = useStores()
 
   const Wrapper = ({ children }: { children: React.ReactNode }) => {

@@ -4,7 +4,7 @@ import { useStores } from "~/models";
 import { Icon } from "../icon";
 import { typography } from "~/styles/typography";
 import { colors } from "~/styles/colors";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const ToggleContainer = observer(({ children }: { children: ReactNode }) => {
   const { theme } = useStores()
