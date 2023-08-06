@@ -9,6 +9,7 @@ export default {
       'darkGrey': '#2B2C37',
       'linesDark': '#3E3F4E',
       'mediumGrey': '#828FA3',
+      'mediumDarkGrey': '#383d4a',
       'linesLight': '#E4EBFA',
       'lightGrey': '#F4F7FD',
       'white': '#FFFFFF',

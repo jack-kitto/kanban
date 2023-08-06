@@ -25,6 +25,7 @@ const sizes = {
 }
 
 const iconRegistry = {
+  checkedBox: '/checkedBox.png',
   eyeSlash: '/eye-slash.1.png',
   projectRegular: '/project-regular.png',
   logo: '/logo.png',

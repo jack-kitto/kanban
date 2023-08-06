@@ -44,7 +44,7 @@ export default function Home() {
           <div className="h-full items-center justify-evenly flex flex-col">
             <Dropdown options={['Todo', 'Doing', 'Done']} selected={selected} setSelected={setSelected} />
           </div>
-          <div className="h-full items-center justify-evenly flex flex-col">
+          <div className="h-full items-center justify-evenly flex flex-col w-64">
             <SubtaskCheckbox checked={checked} setChecked={setChecked} text={"Hello"} />
           </div>
         </div>

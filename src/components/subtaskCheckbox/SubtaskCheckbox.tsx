@@ -1,23 +1,47 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react'
+import { useStores } from '~/models';
 import { typography } from '~/styles/typography';
+import { Icon } from '../icon';
 interface SubtaskCheckboxProps {
   text: string;
-  width?: string;
   height?: string;
   checked: boolean;
   setChecked: (checked: boolean) => void;
 }
-export const SubtaskCheckbox = ({ text, width, height, checked, setChecked }: SubtaskCheckboxProps) => {
+export const SubtaskCheckbox = observer(({ text, height = 'h-4', checked, setChecked }: SubtaskCheckboxProps) => {
+  const { theme } = useStores()
+
+  const Wrapper = ({ children }: { children: React.ReactNode }) => {
+    if (theme.darkMode) {
+      return (
+        <button onClick={() => setChecked(!checked)} className='w-full group h-10 flex hover:opacity-25 flex-row items-center justify-start rounded-md bg-linesDark hover:bg-mainPurpleHover'>
+          {children}
+        </button>
+      )
+
+    } return (
+      <button onClick={() => setChecked(!checked)} className='w-full h-10 group flex flex-row items-center justify-start rounded-md bg-linesLight hover:bg-mainPurpleHover'>
+        {children}
+      </button>
+    )
+
+  }
   return (
-    <button onClick={() => setChecked(!checked)} className='hover:opacity-25 flex flex-row items-center justify-start rounded-md bg-linesLight hover:bg-mainPurpleHover' style={{
-      width: width ? width : '350px',
-      height: height ? height : '40px',
-    }}>
-      <input className='ml-4 mr-4' type='checkbox' checked={checked} onChange={() => setChecked(!checked)} />
+    <Wrapper>
+      <div className='ml-4 mr-4'>
+        {
+          checked
+            ? <Icon icon='checkedBox' size='normal' />
+            : theme.darkMode ? <div className='w-4 h-4 hover:bg-veryDarkGrey bg-darkGrey rounded-sm' />
+              : <div className='w-4 h-4 bg-white rounded-sm' />
+        }
+      </div>
       <p style={{
         fontFamily: typography.fontFamily,
-        ...typography.bold
-      }} className={checked ? 'line-through opacity-50' : undefined}>{text}</p>
-    </button>
+        ...typography.bold,
+        color: theme.darkMode ? 'white' : 'black',
+      }} className={checked ? 'line-through opacity-50 group-hover:opacity-100' : undefined}>{text}</p>
+    </Wrapper>
   )
-}
+})
