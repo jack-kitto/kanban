@@ -25,21 +25,21 @@ export default function Home() {
       <PageLayout>
         <div className="flex justify-evenly h-full">
           <div className="h-full items-center justify-evenly flex flex-col">
-            <Button onPress={() => console.log("hello")} type="primary" theme="light" size="sm" text="Light Button Primary S" />
-            <Button onPress={() => console.log("Hello")} type="primary" theme="light" size="lg" text="Light Button Primary L" />
-            <Button onPress={() => console.log("Hello")} type="primary" theme="dark" size="sm" text="dark Button Primary S" />
-            <Button onPress={() => console.log("Hello")} type="primary" theme="dark" size="lg" text="dark Button Primary L" />
-            <Button onPress={() => console.log("Hello")} type="secondary" theme="light" size="sm" text="Light Button secondary S" />
-            <Button onPress={() => console.log("Hello")} type="secondary" theme="light" size="lg" text="Light Button secondary L" />
-            <Button onPress={() => console.log("Hello")} type="secondary" theme="dark" size="sm" text="dark Button secondary S" />
-            <Button onPress={() => console.log("Hello")} type="secondary" theme="dark" size="lg" text="dark Button secondary L" />
-            <Button onPress={() => console.log("Hello")} type="destructive" theme="light" size="sm" text="Light Button destructive S" />
-            <Button onPress={() => console.log("Hello")} type="destructive" theme="light" size="lg" text="Light Button destructive L" />
-            <Button onPress={() => console.log("Hello")} type="destructive" theme="dark" size="sm" text="dark Button destructive S" />
-            <Button onPress={() => console.log("Hello")} type="destructive" theme="dark" size="lg" text="dark Button destructive L" />
+            <Button onPress={() => console.log("hello")} type="primary" size="sm" text="Light Button Primary S" />
+            <Button onPress={() => console.log("Hello")} type="primary" size="lg" text="Light Button Primary L" />
+            <Button onPress={() => console.log("Hello")} type="primary" size="sm" text="dark Button Primary S" />
+            <Button onPress={() => console.log("Hello")} type="primary" size="lg" text="dark Button Primary L" />
+            <Button onPress={() => console.log("Hello")} type="secondary" size="sm" text="Light Button secondary S" />
+            <Button onPress={() => console.log("Hello")} type="secondary" size="lg" text="Light Button secondary L" />
+            <Button onPress={() => console.log("Hello")} type="secondary" size="sm" text="dark Button secondary S" />
+            <Button onPress={() => console.log("Hello")} type="secondary" size="lg" text="dark Button secondary L" />
+            <Button onPress={() => console.log("Hello")} type="destructive" size="sm" text="Light Button destructive S" />
+            <Button onPress={() => console.log("Hello")} type="destructive" size="lg" text="Light Button destructive L" />
+            <Button onPress={() => console.log("Hello")} type="destructive" size="sm" text="dark Button destructive S" />
+            <Button onPress={() => console.log("Hello")} type="destructive" size="lg" text="dark Button destructive L" />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
-            <TextField canBeEmpty={false} value={inputValue} setValue={setInputValue} isValid={(text) => false} />
+            <TextField canBeEmpty={false} value={inputValue} setValue={setInputValue} isValid={() => false} />
           </div>
           <div className="h-full items-center justify-evenly flex flex-col">
             <Dropdown options={['Todo', 'Doing', 'Done']} selected={selected} setSelected={setSelected} />

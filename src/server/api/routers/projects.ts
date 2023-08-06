@@ -42,6 +42,54 @@ export const projectsRouter = createTRPCRouter({
         where: {
           id: input.id,
         },
+        include: {
+          columns: {
+            include: {
+              tasks: {
+                include: {
+                  subtasks: true,
+                }
+              }
+            }
+          },
+        },
+      })
+
+      return response
+    }),
+  getColumnById: privateProcedure
+    .input(z.object({
+      id: z.number()
+    }))
+    .query(async ({ ctx, input }) => {
+      const response = await ctx.prisma.column.findUnique({
+        where: {
+          id: input.id,
+        },
+      })
+      return response
+    }),
+  getTaskById: privateProcedure
+    .input(z.object({
+      id: z.number()
+    }))
+    .query(async ({ ctx, input }) => {
+      const response = await ctx.prisma.task.findUnique({
+        where: {
+          id: input.id,
+        },
+      })
+      return response
+    }),
+  getSubTaskById: privateProcedure
+    .input(z.object({
+      id: z.number()
+    }))
+    .query(async ({ ctx, input }) => {
+      const response = await ctx.prisma.subtask.findUnique({
+        where: {
+          id: input.id,
+        },
       })
       return response
     }),

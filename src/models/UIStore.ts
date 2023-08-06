@@ -1,4 +1,5 @@
-import { types, SnapshotIn, Instance } from "mobx-state-tree";
+import { types } from "mobx-state-tree";
+import type { Instance, SnapshotIn } from "mobx-state-tree";
 
 export const UIStore = types.model("ThemeStore", {
   sidebarOpen: types.boolean,
@@ -11,4 +12,4 @@ export const UIStore = types.model("ThemeStore", {
   }
 }));
 
-export interface IUIStore extends Instance<typeof UIStore> { }
+export type IUIStore = Instance<typeof UIStore>

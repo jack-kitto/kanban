@@ -1,4 +1,5 @@
-import { types, SnapshotIn, Instance } from "mobx-state-tree";
+import { types } from "mobx-state-tree";
+import type { Instance, SnapshotIn } from "mobx-state-tree";
 
 export const ThemeStore = types.model("ThemeStore", {
   darkMode: types.boolean,
@@ -11,4 +12,4 @@ export const ThemeStore = types.model("ThemeStore", {
   }
 }));
 
-export interface IThemeStore extends Instance<typeof ThemeStore> { }
+export type IThemeStore = Instance<typeof ThemeStore> 

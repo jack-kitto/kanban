@@ -2,7 +2,7 @@
 import Image from 'next/image'
 import { SidebarItem } from './SidebarItem';
 import Modal from 'react-modal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { CreateBoard } from '../createBoard';
 import { api } from '~/utils/api';
 import { Loading } from '../loading';
@@ -13,14 +13,13 @@ import { typography } from '~/styles/typography';
 import { Icon } from '../icon';
 import { useStores } from '~/models';
 import { observer } from 'mobx-react-lite';
-import { toast } from 'react-hot-toast';
 const SidebarObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
   const { theme, uiState } = useStores()
-  const afterOpenModal = () => { }
-  const closeModal = () => { }
+  const afterOpenModal = () => { console.log('open'); }
+  const closeModal = () => { console.log('close'); setIsOpen(false) }
 
   Modal.setAppElement('#root');
   if (isLoading) return <Loading />
@@ -36,7 +35,7 @@ const SidebarObserver = () => {
         <div className='w-full'>
           {
             data ? data.map((project) =>
-              <Link className='w-full' href={`/${project.id}/${project.name}`}>
+              <Link key={project.id} className='w-full' href={`/${project.id}/${project.name}`}>
                 <SidebarItem
                   key={project.id}
                   text={project.name} setActive={setActiveItem}
@@ -76,7 +75,7 @@ const SidebarObserver = () => {
           contentLabel="Example Modal"
           style={customStyles}
         >
-          <CreateBoard onSuccess={() => refetch()} close={() => setIsOpen(false)} />
+          <CreateBoard onSuccess={() => { refetch().catch((e: Error) => console.error(e.message)) }} close={() => { setIsOpen(false) }} />
         </Modal>
       </div>
     </div>

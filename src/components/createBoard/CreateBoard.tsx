@@ -17,31 +17,32 @@ interface CreateBoardProps {
 export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
   const [boardName, setBoardName] = useState("")
   const [columnName, setColumnName] = useState("")
-  const [columns, setColumns] = useState([])
+  const [columns, setColumns] = useState<string[]>([])
   const ctx = api.useContext()
 
   useEscapeKey(close)
 
   const { mutate, isLoading } = api.projects.create.useMutation({
-    onSuccess: () => {
-      ctx.projects.getAll.invalidate
+    onSuccess: (): void => {
+      ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
       close()
       onSuccess()
     },
-    onError: (e: any) => {
-      const errorMessage = e.data?.zodError?.fieldErrors.content;
-      toast(errorMessage)
+    onError: (e): void => {
+      if (e.data?.zodError?.fieldErrors?.name) {
+        e.data.zodError.fieldErrors.name.forEach((err: string) => toast.error(err))
+      }
     },
   });
 
   const deleteColumn = (index: number) => {
-    const newColumns = [...columns]
+    const newColumns: string[] = [...columns]
     newColumns.splice(index, 1)
     setColumns(newColumns)
   }
 
   const addColumn = () => {
-    const newColumns: any = [...columns, columnName]
+    const newColumns: string[] = [...columns, columnName]
     setColumns(newColumns)
     setColumnName("")
   }
@@ -70,7 +71,7 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
         <div className="w-full">
           {
             columns.map((column: string, index: number) => (
-              <div className="w-full flex flex-row items-center justify-center">
+              <div key={column} className="w-full flex flex-row items-center justify-center">
                 <div className="w-full flex mt-2 flex-row border-linesLight border-2 rounded-md p-2">
                   <p style={typography.body.L}>{column}</p>
                 </div>

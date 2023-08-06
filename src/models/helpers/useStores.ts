@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react"
-import { RootStore, RootStoreModel } from "../RootStore"
-import { IThemeStore } from "../ThemeStore"
+import { RootStoreModel } from "../RootStore"
+import type { RootStore } from "../RootStore"
+import type { IThemeStore } from "../ThemeStore"
 
 /**
  * Create the initial (empty) global RootStore instance here.
@@ -22,6 +23,10 @@ const _rootStore = RootStoreModel.create({
   } as IThemeStore,
   uiState: {
     sidebarOpen: true
+  },
+  projects: {
+    currentProject: null,
+    projects: []
   }
 })
 
@@ -62,21 +67,21 @@ export const useInitialRootStore = (callback: () => void | Promise<void>) => {
 
   // Kick off initial async loading actions, like loading fonts and rehydrating RootStore
   useEffect(() => {
-    let _unsubscribe: any
+    let _unsubscribe: () => void
       ; (async () => {
 
         // let the app know we've finished rehydrating
         setRehydrated(true)
 
         // invoke the callback, if provided
-        if (callback) callback()
-      })()
+        if (callback) await callback()
+      })().catch((e: Error) => console.error(e.message))
 
     return () => {
       // cleanup
       if (_unsubscribe) _unsubscribe()
     }
-  }, [])
+  }, [callback])
 
   return { rootStore, rehydrated }
 }

@@ -7,13 +7,6 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
-import { modalAnatomy as parts } from '@chakra-ui/anatomy'
-import {
-  createMultiStyleConfigHelpers,
-  defineStyle,
-} from '@chakra-ui/styled-system'
-const { definePartsStyle, defineMultiStyleConfig } =
-  createMultiStyleConfigHelpers(parts.keys)
 
 interface modalProps {
   open: boolean
@@ -24,7 +17,7 @@ interface modalProps {
   footer?: React.ReactNode
   size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "full"
 }
-export const MainModal = ({ open, setOpen, onClose, header, body, footer, size }: modalProps) => {
+export const MainModal = ({ open, onClose, header, body, footer, size }: modalProps) => {
 
   return (
     <div>

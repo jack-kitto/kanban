@@ -1,5 +1,4 @@
 import React from 'react'
-import { isValid } from 'zod'
 import { colors } from '~/styles/colors'
 import { typography } from '~/styles/typography'
 
@@ -15,7 +14,7 @@ interface TextFieldProps {
   canBeEmpty: boolean
 }
 
-export const TextField = ({ width, height, placeholder, value, setValue, isValid, maxLength, disabled, canBeEmpty }: TextFieldProps) => {
+export const TextField = ({ width, height, placeholder, value, setValue, maxLength, disabled, canBeEmpty }: TextFieldProps) => {
   if (canBeEmpty) return (
     <div className='items-center justify-end flex' style={{
       width: width ? width : '350px',
