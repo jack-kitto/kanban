@@ -95,7 +95,7 @@ export const ProjectsStore = types.model("ProjectsStore", {
     }
   },
   deleteCurrentProject() {
-    const newProjects = self.projects.filter(p => p.id !== self.currentProject?.id) as IProjectModel[];
+    const newProjects = self.projects.filter(p => p.id !== self.currentProject?.id)
     this.setProp("projects", newProjects);
   },
 }));
