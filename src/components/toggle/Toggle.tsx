@@ -1,6 +1,7 @@
 import React from 'react'
 import { Switch } from '@chakra-ui/react'
-export const Toggle = ({ size, isDisabled, isChecked, toggle }:
+import { observer } from 'mobx-react-lite'
+const ToggleComponent = ({ size, isDisabled, isChecked, toggle }:
   {
     size: 'sm' | 'md' | 'lg',
     isDisabled?: boolean,
@@ -9,7 +10,8 @@ export const Toggle = ({ size, isDisabled, isChecked, toggle }:
   }) => {
   return (
     <div>
-      <Switch onChange={() => toggle()} size={size} isChecked={isChecked} isDisabled={isDisabled} />
+      <Switch isChecked={isChecked} onChange={() => toggle()} size={size} isDisabled={isDisabled} />
     </div>
   )
 }
+export const Toggle = observer(ToggleComponent)

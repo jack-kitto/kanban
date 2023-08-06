@@ -57,10 +57,6 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
 
   return (
     <div className="p-6 justify-start items-start w-full h-full flex-col flex">
-      <div className="w-full justify-between flex flex-row">
-        <p style={typography.heading.L}>Add New Board</p>
-        <button disabled={isLoading} className="hover:opacity-50" onClick={() => close()}><GrFormClose size={32} /></button>
-      </div>
       <div className="mt-4 flex-col items-center justify-center w-full">
         <p style={{ ...typography.body.M, color: colors.mediumGrey }}>Name</p>
         <TextField disabled={isLoading} canBeEmpty={false} placeholder="Enter board name" width="100%" value={boardName} setValue={setBoardName} />

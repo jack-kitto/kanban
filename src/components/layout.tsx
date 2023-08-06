@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from "react";
-import { Navbar } from "./Navbar";
+import { Navbar } from "./navbar";
 import { Sidebar } from "./sidebar";
 import { colors } from "~/styles/colors";
 import { observer } from "mobx-react-lite";
