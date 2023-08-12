@@ -3,7 +3,6 @@ import { CreateBoard } from '../createBoard';
 import { SidebarItem } from './SidebarItem';
 import { useState } from 'react';
 import { api } from '~/utils/api';
-import { Loading } from '../loading';
 import Link from 'next/link';
 import { Icon } from '../icon';
 import { observer } from 'mobx-react-lite';
@@ -15,11 +14,10 @@ const TopContentObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
   const { projects } = useStores()
+  const [items, setItems] = useState(projects.projects)
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
   if (isLoading) return <div />
-  if (data) data.forEach((project) => {
-    projects.addProject(project)
-  })
+  if (data) projects.syncProjects(data)
   return (
     <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
       <div className='w-full'>

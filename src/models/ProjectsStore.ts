@@ -5,6 +5,7 @@ import type { AppRouter } from "~/server/api/root";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type ProjectCreateOutput = RouterOutput["projects"]["create"];
 type getColumnByIdOutput = RouterOutput["projects"]['getColumnById'];
+type getAllProjectsOutput = RouterOutput["projects"]['getAll'];
 
 export interface ISubTask {
   id: string;
@@ -104,6 +105,13 @@ export const ProjectsStore = types.model("ProjectsStore", {
       if (!self.projects.find(p2 => p2.id === p.id)) {
         self.projects.push(p as IProjectModel)
       }
+    })
+  },
+  syncProjects(projects: getAllProjectsOutput) {
+    //remove projects that are not in the server
+    this.setProp('projects', self.projects.filter(p => projects.find(p2 => p2.id === p.id)))
+    projects.forEach(p => {
+      this.addProject(p)
     })
   },
   addProject(project: ProjectCreateOutput) {

@@ -1,5 +1,4 @@
 import { useState } from "react"
-import Reactotron from "reactotron-react-js"
 import { GrFormClose } from "react-icons/gr";
 import { TextField } from "../textField"
 import { typography } from "~/styles/typography"
@@ -27,7 +26,6 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
 
   const { mutate, isLoading } = api.projects.create.useMutation({
     onSuccess: (res): void => {
-      if (Reactotron.log) Reactotron.log("Project: ", res)
       projects.addProject(res)
       ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
       close()

@@ -7,18 +7,15 @@ import { useState } from 'react'
 import { api } from '~/utils/api'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '~/models'
+import { useRouter } from 'next/router'
 export const RightContent = observer(() => {
   const [open, setOpen] = useState(false)
   const { projects } = useStores()
-  if (projects.currentProjectIndex == null) return null
-  const project = projects.projects[projects.currentProjectIndex]
-  if (!project) return null
+  const router = useRouter()
 
   const { mutate, isLoading } = api.projects.deleteProjectById.useMutation({
     onSuccess: () => {
-      projects.setProp('currentProjectIndex', null)
-      projects.setProp('projects', projects.projects.filter((p) => p.id !== project.id))
-      setOpen(false)
+      deleteProject()
     },
     onError: (e) => {
       if (!e.data?.zodError?.fieldErrors?.content) return toast('Something went wrong')
@@ -28,6 +25,21 @@ export const RightContent = observer(() => {
       })
     },
   });
+  if (projects.currentProjectIndex == null) return null
+  const project = projects.projects[projects.currentProjectIndex]
+  if (!project) return null
+
+  const deleteProject = () => {
+    projects.setProp('currentProjectIndex', null)
+    projects.setProp('projects', projects.projects.filter((p) => p.id !== project.id))
+    setOpen(false)
+    router.push('/')
+  }
+
+  const onDelete = () => {
+    mutate({ id: project.id })
+  }
+
   return (
     <div className='flex flex-row'>
       <div>
@@ -48,9 +60,7 @@ export const RightContent = observer(() => {
               <p>Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
               <div className='flex flex-row flex-1 mt-8 mb-12'>
                 <div className='flex flex-col flex-1'>
-                  <Button loading={isLoading} type='destructive' size='lg' text='Delete Board' onPress={() => {
-                    mutate({ id: project.id })
-                  }} />
+                  <Button loading={isLoading} type='destructive' size='lg' text='Delete Board' onPress={onDelete} />
                 </div>
                 <div className='flex flex-col flex-1'>
                   <Button disabled={isLoading} type='secondary' size='lg' text='Cancel' onPress={() => setOpen(false)} />
