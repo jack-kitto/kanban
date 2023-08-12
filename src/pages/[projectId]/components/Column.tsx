@@ -1,4 +1,4 @@
-import { IColumnModel } from "~/models/ProjectsStore"
+import type { IColumnModel } from "~/models/ProjectsStore"
 import { colors } from "~/styles/colors"
 import { typography } from "~/styles/typography"
 

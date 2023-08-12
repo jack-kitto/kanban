@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { IColumnModel, IProjectModel } from "~/models/ProjectsStore";
+import type { IColumnModel, IProjectModel } from "~/models/ProjectsStore";
 import { Column } from "./Column";
 import { AddColumn } from "./AddColumn";
 

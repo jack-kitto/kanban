@@ -4,7 +4,6 @@ import type { Instance, SnapshotIn } from "mobx-state-tree";
 import type { AppRouter } from "~/server/api/root";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type ProjectCreateOutput = RouterOutput["projects"]["create"];
-type ProjectUpdateOutput = RouterOutput["projects"]["update"];
 type getAllProjectsOutput = RouterOutput["projects"]['getAll'];
 
 export interface ISubTask {

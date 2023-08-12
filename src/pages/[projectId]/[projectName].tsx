@@ -6,7 +6,7 @@ import { useStores } from '~/models'
 import React from 'react'
 import EmptyState from './components/EmptyState'
 import Form from '~/components/form/Form'
-import { IProjectModel } from '~/models/ProjectsStore'
+import type { IProjectModel } from '~/models/ProjectsStore'
 import { api } from '~/utils/api'
 import { Board } from './components/Board'
 
@@ -37,7 +37,6 @@ export default function Project() {
   });
 
   React.useEffect(() => {
-    console.log('useEffect')
     if (!id.success) return () => { projects.setProp('currentProjectIndex', null) }
     const project_ = projects.projects.find(project => project.id === id.data)
     if (!project_) return () => { projects.setProp('currentProjectIndex', null) }
@@ -46,7 +45,7 @@ export default function Project() {
     setName(project_.name)
     setColumns(project_.columns.map(column => column.name))
     return () => { projects.setProp('currentProjectIndex', null) }
-  }, [router, router.isReady, router.query])
+  }, [router, router.isReady, router.query, id.success, id, projects])
 
   React.useEffect(() => {
     if (columns.length === 0) return setValid(false)
