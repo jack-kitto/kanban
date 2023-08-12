@@ -33,7 +33,7 @@ export const RightContent = observer(() => {
     projects.setProp('currentProjectIndex', null)
     projects.setProp('projects', projects.projects.filter((p) => p.id !== project.id))
     setOpen(false)
-    router.push('/')
+    router.push('/').catch((e: Error) => toast(e.message))
   }
 
   const onDelete = () => {

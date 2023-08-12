@@ -1,10 +1,9 @@
-import { getSnapshot, types } from "mobx-state-tree";
+import { types } from "mobx-state-tree";
 import type { inferRouterOutputs } from '@trpc/server';
 import type { Instance, SnapshotIn } from "mobx-state-tree";
 import type { AppRouter } from "~/server/api/root";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type ProjectCreateOutput = RouterOutput["projects"]["create"];
-type getColumnByIdOutput = RouterOutput["projects"]['getColumnById'];
 type getAllProjectsOutput = RouterOutput["projects"]['getAll'];
 
 export interface ISubTask {
@@ -119,21 +118,21 @@ export const ProjectsStore = types.model("ProjectsStore", {
     if (!project) return;
     const isUnique = !self.projects.find(p => p.id === project.id);
     if (!isUnique) return;
-    const newProject = ProjectModel.create({
+    const newProject: IProjectModel = ProjectModel.create({
       id: project.id,
       name: project.name,
       userId: project.userId
-    } as any)
-    let columns = project.columns.map(c => {
+    })
+    const columns: IColumnModel[] = project.columns.map(c => {
       const tasks = c.tasks.map(t => {
-        const subTasks = t.subtasks.map(st => {
+        const subTasks: ISubTaskModel[] = t.subtasks.map(st => {
           return SubTaskModel.create({
             id: `${st.id}`,
             name: st.name,
             isCompleted: st.isCompleted
           });
         })
-        const task = TaskModel.create({
+        const task: ITaskModel = TaskModel.create({
           id: `${t.id}`,
           name: t.name,
           description: t.description ? t.description : "",
@@ -141,7 +140,7 @@ export const ProjectsStore = types.model("ProjectsStore", {
         task.setProp('subTasks', subTasks)
         return task;
       })
-      const column = ColumnModel.create({
+      const column: IColumnModel = ColumnModel.create({
         id: `${c.id}`,
         name: c.name,
         projectId: project.id,
@@ -152,13 +151,8 @@ export const ProjectsStore = types.model("ProjectsStore", {
     });
     newProject.setProp("columns", columns);
     self.projects.push(newProject);
-    console.log("self.projects: ", getSnapshot(self.projects));
   },
 }));
-
-const buildTasksFromColumn = (column: getColumnByIdOutput) => {
-  return ColumnModel.create()
-}
 
 export type IProjectsStore = Instance<typeof ProjectsStore>
 export type IProjectModel = Instance<typeof ProjectModel>

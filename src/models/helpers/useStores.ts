@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
-import * as Reactotron from 'reactotron-react-js'
+import { createContext, useContext, useEffect } from "react"
 import { RootStoreModel } from "../RootStore"
 import type { RootStore } from "../RootStore"
 import type { IThemeStore } from "../ThemeStore"
@@ -26,7 +25,7 @@ const _rootStore = RootStoreModel.create({
     sidebarOpen: true
   },
   projects: {
-    currentProject: null,
+    currentProjectIndex: null,
     projects: []
   }
 })
@@ -65,7 +64,6 @@ export const useStores = () => useContext(RootStoreContext)
  */
 export const useInitialRootStore = (callback: () => void | Promise<void>) => {
   const rootStore = useStores()
-  const [rehydrated, setRehydrated] = useState(false)
 
 
   // Kick off initial async loading actions, like loading fonts and rehydrating RootStore
@@ -83,5 +81,5 @@ export const useInitialRootStore = (callback: () => void | Promise<void>) => {
     }
   }, [callback])
 
-  return { rootStore, rehydrated }
+  return { rootStore }
 }

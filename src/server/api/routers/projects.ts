@@ -9,7 +9,7 @@ export const projectsRouter = createTRPCRouter({
       columns: z.optional(z.array(z.string().min(1).max(32))),
     }))
     .mutation(async ({ ctx, input }) => {
-      const response = await ctx.prisma.project.create({
+      await ctx.prisma.project.create({
         data: {
           id: input.id,
           name: input.name,

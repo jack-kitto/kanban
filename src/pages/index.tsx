@@ -6,9 +6,6 @@ import { Dropdown } from "~/components/dropdown";
 import { SubtaskCheckbox } from "~/components/subtaskCheckbox";
 import { useState } from "react";
 import { api } from '~/utils/api';
-import { useStores } from '~/models';
-import { IProject, IProjectModel } from '~/models/ProjectsStore';
-import { Instance } from 'mobx-state-tree';
 
 export default function Home() {
 
@@ -16,8 +13,7 @@ export default function Home() {
   const [inputValue, setInputValue] = useState('')
   const [selected, setSelected] = useState('Doing')
   const [checked, setChecked] = useState(false)
-  const { projects } = useStores()
-  const { data, isLoading, refetch } = api.projects.getAll.useQuery()
+  const { data, isLoading } = api.projects.getAll.useQuery()
   if (isLoading) return null
   if (!isLoaded) return null
   if (!isSignedIn) return (

@@ -14,7 +14,6 @@ const TopContentObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
   const { projects } = useStores()
-  const [items, setItems] = useState(projects.projects)
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
   if (isLoading) return <div />
   if (data) projects.syncProjects(data)
