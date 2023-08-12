@@ -19,6 +19,7 @@ export default {
       'redHover': '#FF9898',
       'btnSecondary': 'rgba(99, 95, 199, 0.1)',
       'btnSecondaryHover': 'rgba(99, 95, 199, 0.25)',
+      'cardColLight': '#eef2fb',
     },
     extend: {
     },

@@ -8,6 +8,7 @@ import EmptyState from './components/EmptyState'
 import Form from '~/components/form/Form'
 import { IProjectModel } from '~/models/ProjectsStore'
 import { api } from '~/utils/api'
+import { Board } from './components/Board'
 
 export default function Project() {
   const router = useRouter()
@@ -71,12 +72,7 @@ export default function Project() {
       <div className='w-full h-full flex'>
         {
           project.columns.length > 0
-            ? project.columns.map((column) => (
-              <>
-                <div>-------------------</div>
-                <h1>{column.name}</h1>
-              </>
-            ))
+            ? <Board project={project} />
             : (
               <div className='w-full h-full flex justify-center items-center'>
                 <EmptyState onAddNewColumn={() => setEditBoardFormOpen(true)} />
