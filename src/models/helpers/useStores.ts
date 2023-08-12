@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react"
+import * as Reactotron from 'reactotron-react-js'
 import { RootStoreModel } from "../RootStore"
 import type { RootStore } from "../RootStore"
 import type { IThemeStore } from "../ThemeStore"
@@ -36,6 +37,7 @@ const _rootStore = RootStoreModel.create({
  */
 const RootStoreContext = createContext<RootStore>(_rootStore)
 
+
 /**
  * You can use this Provider to specify a *different* RootStore
  * than the singleton version above if you need to. Generally speaking,
@@ -65,13 +67,11 @@ export const useInitialRootStore = (callback: () => void | Promise<void>) => {
   const rootStore = useStores()
   const [rehydrated, setRehydrated] = useState(false)
 
+
   // Kick off initial async loading actions, like loading fonts and rehydrating RootStore
   useEffect(() => {
     let _unsubscribe: () => void
       ; (async () => {
-
-        // let the app know we've finished rehydrating
-        setRehydrated(true)
 
         // invoke the callback, if provided
         if (callback) await callback()

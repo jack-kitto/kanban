@@ -1,5 +1,10 @@
-import { types } from "mobx-state-tree";
+import { getSnapshot, types } from "mobx-state-tree";
+import type { inferRouterOutputs } from '@trpc/server';
 import type { Instance, SnapshotIn } from "mobx-state-tree";
+import type { AppRouter } from "~/server/api/root";
+type RouterOutput = inferRouterOutputs<AppRouter>;
+type ProjectCreateOutput = RouterOutput["projects"]["create"];
+type getColumnByIdOutput = RouterOutput["projects"]['getColumnById'];
 
 export interface ISubTask {
   id: string;
@@ -29,7 +34,7 @@ const TaskModel = types.model("TaskModel", {
   id: types.string,
   name: types.string,
   description: types.string,
-  subTasks: types.array(SubTaskModel),
+  subTasks: types.optional(types.array(SubTaskModel), []),
 }).actions((self) => ({
   setProp<
     K extends keyof SnapshotIn<typeof self>,
@@ -43,13 +48,15 @@ export interface IColumn {
   id: string;
   name: string;
   color: string;
+  projectId: string;
   tasks: ITask[];
 }
 const ColumnModel = types.model("ColumnModel", {
   id: types.string,
   name: types.string,
+  projectId: types.string,
   color: types.string,
-  tasks: types.array(TaskModel),
+  tasks: types.optional(types.array(TaskModel), []),
 }).actions((self) => ({
   setProp<
     K extends keyof SnapshotIn<typeof self>,
@@ -63,11 +70,13 @@ export interface IProject {
   id: string;
   name: string;
   columns: IColumn[];
+  userId: string;
 }
 export const ProjectModel = types.model("ProjectModel", {
   id: types.string,
   name: types.string,
-  columns: types.array(ColumnModel),
+  columns: types.optional(types.array(ColumnModel), []),
+  userId: types.string,
 }).actions((self) => ({
   setProp<
     K extends keyof SnapshotIn<typeof self>,
@@ -78,7 +87,7 @@ export const ProjectModel = types.model("ProjectModel", {
 }));
 
 export const ProjectsStore = types.model("ProjectsStore", {
-  currentProject: types.maybeNull(ProjectModel),
+  currentProjectIndex: types.maybeNull(types.number),
   projects: types.array(ProjectModel),
 }).actions((self) => ({
   setProp<
@@ -87,18 +96,61 @@ export const ProjectsStore = types.model("ProjectsStore", {
   >(field: K, newValue: V) {
     self[field] = newValue;
   },
-  openProject(project: IProject) {
-    console.log("openProject", project);
-    self.currentProject = project as IProjectModel;
-    if (!self.projects.find(p => p.id === project.id)) {
-      self.projects.push(project);
-    }
+  openProjectById(projectId: string) {
+    self.currentProjectIndex = self.projects.findIndex((p) => p.id === projectId);
   },
-  deleteCurrentProject() {
-    const newProjects = self.projects.filter(p => p.id !== self.currentProject?.id)
-    this.setProp("projects", newProjects);
+  storeProjects(projects: IProject[]) {
+    projects.forEach(p => {
+      if (!self.projects.find(p2 => p2.id === p.id)) {
+        self.projects.push(p as IProjectModel)
+      }
+    })
+  },
+  addProject(project: ProjectCreateOutput) {
+    console.log("addProject", project);
+    if (!project) return;
+    const isUnique = !self.projects.find(p => p.id === project.id);
+    if (!isUnique) return;
+    const newProject = ProjectModel.create({
+      id: project.id,
+      name: project.name,
+      userId: project.userId
+    } as any)
+    let columns = project.columns.map(c => {
+      const tasks = c.tasks.map(t => {
+        const subTasks = t.subtasks.map(st => {
+          return SubTaskModel.create({
+            id: `${st.id}`,
+            name: st.name,
+            isCompleted: st.isCompleted
+          });
+        })
+        const task = TaskModel.create({
+          id: `${t.id}`,
+          name: t.name,
+          description: t.description ? t.description : "",
+        })
+        task.setProp('subTasks', subTasks)
+        return task;
+      })
+      const column = ColumnModel.create({
+        id: `${c.id}`,
+        name: c.name,
+        projectId: project.id,
+        color: c.color
+      })
+      column.setProp("tasks", tasks)
+      return column;
+    });
+    newProject.setProp("columns", columns);
+    self.projects.push(newProject);
+    console.log("self.projects: ", getSnapshot(self.projects));
   },
 }));
+
+const buildTasksFromColumn = (column: getColumnByIdOutput) => {
+  return ColumnModel.create()
+}
 
 export type IProjectsStore = Instance<typeof ProjectsStore>
 export type IProjectModel = Instance<typeof ProjectModel>

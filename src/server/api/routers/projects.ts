@@ -23,12 +23,27 @@ export const projectsRouter = createTRPCRouter({
           }
         },
       })
-      return response
+      const project = await ctx.prisma.project.findUnique({
+        where: { id: input.id },
+        include: { columns: { include: { tasks: { include: { subtasks: true } } } } }
+      })
+      return project
     }),
   getAll: privateProcedure.query(async ({ ctx }) => {
     const response = await ctx.prisma.project.findMany({
       where: {
         userId: ctx.userId,
+      },
+      include: {
+        columns: {
+          include: {
+            tasks: {
+              include: {
+                subtasks: true,
+              }
+            }
+          }
+        },
       },
     })
     return response

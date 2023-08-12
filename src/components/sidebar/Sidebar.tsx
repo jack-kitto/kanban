@@ -29,7 +29,7 @@ const SidebarObserver = () => {
           <Icon icon='logo' size='large' />
         </div>
         {theme.darkMode && (<Image key={"darkthemelogo"} src='/kanban-dark.png' width={112} height={50} alt='logo' />)}
-        {!theme.darkMode && (<Image key={'lightthemelogo'} src='/kanban-dark.png' width={112} height={50} alt='logo' />)}
+        {!theme.darkMode && (<Image key={'lightthemelogo'} src='/kanban-light.png' width={112} height={50} alt='logo' />)}
       </Link>
       <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
         <TopContent />

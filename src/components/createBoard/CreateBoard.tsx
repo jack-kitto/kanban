@@ -1,4 +1,5 @@
 import { useState } from "react"
+import Reactotron from "reactotron-react-js"
 import { GrFormClose } from "react-icons/gr";
 import { TextField } from "../textField"
 import { typography } from "~/styles/typography"
@@ -9,6 +10,7 @@ import { useEscapeKey } from "~/hooks";
 import { toast } from "react-hot-toast";
 import { BeatLoader } from "react-spinners";
 import { nanoid } from "nanoid"
+import { useStores } from "~/models";
 
 interface CreateBoardProps {
   close: () => void
@@ -19,11 +21,14 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
   const [columnName, setColumnName] = useState("")
   const [columns, setColumns] = useState<string[]>([])
   const ctx = api.useContext()
+  const { projects } = useStores()
 
   useEscapeKey(close)
 
   const { mutate, isLoading } = api.projects.create.useMutation({
-    onSuccess: (): void => {
+    onSuccess: (res): void => {
+      if (Reactotron.log) Reactotron.log("Project: ", res)
+      projects.addProject(res)
       ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
       close()
       onSuccess()
@@ -67,7 +72,7 @@ export const CreateBoard = ({ close, onSuccess }: CreateBoardProps) => {
         <div className="w-full">
           {
             columns.map((column: string, index: number) => (
-              <div key={column} className="w-full flex flex-row items-center justify-center">
+              <div key={`${column} ${index}`} className="w-full flex flex-row items-center justify-center">
                 <div className="w-full flex mt-2 flex-row border-linesLight border-2 rounded-md p-2">
                   <p style={typography.body.L}>{column}</p>
                 </div>

@@ -10,9 +10,15 @@ import { useStores } from '~/models'
 export const RightContent = observer(() => {
   const [open, setOpen] = useState(false)
   const { projects } = useStores()
-  const { mutate } = api.projects.deleteProjectById.useMutation({
+  if (projects.currentProjectIndex == null) return null
+  const project = projects.projects[projects.currentProjectIndex]
+  if (!project) return null
+
+  const { mutate, isLoading } = api.projects.deleteProjectById.useMutation({
     onSuccess: () => {
-      projects.deleteCurrentProject()
+      projects.setProp('currentProjectIndex', null)
+      projects.setProp('projects', projects.projects.filter((p) => p.id !== project.id))
+      setOpen(false)
     },
     onError: (e) => {
       if (!e.data?.zodError?.fieldErrors?.content) return toast('Something went wrong')
@@ -24,41 +30,35 @@ export const RightContent = observer(() => {
   });
   return (
     <div className='flex flex-row'>
-      {projects.currentProject != null && (
-        <>
-          <div>
-            <Button fitText type='primary' size='lg' text='+ Add New Task' onPress={() => toast("Adding new task")} />
-          </div>
-          <div className='m-4 hover:opacity-50 cursor-pointer'>
-            <button onClick={() => setOpen(true)} className='cursor-pointer'>
-              <Icon icon="options" size='xxxs' />
-            </button>
-            <MainModal size='2xl' open={open} setOpen={setOpen} onClose={() => setOpen(false)}
-              header={
-                <div className='mt-6'>
-                  <p style={typography.heading.L} className='text-red'>Delete this board?</p>
+      <div>
+        <Button fitText type='primary' size='lg' text='+ Add New Task' onPress={() => toast("Adding new task")} />
+      </div>
+      <div className='m-4 hover:opacity-50 cursor-pointer'>
+        <button onClick={() => setOpen(true)} className='cursor-pointer'>
+          <Icon icon="options" size='xxxs' />
+        </button>
+        <MainModal size='2xl' open={open} setOpen={setOpen} onClose={() => setOpen(false)}
+          header={
+            <div className='mt-6'>
+              <p style={typography.heading.L} className='text-red'>Delete this board?</p>
+            </div>
+          }
+          body={
+            <div>
+              <p>Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
+              <div className='flex flex-row flex-1 mt-8 mb-12'>
+                <div className='flex flex-col flex-1'>
+                  <Button loading={isLoading} type='destructive' size='lg' text='Delete Board' onPress={() => {
+                    mutate({ id: project.id })
+                  }} />
                 </div>
-              }
-              body={
-                <div>
-                  <p>Are you sure you want to delete the ‘Platform Launch’ board? This action will remove all columns and tasks and cannot be reversed.</p>
-                  <div className='flex flex-row flex-1 mt-8 mb-12'>
-                    <div className='flex flex-col flex-1'>
-                      <Button type='destructive' size='lg' text='Delete Board' onPress={() => {
-                        if (projects.currentProject != null) {
-                          mutate({ id: projects.currentProject.id })
-                        }
-                      }} />
-                    </div>
-                    <div className='flex flex-col flex-1'>
-                      <Button type='secondary' size='lg' text='Cancel' onPress={() => setOpen(false)} />
-                    </div>
-                  </div>
+                <div className='flex flex-col flex-1'>
+                  <Button disabled={isLoading} type='secondary' size='lg' text='Cancel' onPress={() => setOpen(false)} />
                 </div>
-              } />
-          </div>
-        </>
-      )}
+              </div>
+            </div>
+          } />
+      </div>
     </div>
   )
 });

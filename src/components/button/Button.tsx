@@ -1,6 +1,9 @@
 import { observer } from 'mobx-react-lite';
+import { MoonLoader } from "react-spinners";
 import React from 'react';
 import { colors } from '~/styles/colors';
+import { Loading } from '../loading';
+import { useStores } from '~/models';
 interface ButtonProps {
   type: 'primary' | 'secondary' | 'destructive',
   text: string,
@@ -11,9 +14,11 @@ interface ButtonProps {
   fillContainer?: boolean,
   disabled?: boolean,
   fitText?: boolean,
-  onPress: () => void
+  onPress: () => void,
+  loading?: boolean,
 }
-const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, size, onPress, fillContainer, disabled }: ButtonProps) => {
+const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, size, onPress, fillContainer, disabled, loading }: ButtonProps) => {
+  const { theme } = useStores()
   const styles = {
     sm: {
       width: fitText ? undefined : fillContainer ? "100%" : width ? width : "255px",
@@ -61,7 +66,11 @@ const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, siz
   return (
     <div style={styles[size]} className={styles[type].container}>
       <button disabled={disabled} onClick={onPress} className='items-center justify-center flex w-full h-full'>
-        <div style={styles[type].text} className={'h-full w-full flex justify-center items-center'}>{text}</div>
+        <div style={styles[type].text} className={'h-full w-full flex justify-center items-center'}>
+          {loading ? <MoonLoader size={16} color={'white'} />
+            : text
+          }
+        </div>
       </button>
     </div>
   )

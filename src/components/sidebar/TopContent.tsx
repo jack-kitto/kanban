@@ -9,17 +9,22 @@ import { Icon } from '../icon';
 import { observer } from 'mobx-react-lite';
 import { MainModal } from '../mainModal';
 import { typography } from '~/styles/typography';
+import { useStores } from '~/models';
 
 const TopContentObserver = () => {
   const [activeItem, setActiveItem] = useState("Platform Launch")
   const [modalIsOpen, setIsOpen] = useState(false);
+  const { projects } = useStores()
   const { data, isLoading, refetch } = api.projects.getAll.useQuery()
-  if (isLoading) return <Loading />
+  if (isLoading) return <div />
+  if (data) data.forEach((project) => {
+    projects.addProject(project)
+  })
   return (
     <div className="gap-3 flex flex-col items-start justify-between h-full w-full">
       <div className='w-full'>
         {
-          data ? data.map((project) =>
+          projects.projects.map((project) =>
             <Link key={project.id} className='w-full' href={`/${project.id}/${project.name}`}>
               <SidebarItem
                 key={project.id}
@@ -29,7 +34,6 @@ const TopContentObserver = () => {
               />
             </Link>
           )
-            : null
         }
         <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
           <div className='flex flex-row w-full hover:opacity-50'>
