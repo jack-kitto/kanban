@@ -15,7 +15,9 @@ const PageLayoutComponent = (props: PropsWithChildren) => {
 
       <div style={{ backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.lightGrey }} className="flex h-full w-full flex-col">
         <Navbar />
-        {props.children}
+        <div className="w-full h-full">
+          {props.children}
+        </div>
       </div>
     </main>
   );

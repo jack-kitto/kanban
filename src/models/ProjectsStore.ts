@@ -4,6 +4,7 @@ import type { Instance, SnapshotIn } from "mobx-state-tree";
 import type { AppRouter } from "~/server/api/root";
 type RouterOutput = inferRouterOutputs<AppRouter>;
 type ProjectCreateOutput = RouterOutput["projects"]["create"];
+type ProjectUpdateOutput = RouterOutput["projects"]["update"];
 type getAllProjectsOutput = RouterOutput["projects"]['getAll'];
 
 export interface ISubTask {
@@ -113,8 +114,10 @@ export const ProjectsStore = types.model("ProjectsStore", {
       this.addProject(p)
     })
   },
+  removeProjectById(projectId: string) {
+    this.setProp('projects', self.projects.filter(p => p.id !== projectId))
+  },
   addProject(project: ProjectCreateOutput) {
-    console.log("addProject", project);
     if (!project) return;
     const isUnique = !self.projects.find(p => p.id === project.id);
     if (!isUnique) return;

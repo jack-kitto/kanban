@@ -29,6 +29,32 @@ export const projectsRouter = createTRPCRouter({
       })
       return project
     }),
+  update: privateProcedure
+    .input(z.object({
+      name: z.string().min(1).max(32),
+      id: z.string(),
+      columns: z.optional(z.array(z.string().min(1).max(32))),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.project.update({
+        where: { id: input.id },
+        data: {
+          name: input.name,
+          columns: {
+            create: input.columns?.map((column) => {
+              return {
+                name: column,
+              }
+            }),
+          }
+        },
+      })
+      const project = await ctx.prisma.project.findUnique({
+        where: { id: input.id },
+        include: { columns: { include: { tasks: { include: { subtasks: true } } } } }
+      })
+      return project
+    }),
   getAll: privateProcedure.query(async ({ ctx }) => {
     const response = await ctx.prisma.project.findMany({
       where: {
