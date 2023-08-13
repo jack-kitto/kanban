@@ -62,15 +62,7 @@ export default function Project() {
   return (
     <PageLayout>
       <div className='w-full h-full flex'>
-        {
-          project.columns.length > 0
-            ? <Board project={project} />
-            : (
-              <div className='w-full h-full flex justify-center items-center'>
-                <EmptyState onAddNewColumn={() => setEditBoardFormOpen(true)} />
-              </div>
-            )
-        }
+        <Board project={project} />
         <Form
           title={name}
           setTitle={setName}
