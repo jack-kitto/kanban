@@ -1,7 +1,8 @@
+import { observer } from "mobx-react-lite"
 import { colors } from "~/styles/colors"
 import { typography } from "~/styles/typography"
 
-export const AddColumn = () => {
+export default observer(function AddColumn() {
   return (
     <div className="flex-1 items-center flex justify-center h-full pt-24 pb-12">
       <button className="flex flex-row h-full items-center justify-center bg-cardColLight rounded-md cursor-pointer hover:opacity-50">
@@ -11,4 +12,4 @@ export const AddColumn = () => {
       </button>
     </div>
   )
-}
+})

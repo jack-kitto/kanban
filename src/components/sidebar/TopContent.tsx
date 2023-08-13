@@ -75,7 +75,7 @@ const TopContentObserver = () => {
         title={name}
         setTitle={setName}
         type='Board'
-        action='Edit'
+        action='Add'
         open={isOpen}
         setOpen={setIsOpen}
         onClose={() => setIsOpen(false)}

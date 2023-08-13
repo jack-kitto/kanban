@@ -8,9 +8,10 @@ import EmptyState from './components/EmptyState'
 import Form from '~/components/form/Form'
 import type { IProjectModel } from '~/models/ProjectsStore'
 import { api } from '~/utils/api'
-import { Board } from './components/Board'
+import Board from './components/Board'
+import { observer } from 'mobx-react-lite'
 
-export default function Project() {
+export default observer(function Project() {
   const router = useRouter()
   const { projectId } = router.query
   const { projects } = useStores()
@@ -103,4 +104,4 @@ export default function Project() {
       </div>
     </PageLayout>
   )
-}
+})
