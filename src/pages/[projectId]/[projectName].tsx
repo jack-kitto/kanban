@@ -20,7 +20,7 @@ export default function Project() {
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
   const [newColumnName, setNewColumnName] = React.useState('')
   const [valid, setValid] = React.useState(false)
-  const [project, setProject] = React.useState<IProjectModel>()
+  const [project, setProject] = React.useState<IProjectModel>(projects.getCurrentProject())
   const ctx = api.useContext()
   const { mutate, isLoading } = api.projects.update.useMutation({
     onSuccess: (res): void => {
@@ -37,15 +37,8 @@ export default function Project() {
   });
 
   React.useEffect(() => {
-    if (!id.success) return () => { projects.setProp('currentProjectIndex', null) }
-    const project_ = projects.projects.find(project => project.id === id.data)
-    if (!project_) return () => { projects.setProp('currentProjectIndex', null) }
-    setProject(project_)
-    projects.openProjectById(project_.id)
-    setName(project_.name)
-    setColumns(project_.columns.map(column => column.name))
-    return () => { projects.setProp('currentProjectIndex', null) }
-  }, [router, router.isReady, router.query, id.success, id, projects])
+    setProject(projects.getCurrentProject())
+  }, [projects.currentProjectIndex])
 
   React.useEffect(() => {
     if (columns.length === 0) return setValid(false)

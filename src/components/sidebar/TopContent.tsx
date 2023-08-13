@@ -56,7 +56,7 @@ const TopContentObserver = () => {
               <SidebarItem
                 key={project.id}
                 text={project.name} setActive={setActiveItem}
-                onClick={() => null}
+                onClick={() => projects.setCurrentProjectById(project.id)}
                 active={activeItem == project.name}
               />
             </Link>

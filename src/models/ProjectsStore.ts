@@ -96,6 +96,21 @@ export const ProjectsStore = types.model("ProjectsStore", {
   >(field: K, newValue: V) {
     self[field] = newValue;
   },
+  setCurrentProjectById(id: string) {
+    const projectIndex = self.projects.findIndex((p) => p.id === id);
+    if (projectIndex === -1) return;
+    self.currentProjectIndex = projectIndex;
+  },
+  getCurrentProject(): IProjectModel {
+    if (self.currentProjectIndex === null) {
+      return {} as IProjectModel
+    }
+    const project = self.projects[self.currentProjectIndex];
+    if (!project) {
+      return {} as IProjectModel
+    }
+    return project;
+  },
   openProjectById(projectId: string) {
     self.currentProjectIndex = self.projects.findIndex((p) => p.id === projectId);
   },
