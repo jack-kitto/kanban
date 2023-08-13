@@ -38,7 +38,7 @@ export default function Project() {
 
   React.useEffect(() => {
     setProject(projects.getCurrentProject())
-  }, [projects.currentProjectIndex])
+  }, [projects.currentProjectIndex, projects])
 
   React.useEffect(() => {
     if (columns.length === 0) return setValid(false)
