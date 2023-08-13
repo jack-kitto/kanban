@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite";
 import type { IColumnModel, IProjectModel } from "~/models/ProjectsStore";
-import { Column } from "./Column";
-import { AddColumn } from "./AddColumn";
+import { AddColumn, Column } from "./components";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   return (

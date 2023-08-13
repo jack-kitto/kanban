@@ -4,11 +4,11 @@ import { z } from 'zod'
 import { PageLayout } from '~/components/layout'
 import { useStores } from '~/models'
 import React from 'react'
-import EmptyState from './components/EmptyState'
 import Form from '~/components/form/Form'
 import type { IProjectModel } from '~/models/ProjectsStore'
 import { api } from '~/utils/api'
-import { Board } from './components/Board'
+import { Board } from '~/components'
+import { EmptyState } from '~/components/board/components'
 
 export default function Project() {
   const router = useRouter()

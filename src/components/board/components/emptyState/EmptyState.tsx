@@ -3,7 +3,7 @@ import { Button } from '~/components';
 import { colors } from '~/styles/colors';
 import { typography } from '~/styles/typography';
 
-export default function EmptyState({ onAddNewColumn }: { onAddNewColumn: () => void }) {
+export const EmptyState = ({ onAddNewColumn }: { onAddNewColumn: () => void }) => {
   return (
     <div className='flex flex-col justify-center items-center'>
       <p style={{ ...typography.heading.L, color: colors.mediumGrey }}>This board is empty. Create a new column to get started.</p>

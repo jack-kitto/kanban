@@ -1,6 +1,7 @@
 export * from './button'
 export * from './createBoard'
 export * from './form'
+export * from './board'
 export * from './dropdown'
 export * from './icon'
 export * from './loading'
