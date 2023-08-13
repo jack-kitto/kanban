@@ -4,56 +4,21 @@ import { z } from 'zod'
 import { PageLayout } from '~/components/layout'
 import { useStores } from '~/models'
 import React from 'react'
-import Form from '~/components/form/Form'
 import type { IProjectModel } from '~/models/ProjectsStore'
-import { api } from '~/utils/api'
 import { Board } from '~/components'
-import { EmptyState } from '~/components/board/components'
 
 export default function Project() {
   const router = useRouter()
   const { projectId } = router.query
   const { projects } = useStores()
   const id = z.string().safeParse(projectId)
-  const [name, setName] = React.useState('')
-  const [columns, setColumns] = React.useState<string[]>([])
-  const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
-  const [newColumnName, setNewColumnName] = React.useState('')
-  const [valid, setValid] = React.useState(false)
   const [project, setProject] = React.useState<IProjectModel>(projects.getCurrentProject())
-  const ctx = api.useContext()
-  const { mutate, isLoading } = api.projects.update.useMutation({
-    onSuccess: (res): void => {
-      if (!res) return
-      projects.removeProjectById(res?.id)
-      projects.addProject(res)
-      ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
-    },
-    onError: (e): void => {
-      if (e.data?.zodError?.fieldErrors?.name) {
-        e.data.zodError.fieldErrors.name.forEach((err: string) => toast.error(err))
-      }
-    },
-  });
 
   React.useEffect(() => {
     setProject(projects.getCurrentProject())
   }, [projects.currentProjectIndex, projects])
 
-  React.useEffect(() => {
-    if (columns.length === 0) return setValid(false)
-    if (name.length === 0) return setValid(false)
-    setValid(true)
-  }, [columns, name])
 
-  const onSubmitEditBoard = () => {
-    if (!project) return
-    mutate({
-      name: name,
-      columns: columns,
-      id: project?.id
-    })
-  }
   if (!id.success) {
     toast('Invalid ID')
     return <PageLayout />
@@ -61,31 +26,7 @@ export default function Project() {
   if (!project) return <PageLayout />
   return (
     <PageLayout>
-      <div className='w-full h-full flex'>
-        <Board project={project} />
-        <Form
-          title={name}
-          setTitle={setName}
-          type='Board'
-          action='Edit'
-          open={editBoardFormOpen}
-          setOpen={setEditBoardFormOpen}
-          onClose={() => setEditBoardFormOpen(false)}
-          items={columns}
-          isLoading={isLoading}
-          newItemName={newColumnName}
-          setNewItemName={setNewColumnName}
-          onSubmit={() => onSubmitEditBoard()}
-          addItem={() => {
-            setColumns([...columns, newColumnName])
-            setNewColumnName('')
-          }}
-          valid={valid}
-          removeItemByIndex={(index: number) => {
-            setColumns(prev => prev.filter((_, i) => i !== index))
-          }}
-        />
-      </div>
+      <Board project={project} />
     </PageLayout>
   )
 }
