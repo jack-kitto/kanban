@@ -7,7 +7,7 @@ export const Navbar = observer(() => {
 
   if (theme.darkMode) {
     return (
-      <div className='flex h-24 w-auto flex-row bg-darkGrey border-b-2 border-linesDark'>
+      <div className='flex h-full w-full flex-row bg-darkGrey border-b-2 border-linesDark'>
         <div className="flex justify-between items-center w-full ml-6 mr-6 h-full">
           <LeftContent />
           <RightContent />
@@ -16,7 +16,7 @@ export const Navbar = observer(() => {
     )
   }
   return (
-    <div className='flex h-24 w-auto flex-row bg-white border-b-2 border-linesLight'>
+    <div className='flex h-full w-full flex-row bg-white border-b-2 border-linesLight'>
       <div className="flex justify-between items-center w-full ml-6 mr-6 h-full">
         <LeftContent />
         <RightContent />
