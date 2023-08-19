@@ -41,6 +41,7 @@ export const projectsRouter = createTRPCRouter({
         data: {
           name: input.name,
           columns: {
+            deleteMany: {},
             create: input.columns?.map((column) => {
               return {
                 name: column,
