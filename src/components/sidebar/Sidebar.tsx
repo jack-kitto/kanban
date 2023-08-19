@@ -9,12 +9,12 @@ import Link from 'next/link';
 const SidebarWrapper = observer(({ children }: { children: React.ReactNode }) => {
   const { theme } = useStores()
   if (theme.darkMode) return (
-    <div key={"darkmodesidebar"} className='flex flex-col h-full w-full border-r-1 border-linesDark bg-darkGrey'>
+    <div key={"darkmodesidebar"} className='flex flex-col h-full w-full border-r-2 border-linesDark bg-darkGrey'>
       {children}
     </div>
   )
   return (
-    <div key={"lightmodesidebar"} className='flex flex-col h-full w-full border-r-1 border-linesLight bg-white'>
+    <div key={"lightmodesidebar"} className='flex flex-col h-full w-full border-r-2 border-linesLight bg-white'>
       {children}
     </div>
   )

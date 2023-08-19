@@ -1,18 +1,17 @@
 import type { PropsWithChildren } from "react";
 import { Navbar } from "./navbar";
 import { Sidebar } from "./sidebar";
-import { colors } from "~/styles/colors";
 import { observer } from "mobx-react-lite";
 import { useStores } from "~/models";
 import { ShowSidebar } from "./showSidebar";
 
 const PageLayoutComponent = (props: PropsWithChildren) => {
-  const { theme, uiState } = useStores()
+  const { uiState } = useStores()
   return (
-    <main style={$main}>
+    <main style={{ ...$main, gridTemplateColumns: `${uiState.sidebarOpen ? "300px" : "0px"}` }}>
       <div style={$sidebar}>
-        <Sidebar />
-        {/* <ShowSidebar /> */}
+        {uiState.sidebarOpen && <Sidebar />}
+        {!uiState.sidebarOpen && <ShowSidebar />}
       </div>
       <div style={$navbar}>
         <Navbar />
@@ -27,26 +26,20 @@ export const PageLayout = observer(PageLayoutComponent);
 
 const $main = {
   display: "grid",
-  gridTemplateColumns: "300px auto",
   gridTemplateRows: "100px auto",
   height: "100vh",
+  gap: 0,
 }
 
 const $navbar = {
   gridColumnStart: 2,
-  borderWidth: 2,
-  borderColor: colors.red,
 }
 
 const $sidebar = {
   gridRowStart: 1,
   gridRowEnd: 3,
-  borderWidth: 2,
-  borderColor: colors.red,
 }
 
 const $content = {
   gridColumnStart: 2,
-  borderWidth: 2,
-  borderColor: colors.red,
 }
