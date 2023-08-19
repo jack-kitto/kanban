@@ -9,13 +9,14 @@ interface DropdownProps {
   setSelected: React.Dispatch<React.SetStateAction<string>>;
   width?: string;
   height?: string;
+  transformOptionText?: (text: string) => string
 }
-export const Dropdown = observer(({ options, selected, setSelected, width, height }: DropdownProps) => {
+export const Dropdown = observer(({ options, selected, setSelected, width, height, transformOptionText }: DropdownProps) => {
   const [active, setActive] = React.useState(false);
   const { theme } = useStores()
   return (
     <div className='customer-select' style={{
-      width: width ? width : '350px',
+      width: width ? width : '100%',
       height: height ? height : '40px',
     }}>
       <select
@@ -34,7 +35,7 @@ export const Dropdown = observer(({ options, selected, setSelected, width, heigh
           options.map((option) => {
             return (
               <option className='bg-none hover:bg-none active:bg-none select-none' key={option} value={option}>
-                <p style={{ color: theme.darkMode ? colors.white : 'black' }}>{option}</p>
+                <p style={{ color: theme.darkMode ? colors.white : 'black' }}>{transformOptionText ? transformOptionText(option) : option}</p>
               </option>
             )
           })

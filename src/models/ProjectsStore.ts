@@ -81,6 +81,9 @@ export const ProjectModel = types.model("ProjectModel", {
   >(field: K, newValue: V) {
     self[field] = newValue;
   },
+  getColumnById(id: string) {
+    return self.columns.find((column) => column.id === id);
+  },
 }));
 
 export const ProjectsStore = types.model("ProjectsStore", {

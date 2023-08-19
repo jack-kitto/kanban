@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ISubTaskModel } from "~/models/ProjectsStore";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 
@@ -30,6 +31,29 @@ export const projectsRouter = createTRPCRouter({
         include: { columns: { include: { tasks: { include: { subtasks: true } } } } }
       })
       return project
+    }),
+  createTask: privateProcedure
+    .input(z.object({
+      name: z.string().min(1).max(32),
+      columnId: z.number(),
+      subTasks: z.array(z.string().min(1).max(32)),
+      description: z.string().min(1).max(244),
+      position: z.number(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.prisma.task.create({
+        // where: { id: input.projectId },
+        data: {
+          name: input.name,
+          position: input.position,
+          description: input.description,
+          column: {
+            connect: {
+              id: input.columnId,
+            }
+          }
+        }
+      })
     }),
   update: privateProcedure
     .input(z.object({

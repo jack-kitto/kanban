@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { MoonLoader } from "react-spinners";
 import React from 'react';
 import { colors } from '~/styles/colors';
+import { useStores } from '~/models';
 interface ButtonProps {
   type: 'primary' | 'secondary' | 'destructive',
   text: string,
@@ -16,6 +17,7 @@ interface ButtonProps {
   loading?: boolean,
 }
 const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, size, onPress, fillContainer, disabled, loading }: ButtonProps) => {
+  const { theme } = useStores()
   const styles = {
     sm: {
       width: fitText ? undefined : fillContainer ? "100%" : width ? width : "255px",
@@ -40,7 +42,7 @@ const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, siz
       }
     },
     secondary: {
-      container: disabled ? "bg-btnSecondary opacity-50" : 'bg-btnSecondary hover:bg-btnSecondaryHover',
+      container: disabled ? `bg-${theme.darkMode ? 'white' : 'linesLight'} opacity-50` : `bg-${theme.darkMode ? 'white' : 'linesLight'} hover:opacity-50`,
       text: {
         fontFamily: 'Plus Jakarta Sans',
         fontWeight: 700,

@@ -13,14 +13,27 @@ import { typography } from "~/styles/typography";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [name, setName] = React.useState(project.name)
-  const [columns, setColumns] = React.useState<string[]>(project?.columns?.map((col) => col.name))
+  const [columns, setColumns] = React.useState<string[]>([...project?.columns?.map((col) => col.name)])
+  const [subTasks, setSubTasks] = React.useState<string[]>([])
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
+  const [addTaskFormOpen, setAddTaskFormOpen] = React.useState('')
   const [newColumnName, setNewColumnName] = React.useState('')
+  const [newSubTaskName, setNewSubTaskName] = React.useState('')
   const [valid, setValid] = React.useState(false)
   const { projects, theme } = useStores()
   const ctx = api.useContext()
   const $styles = useStyles()
-  const { mutate, isLoading } = api.projects.update.useMutation({
+  const { mutate: addTask, isLoading: isTaskCreating } = api.projects.createTask.useMutation({
+    onSuccess: (res): void => {
+      console.log(res)
+    },
+    onError: (e): void => {
+      if (e.data?.zodError?.fieldErrors?.name) {
+        e.data.zodError.fieldErrors.name.forEach((err: string) => toast.error(err))
+      }
+    },
+  });
+  const { mutate, isLoading: isProjectUpdating } = api.projects.update.useMutation({
     onSuccess: (res): void => {
       if (!res) return
       projects.removeProjectById(res?.id)
@@ -45,8 +58,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     setEditBoardFormOpen(true)
   }
 
-  const addNewTask = (columnId: string) => {
-    toast(columnId)
+  const addNewTask = () => {
   }
 
   const onSubmitEditBoard = () => {
@@ -74,7 +86,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                     </div>
                   </div>
                 </div>
-                <button onClick={() => addNewTask(column.id)} className="w-full p-4 h-full group cursor-pointer flex flex-col justify-start items-center">
+                <button onClick={() => setAddTaskFormOpen(column.id)} className="w-full p-4 h-full group cursor-pointer flex flex-col justify-start items-center">
                   <div className="hidden group-hover:block w-full">
                     <AddTask />
                   </div>
@@ -90,6 +102,31 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
         </div>
       )}
       <Form
+        columnId={addTaskFormOpen}
+        setColumnId={setAddTaskFormOpen}
+        title={name}
+        setTitle={setName}
+        type='Task'
+        action='Add'
+        open={addTaskFormOpen !== ''}
+        setOpen={() => setAddTaskFormOpen('')}
+
+        onClose={() => setAddTaskFormOpen('')}
+        items={subTasks}
+        isLoading={isTaskCreating}
+        newItemName={newSubTaskName}
+        setNewItemName={setNewSubTaskName}
+        onSubmit={addNewTask}
+        addItem={() => {
+          setSubTasks(prev => [...prev, newSubTaskName])
+          setNewSubTaskName('')
+        }}
+        valid={valid}
+        removeItemByIndex={(index: number) => {
+          setSubTasks(prev => prev.filter((_, i) => i !== index))
+        }}
+      />
+      <Form
         title={name}
         setTitle={setName}
         type='Board'
@@ -98,7 +135,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
         setOpen={setEditBoardFormOpen}
         onClose={() => setEditBoardFormOpen(false)}
         items={columns}
-        isLoading={isLoading}
+        isLoading={isProjectUpdating}
         newItemName={newColumnName}
         setNewItemName={setNewColumnName}
         onSubmit={() => onSubmitEditBoard()}
