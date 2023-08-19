@@ -18,7 +18,6 @@ const TopContentObserver = () => {
   const [newColumnName, setNewColumnName] = React.useState('')
   const [valid, setValid] = React.useState(false)
   const { projects } = useStores()
-  const [activeItem, setActiveItem] = useState(projects.currentProjectIndex ? projects.getCurrentProject().name : '')
   const ctx = api.useContext()
   const { data, isLoading: isLoading } = api.projects.getAll.useQuery()
   const { mutate, isLoading: isCreatingBoard } = api.projects.create.useMutation({
@@ -55,9 +54,8 @@ const TopContentObserver = () => {
             <Link key={project.id} className='w-full' href={`/${project.id}/${project.name}`}>
               <SidebarItem
                 key={project.id}
-                text={project.name} setActive={setActiveItem}
+                text={project.name}
                 onClick={() => projects.setCurrentProjectById(project.id)}
-                active={projects.getCurrentProject().name == project.name}
               />
             </Link>
           )

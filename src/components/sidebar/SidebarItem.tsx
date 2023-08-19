@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image'
 import { typography } from '~/styles/typography';
 import { colors } from '~/styles/colors';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '~/models';
 
 interface SidebarItemProps {
   text: string;
-  active: boolean;
   onClick: () => void;
-  setActive: (active: string) => void;
 }
-export const SidebarItem = ({ text, active, onClick, setActive }: SidebarItemProps) => {
+const SidebarItemComponent = ({ text, onClick }: SidebarItemProps) => {
+  const { projects } = useStores()
+  const [active, setActive] = useState(projects.getCurrentProject().name == text ? true : false)
+  useEffect(() => {
+    setActive(projects.getCurrentProject().name == text ? true : false)
+  }, [projects.currentProjectIndex])
   return (
     <button
       style={{
@@ -17,10 +22,7 @@ export const SidebarItem = ({ text, active, onClick, setActive }: SidebarItemPro
         backgroundColor: active ? colors.mainPurple : undefined
       }}
       className='flex flex-col rounded-r-full h-full w-full justify-center pl-6 hover:opacity-50'
-      onClick={() => {
-        setActive(text)
-        onClick()
-      }}
+      onClick={onClick}
     >
       <div className='flex-row flex'>
         <div className='mr-2 justify-center items-center flex flex-col'>
@@ -34,3 +36,4 @@ export const SidebarItem = ({ text, active, onClick, setActive }: SidebarItemPro
     </button>
   );
 }
+export const SidebarItem = observer(SidebarItemComponent);
