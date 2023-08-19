@@ -1,5 +1,5 @@
 import { typography } from "~/styles/typography";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useStores } from "~/models";
 import { observer } from "mobx-react-lite";
 
