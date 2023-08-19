@@ -58,13 +58,17 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     })
   }
 
+  const getCols = () => {
+    return project?.columns?.sort((a, b) => a.position - b.position)
+  }
+
   return (
     <div style={$styles.container}>
       {project?.columns?.length < 1 && <EmptyState onAddNewColumn={addNewColumn} />}
       {project?.columns?.length > 0 && (
         <div style={$styles.columns}>
           {
-            project?.columns?.map((column, index) => (
+            getCols().map((column, index) => (
               <div key={column.id} style={$styles.col(index++)} className="group">
                 <div style={$styles.title}>
                   <div className="flex flex-row items-center justify-center h-full">

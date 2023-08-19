@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree";
+import { applySnapshot, types } from "mobx-state-tree";
 import type { inferRouterOutputs } from '@trpc/server';
 import type { Instance, SnapshotIn } from "mobx-state-tree";
 import type { AppRouter } from "~/server/api/root";
@@ -9,39 +9,37 @@ type getAllProjectsOutput = RouterOutput["projects"]['getAll'];
 export interface ISubTask {
   id: string;
   name: string;
+  position: number,
   isCompleted: boolean;
 }
 const SubTaskModel = types.model("SubTaskModel", {
   id: types.string,
   name: types.string,
+  position: types.number,
   isCompleted: types.boolean,
 }).actions((self) => ({
-  setProp<
-    K extends keyof SnapshotIn<typeof self>,
-    V extends SnapshotIn<typeof self>[K]
-  >(field: K, newValue: V) {
-    self[field] = newValue;
-  }
+  setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
+    applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
+  },
 }));
 
 export interface ITask {
   id: string;
   name: string;
   description: string;
+  position: number,
   subTasks: ISubTask[];
 }
 const TaskModel = types.model("TaskModel", {
   id: types.string,
   name: types.string,
   description: types.string,
+  position: types.number,
   subTasks: types.optional(types.array(SubTaskModel), []),
 }).actions((self) => ({
-  setProp<
-    K extends keyof SnapshotIn<typeof self>,
-    V extends SnapshotIn<typeof self>[K]
-  >(field: K, newValue: V) {
-    self[field] = newValue;
-  }
+  setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
+    applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
+  },
 }));
 
 export interface IColumn {
@@ -49,6 +47,7 @@ export interface IColumn {
   name: string;
   color: string;
   projectId: string;
+  position: number,
   tasks: ITask[];
 }
 const ColumnModel = types.model("ColumnModel", {
@@ -56,14 +55,12 @@ const ColumnModel = types.model("ColumnModel", {
   name: types.string,
   projectId: types.string,
   color: types.string,
+  position: types.number,
   tasks: types.optional(types.array(TaskModel), []),
 }).actions((self) => ({
-  setProp<
-    K extends keyof SnapshotIn<typeof self>,
-    V extends SnapshotIn<typeof self>[K]
-  >(field: K, newValue: V) {
-    self[field] = newValue;
-  }
+  setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
+    applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
+  },
 }));
 
 export interface IProject {
@@ -146,12 +143,14 @@ export const ProjectsStore = types.model("ProjectsStore", {
           return SubTaskModel.create({
             id: `${st.id}`,
             name: st.name,
+            position: st.position,
             isCompleted: st.isCompleted
           });
         })
         const task: ITaskModel = TaskModel.create({
           id: `${t.id}`,
           name: t.name,
+          position: t.position,
           description: t.description ? t.description : "",
         })
         task.setProp('subTasks', subTasks)
@@ -160,6 +159,7 @@ export const ProjectsStore = types.model("ProjectsStore", {
       const column: IColumnModel = ColumnModel.create({
         id: `${c.id}`,
         name: c.name,
+        position: c.position,
         projectId: project.id,
         color: c.color
       })
