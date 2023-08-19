@@ -41,11 +41,25 @@ export const projectsRouter = createTRPCRouter({
       position: z.number(),
     }))
     .mutation(async ({ ctx, input }) => {
+      // increment position of tasks after the new task
+      await ctx.prisma.task.updateMany({
+        where: {
+          AND: [
+            { columnId: input.columnId },
+            { position: input.position == 0 ? { gte: input.position } : { gt: input.position } },
+          ],
+        },
+        data: {
+          position: {
+            increment: 1,
+          },
+        },
+      })
+
       await ctx.prisma.task.create({
-        // where: { id: input.projectId },
         data: {
           name: input.name,
-          position: input.position,
+          position: input.position == 0 ? 1 : input.position,
           description: input.description,
           column: {
             connect: {

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import type { IProjectModel } from "~/models/ProjectsStore";
+import type { IProjectModel, ITaskModel } from "~/models/ProjectsStore";
 import { AddColumn, AddTask, Task } from "./components";
 import { EmptyState } from "./components/emptyState";
 import { Form } from "../form/Form";
@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
+import { getSnapshot } from "mobx-state-tree";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   let cols: string[] = [];
@@ -19,6 +20,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [description, setDescription] = React.useState('');
   const [name, setName] = React.useState(project.name)
   const [newTaskName, setNewTaskName] = React.useState('')
+  const [newTaskPosition, setNewTaskPosition] = React.useState(1)
   const [columns, setColumns] = React.useState<string[]>(cols)
   const [subTasks, setSubTasks] = React.useState<string[]>([])
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
@@ -26,7 +28,8 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [newColumnName, setNewColumnName] = React.useState('')
   const [newSubTaskName, setNewSubTaskName] = React.useState('')
   const [valid, setValid] = React.useState(false)
-  const { projects, theme } = useStores()
+  const [newTaskValid, setNewTaskValid] = React.useState(false)
+  const { projects } = useStores()
   const ctx = api.useContext()
   const $styles = useStyles()
   const { mutate: createTask, isLoading: isTaskCreating } = api.projects.createTask.useMutation({
@@ -37,6 +40,10 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
       projects.addProject(res)
       ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
       setAddTaskFormOpen('')
+      setNewTaskName('')
+      setNewTaskPosition(1)
+      setDescription('')
+      setSubTasks([])
     },
     onError: (e): void => {
       if (e.data?.zodError?.fieldErrors?.name) {
@@ -65,27 +72,30 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     setValid(true)
   }, [columns, name])
 
+  React.useEffect(() => {
+    if (!editBoardFormOpen) return
+    if (!project) return
+    if (newTaskName.length === 0) return
+    if (description.length === 0) return
+    setNewTaskValid(true)
+
+  }, [newTaskPosition, newTaskName, description, subTasks])
+
+
   const addNewColumn = () => {
     setEditBoardFormOpen(true)
-  }
-
-  const getTaskPosition = (): number => {
-    if (!projects) return 0
-    if (!addTaskFormOpen) return 0
-    if (!projects.getCurrentProject()) return 0
-    if (!projects.getCurrentProject().getColumnById(addTaskFormOpen)) return 0
-    return projects.getCurrentProject().getColumnById(addTaskFormOpen)?.tasks.length || 0
   }
 
   const addNewTask = () => {
     createTask({
       name: newTaskName,
-      position: getTaskPosition(),
+      position: newTaskPosition,
       description,
       columnId: parseInt(addTaskFormOpen),
       subTasks: subTasks,
       projectId: projects.getCurrentProject()?.id
     })
+
   }
 
   const onSubmitEditBoard = () => {
@@ -96,6 +106,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
       id: project?.id
     })
   }
+  console.log(getSnapshot(projects.getCurrentProject()))
 
   return (
     <div style={$styles.container}>
@@ -103,20 +114,39 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
       {project?.columns?.length > 0 && (
         <div style={$styles.columns}>
           {
-            projects.getCurrentProject()?.columns?.map((column) => (
+            projects.getCurrentProject()?.columns?.slice().sort((a, b) => a.position - b.position).map((column) => (
               <div key={column.id} style={$styles.col(column.position)} className="group">
                 <div style={$styles.title}>
-                  <div className="flex flex-row items-center justify-center h-full">
-                    <div style={{ backgroundColor: colors.pallette['grey'].value }} className="w-4 h-4 rounded-full mr-2" />
-                    <div>
-                      <p style={{ ...typography.heading.S, color: colors.mediumGrey }}>{column.name}</p>
+                  <div className="flex flex-col items-center justify-center h-full">
+                    <div className="flex flex-row items-center justify-center h-full">
+                      <div style={{ backgroundColor: colors.pallette['grey'].value }} className="w-4 h-4 rounded-full mr-2" />
+                      <div>
+                        <p style={{ ...typography.heading.S, color: colors.mediumGrey }}>{column.name}</p>
+                      </div>
+                    </div>
+                    <div className="group/addTask h-4 w-full">
+                      <AddTask
+                        onPress={() => {
+                          setNewTaskPosition(0)
+                          setAddTaskFormOpen(column.id)
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
                 {
-                  column.tasks?.map((task) => <Task key={task.id} task={task} />)
+                  column.tasks?.slice().sort((a, b) => a.position - b.position).map((task: ITaskModel, index: number) =>
+                    <Task
+                      column={column}
+                      setAddTaskFormOpen={(id) => {
+                        setNewTaskPosition(index + 1)
+                        setAddTaskFormOpen(id)
+                      }}
+                      key={task.id}
+                      task={task}
+                    />
+                  )
                 }
-                <AddTask onPress={() => setAddTaskFormOpen(column.id)} />
               </div>
             ))
           }
@@ -144,7 +174,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
           setSubTasks(prev => [...prev, newSubTaskName])
           setNewSubTaskName('')
         }}
-        valid={valid}
+        valid={!newTaskValid}
         removeItemByIndex={(index: number) => {
           setSubTasks(prev => prev.filter((_, i) => i !== index))
         }}
