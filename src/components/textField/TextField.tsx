@@ -1,4 +1,8 @@
+import {
+  observer
+} from 'mobx-react-lite'
 import React from 'react'
+import { useStores } from '~/models'
 import { colors } from '~/styles/colors'
 import { typography } from '~/styles/typography'
 
@@ -14,7 +18,8 @@ interface TextFieldProps {
   canBeEmpty: boolean
 }
 
-export const TextField = ({ width, height, placeholder, value, setValue, maxLength, disabled, canBeEmpty }: TextFieldProps) => {
+export const TextField = observer(({ width, height, placeholder, value, setValue, maxLength, disabled, canBeEmpty }: TextFieldProps) => {
+  const { theme } = useStores()
   if (canBeEmpty) return (
     <div className='items-center justify-end flex' style={{
       width: width ? width : '350px',
@@ -37,6 +42,7 @@ export const TextField = ({ width, height, placeholder, value, setValue, maxLeng
     <div className='items-center justify-end flex' style={{
       width: width ? width : '350px',
       height: height ? height : '40px',
+      backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.white,
     }}>
       <input
         maxLength={maxLength ? maxLength : undefined}
@@ -44,8 +50,8 @@ export const TextField = ({ width, height, placeholder, value, setValue, maxLeng
         onInvalid={() => console.log("invalid")}
         type='text'
         placeholder={placeholder ? placeholder : 'Enter task name'}
-        className={value.length > 0 ? 'w-full h-full border-2 border-linesLight rounded-md p-2 outline-none' : 'w-full h-full border-2 border-redHover rounded-md p-2 outline-none'}
-        style={typography.body.L}
+        className={'w-full h-full border-2 rounded-md p-2 outline-none'}
+        style={{ ...typography.body.L, backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.white, color: theme.darkMode ? colors.white : colors.black, borderColor: value.length > 0 ? theme.darkMode ? colors.linesDark : colors.linesLight : colors.redHover }}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
@@ -61,4 +67,4 @@ export const TextField = ({ width, height, placeholder, value, setValue, maxLeng
       }
     </div>
   )
-}
+})
