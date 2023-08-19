@@ -1,11 +1,13 @@
 import { useUser, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { observer } from "mobx-react-lite";
 import { useRouter } from 'next/router';
+import { useStores } from '~/models';
 
 export const LeftContent = observer(() => {
   const { isLoaded, isSignedIn, user } = useUser()
   const router = useRouter()
   const { projectName } = router.query
+  const { theme } = useStores()
   if (!user) return null
   if (!isLoaded) return null
   return (
@@ -21,7 +23,8 @@ export const LeftContent = observer(() => {
             <SignUpButton />
           </div>
       }
-      {<p className='text-3xl font-bold ml-8'>{projectName}</p>}
+      {!theme.darkMode && <p className='text-3xl font-bold ml-8 text-black'>{projectName}</p>}
+      {theme.darkMode && <p className='text-3xl font-bold ml-8 text-white'>{projectName}</p>}
     </div>
   )
 });
