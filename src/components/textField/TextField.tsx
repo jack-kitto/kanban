@@ -39,7 +39,7 @@ export const TextField = observer(({ width, height, placeholder, value, setValue
     </div>
   )
   return (
-    <div className='items-center justify-end flex' style={{
+    <div className='items-center justify-end flex rounded-md' style={{
       width: width ? width : '350px',
       height: height ? height : '40px',
       backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.white,
