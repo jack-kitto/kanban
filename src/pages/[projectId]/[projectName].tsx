@@ -1,8 +1,4 @@
 import { useRouter } from 'next/router'
-import type { AppRouter } from "~/server/api/root";
-type RouterOutput = inferRouterOutputs<AppRouter>;
-type ProjectCreateOutput = RouterOutput["projects"]["create"];
-import { toast } from 'react-hot-toast'
 import { z } from 'zod'
 import { PageLayout } from '~/components/layout'
 import { useStores } from '~/models'
@@ -10,7 +6,6 @@ import React from 'react'
 import type { IProjectModel } from '~/models/ProjectsStore'
 import { Board } from '~/components'
 import { api } from '~/utils/api'
-import { inferRouterOutputs } from '@trpc/server';
 
 export default function Project() {
   const router = useRouter()

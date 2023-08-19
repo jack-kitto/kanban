@@ -14,7 +14,7 @@ const SidebarItemComponent = ({ text, onClick }: SidebarItemProps) => {
   const [active, setActive] = useState(projects.getCurrentProject().name == text ? true : false)
   useEffect(() => {
     setActive(projects.getCurrentProject().name == text ? true : false)
-  }, [projects.currentProjectIndex])
+  }, [projects.currentProjectIndex, projects, text])
   return (
     <button
       style={{

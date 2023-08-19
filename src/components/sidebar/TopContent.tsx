@@ -1,6 +1,5 @@
 'use client'
 import { SidebarItem } from './SidebarItem';
-import { useState } from 'react';
 import { api } from '~/utils/api';
 import Link from 'next/link';
 import { Icon } from '../icon';

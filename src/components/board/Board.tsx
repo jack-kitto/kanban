@@ -45,7 +45,9 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     setEditBoardFormOpen(true)
   }
 
-  const addNewTask = (columnId: string) => { }
+  const addNewTask = (columnId: string) => {
+    toast(columnId)
+  }
 
   const onSubmitEditBoard = () => {
     if (!project) return
@@ -63,7 +65,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
         <div style={$styles.columns}>
           {
             project?.columns?.map((column, index) => (
-              <div style={$styles.col(index++)} className="group">
+              <div key={column.id} style={$styles.col(index++)} className="group">
                 <div style={$styles.title}>
                   <div className="flex flex-row items-center justify-center h-full">
                     <div style={{ backgroundColor: colors.pallette['grey'].value }} className="w-4 h-4 rounded-full mr-2" />
@@ -86,7 +88,6 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
             </button>
           </div>
         </div>
-
       )}
       <Form
         title={name}
@@ -112,87 +113,4 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
       />
     </div>
   )
-
-  return (
-    <div style={$styles.columns}>
-      {
-        $columns.map((column, index) => (
-          <div style={$styles.col(index++)}>
-            <div style={$styles.title}> {column.name} </div>
-            {column.tasks.map((task) => (
-              <div style={$styles.task}> {task.name} </div>
-            ))}
-          </div>
-        ))
-      }
-    </div>
-  )
 })
-
-const $columns = [
-  {
-    name: "To Do",
-    tasks: [
-      { name: "Implement User Authentication" },
-      { name: "Create Database Schema" },
-      { name: "Design UI Mockups" },
-      { name: "Write API Documentation" },
-      { name: "Write API Documentation" },
-      { name: "Write API Documentation" },
-      { name: "Write API Documentation" },
-      { name: "Write API Documentation" },
-      { name: "Write API Documentation" },
-      { name: "Optimize Database Queries" },
-    ],
-  },
-  {
-    name: "In Progress",
-    tasks: [
-      { name: "Fix Cross-browser CSS Issues" },
-      { name: "Refactor Codebase for Modularity" },
-      { name: "Integrate Third-party API" },
-      { name: "Integrate Third-party API" },
-      { name: "Integrate Third-party API" },
-      { name: "Implement Unit Tests" },
-      { name: "Add User Profile Feature" },
-    ],
-  },
-  {
-    name: "Review",
-    tasks: [
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Test Application on Mobile Devices" },
-      { name: "Review Code Quality" },
-      { name: "Verify API Security" },
-      { name: "Check for Accessibility Compliance" },
-      { name: "Evaluate Performance Metrics" },
-    ],
-  },
-  {
-    name: "Testing",
-    tasks: [
-      { name: "Test Cross-browser Compatibility" },
-      { name: "Execute Load Testing" },
-      { name: "Perform Regression Testing" },
-    ],
-  },
-  {
-    name: "Done",
-    tasks: [
-      { name: "Deploy to Staging Environment" },
-      { name: "Test Data Integrity" },
-      { name: "Verify Error Handling" },
-      { name: "Finalize User Documentation" },
-      { name: "Prepare Release Notes" },
-      { name: "Run Security Vulnerability Scan" },
-      { name: "Go Live!" },
-    ],
-  },
-];
