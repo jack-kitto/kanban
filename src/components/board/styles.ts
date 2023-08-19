@@ -9,6 +9,8 @@ export const useStyles = () => {
       height: '100%',
       gridAutoFlow: 'column',
       gridAutoColumns: '300px',
+      columnGap: '20px',
+      marginLeft: '20px',
     },
     col(col: number) {
       return {

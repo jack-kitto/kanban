@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import type { IProjectModel } from "~/models/ProjectsStore";
-import { AddTask, Task } from "./components";
+import { AddColumn, AddTask, Task } from "./components";
 import { EmptyState } from "./components/emptyState";
 import { Form } from "../form/Form";
 import React from "react";
@@ -12,10 +12,14 @@ import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
+  let cols: string[] = [];
+  if (project.columns) {
+    cols = [...project?.columns?.map((col) => col.name)]
+  }
   const [description, setDescription] = React.useState('');
   const [name, setName] = React.useState(project.name)
   const [newTaskName, setNewTaskName] = React.useState('')
-  const [columns, setColumns] = React.useState<string[]>([...project?.columns?.map((col) => col.name)])
+  const [columns, setColumns] = React.useState<string[]>(cols)
   const [subTasks, setSubTasks] = React.useState<string[]>([])
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
   const [addTaskFormOpen, setAddTaskFormOpen] = React.useState('')
@@ -112,19 +116,11 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                 {
                   column.tasks?.map((task) => <Task key={task.id} task={task} />)
                 }
-                <button onClick={() => setAddTaskFormOpen(column.id)} className="w-full p-4 h-full group cursor-pointer flex flex-col justify-start items-center">
-                  <div className="hidden group-hover:block w-full">
-                    <AddTask />
-                  </div>
-                </button>
+                <AddTask onPress={() => setAddTaskFormOpen(column.id)} />
               </div>
             ))
           }
-          <div style={$styles.addColumn}>
-            <button onClick={addNewColumn} className={`h-full items-center justify-center flex ml-4 cursor-pointer rounded-md shadow-lg border-2 border-${!theme.darkMode ? "linesLight" : "linesDark"} w-12`}>
-              <p style={{ ...typography.heading.XL, color: colors.mainPurple }}>+</p>
-            </button>
-          </div>
+          <AddColumn onPress={addNewColumn} />
         </div>
       )}
       <Form

@@ -11,10 +11,10 @@ export const Task = observer(({ task }: { task: ITaskModel }) => {
     toast("Open task")
   }
   return (
-    <div className="w-full h-full px-8">
-      <button onClick={openTask} className={`w-full h-full cursor-pointer flex items-center justify-center flex-col p-8 rounded-lg bg-${theme.darkMode ? "darkGrey" : 'lightGrey'}`}>
+    <div className="w-full h-full">
+      <button onClick={openTask} className={`w-full group/task shadow-md h-full cursor-pointer flex items-center justify-center flex-col p-8 rounded-lg bg-${theme.darkMode ? "darkGrey" : 'white'}`}>
         <div>
-          <p style={{ ...typography.heading.M, color: theme.darkMode ? "white" : "black" }}>{task.name}</p>
+          <p className={`group-hover/task:text-mainPurple text-${theme.darkMode ? 'white' : 'black'}`} style={{ ...typography.heading.M }}>{task.name}</p>
           <p style={{ ...typography.body.M, color: colors.mediumGrey }}>{task.name}</p>
         </div>
       </button>
