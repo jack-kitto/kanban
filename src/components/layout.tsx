@@ -42,4 +42,5 @@ const $sidebar = {
 
 const $content = {
   gridColumnStart: 2,
+  overflow: 'scroll',
 }
