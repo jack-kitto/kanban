@@ -6,7 +6,7 @@ import { Icon } from '../icon';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '~/models';
 import React from 'react';
-import Form from '../form/Form';
+import { Form } from '../form/Form';
 import { nanoid } from 'nanoid';
 import { toast } from 'react-hot-toast';
 

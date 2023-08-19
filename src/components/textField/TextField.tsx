@@ -32,7 +32,7 @@ export const TextField = observer(({ width, height, placeholder, value, setValue
         type='text'
         placeholder={placeholder ? placeholder : 'Enter task name'}
         className={'w-full h-full border-2 border-linesLight rounded-md p-2 outline-none'}
-        style={typography.body.L}
+        style={{ ...typography.body.L, backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.white, color: theme.darkMode ? colors.white : colors.black, borderColor: value?.length > 0 ? theme.darkMode ? colors.linesDark : colors.linesLight : colors.redHover }}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
@@ -51,12 +51,12 @@ export const TextField = observer(({ width, height, placeholder, value, setValue
         type='text'
         placeholder={placeholder ? placeholder : 'Enter task name'}
         className={'w-full h-full border-2 rounded-md p-2 outline-none'}
-        style={{ ...typography.body.L, backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.white, color: theme.darkMode ? colors.white : colors.black, borderColor: value.length > 0 ? theme.darkMode ? colors.linesDark : colors.linesLight : colors.redHover }}
+        style={{ ...typography.body.L, backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.white, color: theme.darkMode ? colors.white : colors.black, borderColor: value?.length > 0 ? theme.darkMode ? colors.linesDark : colors.linesLight : colors.redHover }}
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
       {
-        value.length < 1 ?
+        value?.length < 1 ?
           <div
             style={{ color: colors.red, ...typography.body.M }}
             className='absolute items-center justify-center flex mr-6'

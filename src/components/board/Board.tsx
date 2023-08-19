@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import type { IProjectModel } from "~/models/ProjectsStore";
 import { AddTask } from "./components";
 import { EmptyState } from "./components/emptyState";
-import Form from "../form/Form";
+import { Form } from "../form/Form";
 import React from "react";
 import { api } from "~/utils/api";
 import { useStores } from "~/models";
@@ -10,7 +10,6 @@ import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
-
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [name, setName] = React.useState(project.name)

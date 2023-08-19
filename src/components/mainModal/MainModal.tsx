@@ -7,6 +7,9 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react'
+import { observer } from 'mobx-react-lite'
+import { useStores } from '~/models'
+import { colors } from '~/styles/colors'
 
 interface modalProps {
   open: boolean
@@ -17,13 +20,13 @@ interface modalProps {
   footer?: React.ReactNode
   size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "6xl" | "full"
 }
-export const MainModal = ({ open, onClose, header, body, footer, size }: modalProps) => {
-
+export const MainModal = observer(({ open, onClose, header, body, footer, size }: modalProps) => {
+  const { theme } = useStores()
   return (
     <div>
       <Modal isCentered size={size} isOpen={open} onClose={() => onClose && onClose()}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent style={{ backgroundColor: theme.darkMode ? colors.darkGrey : 'white' }}>
           {header && (
             <ModalHeader>
               {header}
@@ -45,4 +48,4 @@ export const MainModal = ({ open, onClose, header, body, footer, size }: modalPr
     </div>
   )
 
-}
+})

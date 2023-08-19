@@ -31,8 +31,10 @@ import { TextField } from "../textField"
 import { BeatLoader } from "react-spinners"
 import { Button } from "../button"
 import { GrFormClose } from "react-icons/gr"
+import { observer } from "mobx-react-lite"
+import { useStores } from "~/models"
 
-export default function Form({
+export const Form = observer(({
   open,
   setOpen,
   onClose,
@@ -66,16 +68,17 @@ export default function Form({
   addItem: () => void,
   valid: boolean,
   removeItemByIndex: (index: number) => void,
-}) {
+}) => {
+  const { theme } = useStores()
   return (
     <MainModal
       size='2xl'
       open={open}
       setOpen={setOpen}
       onClose={onClose}
-      header={<p style={typography.heading.L}>{action == 'Edit' ? 'Edit' : 'Add New'} {type}</p>}
+      header={<p style={{ ...typography.heading.L, color: theme.darkMode ? 'white' : 'black' }}>{action == 'Edit' ? 'Edit' : 'Add New'} {type}</p>}
       body={
-        <div className="p-6 justify-start items-start w-full h-full flex-col flex">
+        <div className={`p-6 justify-start items-start w-full h-full flex-col flex bg-${theme.darkMode ? 'darkGrey' : 'white'}`}>
           <div className="mt-4 flex-col items-center justify-center w-full">
             <p style={{ ...typography.body.M, color: colors.mediumGrey }}>Name</p>
             <TextField disabled={isLoading} canBeEmpty={false} placeholder={type == 'Task' ? "e.g. Take coffee break" : "e.g. Web Design"} width="100%" value={title} setValue={setTitle} />
@@ -87,8 +90,8 @@ export default function Form({
               {
                 items?.map((item: string, index: number) => (
                   <div key={`${item} ${index}`} className="w-full flex flex-row items-center justify-center">
-                    <div className="w-full flex mt-2 flex-row border-linesLight border-2 rounded-md p-2">
-                      <p style={typography.body.L}>{item}</p>
+                    <div className={`w-full flex mt-2 flex-row border-lines${!theme.darkMode ? 'Light' : 'Dark'} bg-${theme.darkMode ? 'veryDarkGrey' : 'white'} border-2 rounded-md p-2`}>
+                      <p style={{ ...typography.body.L, color: theme.darkMode ? 'white' : 'black' }}>{item}</p>
                     </div>
                     <button disabled={isLoading} className="hover:opacity-50" onClick={() => removeItemByIndex(index)}><GrFormClose size={32} /></button>
                   </div>
@@ -115,5 +118,4 @@ export default function Form({
       }
     />
   )
-
-}
+})
