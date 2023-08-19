@@ -18,7 +18,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
   const [newColumnName, setNewColumnName] = React.useState('')
   const [valid, setValid] = React.useState(false)
-  const { projects } = useStores()
+  const { projects, theme } = useStores()
   const ctx = api.useContext()
   const $styles = useStyles()
   const { mutate, isLoading } = api.projects.update.useMutation({
@@ -83,7 +83,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
             ))
           }
           <div style={$styles.addColumn}>
-            <button onClick={addNewColumn} className="h-full items-center justify-center flex ml-4 cursor-pointer rounded-md shadow-lg border-2 border-linesLight w-12">
+            <button onClick={addNewColumn} className={`h-full items-center justify-center flex ml-4 cursor-pointer rounded-md shadow-lg border-2 border-${!theme.darkMode ? "linesLight" : "linesDark"} w-12`}>
               <p style={{ ...typography.heading.XL, color: colors.mainPurple }}>+</p>
             </button>
           </div>

@@ -4,6 +4,7 @@ export const useStyles = () => {
       height: '100%',
     },
     columns: {
+      paddingTop: '25px',
       display: 'grid',
       height: '100%',
       gridAutoFlow: 'column',
