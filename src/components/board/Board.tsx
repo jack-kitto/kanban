@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
-import type { IColumnModel, IProjectModel, ITaskModel } from "~/models/ProjectsStore";
-import { AddColumn, Column } from "./components";
+import type { IProjectModel } from "~/models/ProjectsStore";
+import { AddTask } from "./components";
 import { EmptyState } from "./components/emptyState";
 import Form from "../form/Form";
 import React from "react";
@@ -10,12 +10,11 @@ import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
-import { AddTask } from "./components/column/AddTask";
 
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [name, setName] = React.useState(project.name)
-  const [columns, setColumns] = React.useState<string[]>(project.columns.map((col) => col.name))
+  const [columns, setColumns] = React.useState<string[]>(project?.columns?.map((col) => col.name))
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
   const [newColumnName, setNewColumnName] = React.useState('')
   const [valid, setValid] = React.useState(false)
@@ -37,8 +36,8 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
   });
 
   React.useEffect(() => {
-    if (columns.length === 0) return setValid(false)
-    if (name.length === 0) return setValid(false)
+    if (columns?.length === 0) return setValid(false)
+    if (name?.length === 0) return setValid(false)
     setValid(true)
   }, [columns, name])
 
@@ -59,11 +58,11 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
 
   return (
     <div style={$styles.container}>
-      {project.columns.length < 1 && <EmptyState onAddNewColumn={addNewColumn} />}
-      {project.columns.length > 0 && (
+      {project?.columns?.length < 1 && <EmptyState onAddNewColumn={addNewColumn} />}
+      {project?.columns?.length > 0 && (
         <div style={$styles.columns}>
           {
-            project.columns.map((column, index) => (
+            project?.columns?.map((column, index) => (
               <div style={$styles.col(index++)} className="group">
                 <div style={$styles.title}>
                   <div className="flex flex-row items-center justify-center h-full">
