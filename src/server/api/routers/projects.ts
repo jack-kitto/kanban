@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
+
 export const projectsRouter = createTRPCRouter({
   create: privateProcedure
     .input(z.object({
@@ -15,9 +16,10 @@ export const projectsRouter = createTRPCRouter({
           name: input.name,
           userId: ctx.userId,
           columns: {
-            create: input.columns?.map((column) => {
+            create: input.columns?.map((column: string, index: number) => {
               return {
                 name: column,
+                position: index + 1,
               }
             }),
           }
@@ -33,7 +35,7 @@ export const projectsRouter = createTRPCRouter({
     .input(z.object({
       name: z.string().min(1).max(32),
       id: z.string(),
-      columns: z.optional(z.array(z.string().min(1).max(32))),
+      columns: z.array(z.string().min(1).max(32)),
     }))
     .mutation(async ({ ctx, input }) => {
       await ctx.prisma.project.update({
@@ -42,9 +44,10 @@ export const projectsRouter = createTRPCRouter({
           name: input.name,
           columns: {
             deleteMany: {},
-            create: input.columns?.map((column) => {
+            create: input.columns.map((column: string, index: number) => {
               return {
                 name: column,
+                position: index + 1,
               }
             }),
           }
