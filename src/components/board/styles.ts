@@ -12,15 +12,10 @@ export const useStyles = () => {
       columnGap: '20px',
       marginLeft: '20px',
     },
-    col(col: number) {
-      return {
-        display: 'grid',
-        height: '100%',
-        gridAutoFlow: 'row',
-        gridAutoRows: '100px',
-        gridTemplateRows: '50px 100px',
-        gridColumnStart: col,
-      }
+    col: {
+      display: 'flex',
+      height: '100%',
+      width: '300px',
     },
     addColumn: {
       gridAutoFlow: 'row',
