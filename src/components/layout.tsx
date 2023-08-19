@@ -9,17 +9,44 @@ import { ShowSidebar } from "./showSidebar";
 const PageLayoutComponent = (props: PropsWithChildren) => {
   const { theme, uiState } = useStores()
   return (
-    <main className="overflow-none flex h-screen justify-center">
-      {uiState.sidebarOpen && <Sidebar />}
-      {!uiState.sidebarOpen && <ShowSidebar />}
-
-      <div style={{ backgroundColor: theme.darkMode ? colors.veryDarkGrey : colors.lightGrey }} className="flex h-full w-full flex-col">
+    <main style={$main}>
+      <div style={$sidebar}>
+        <Sidebar />
+        {/* <ShowSidebar /> */}
+      </div>
+      <div style={$navbar}>
         <Navbar />
-        <div className="w-full h-full">
-          {props.children}
-        </div>
+      </div>
+      <div style={$content}>
+        {props.children}
       </div>
     </main>
   );
 };
 export const PageLayout = observer(PageLayoutComponent);
+
+const $main = {
+  display: "grid",
+  gridTemplateColumns: "300px auto",
+  gridTemplateRows: "100px auto",
+  height: "100vh",
+}
+
+const $navbar = {
+  gridColumnStart: 2,
+  borderWidth: 2,
+  borderColor: colors.red,
+}
+
+const $sidebar = {
+  gridRowStart: 1,
+  gridRowEnd: 3,
+  borderWidth: 2,
+  borderColor: colors.red,
+}
+
+const $content = {
+  gridColumnStart: 2,
+  borderWidth: 2,
+  borderColor: colors.red,
+}
