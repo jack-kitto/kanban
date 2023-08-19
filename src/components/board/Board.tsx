@@ -79,7 +79,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     if (description.length === 0) return
     setNewTaskValid(true)
 
-  }, [newTaskPosition, newTaskName, description, subTasks])
+  }, [newTaskPosition, newTaskName, description, subTasks, editBoardFormOpen, project])
 
 
   const addNewColumn = () => {
