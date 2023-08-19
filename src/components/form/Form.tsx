@@ -36,6 +36,8 @@ import { useStores } from "~/models"
 import { Dropdown } from "../dropdown"
 
 export const Form = observer(({
+  description,
+  setDescription,
   columnId,
   setColumnId,
   open,
@@ -87,12 +89,12 @@ export const Form = observer(({
           <div className="mt-4 flex-col items-center justify-center w-full">
             <p className="my-2" style={{ ...typography.body.M, color: theme.darkMode ? 'white' : colors.mediumGrey }}>Name</p>
             <TextField disabled={isLoading} canBeEmpty={false} placeholder={type == 'Task' ? "e.g. Take coffee break" : "e.g. Web Design"} width="100%" value={title} setValue={setTitle} />
-            {type == 'Task' && (
+            {type == 'Task' && description != undefined && setDescription != undefined ? (
               <div className="mt-6">
                 <p className="my-2" style={{ ...typography.body.M, color: theme.darkMode ? 'white' : colors.mediumGrey }}>Description</p>
-                <TextField disabled={isLoading} canBeEmpty={false} placeholder={type == 'Task' ? "e.g. It's always good to take a break. This 15 minute break will rechard the batteries a little." : "e.g. Web Design"} width="100%" value={title} setValue={setTitle} />
+                <TextField disabled={isLoading} canBeEmpty={false} placeholder={type == 'Task' ? "e.g. It's always good to take a break. This 15 minute break will rechard the batteries a little." : "e.g. Web Design"} width="100%" value={description} setValue={setDescription} />
               </div>
-            )}
+            ) : null}
           </div>
           <p className="mt-4" style={{ ...typography.body.M, color: theme.darkMode ? 'white' : colors.mediumGrey }}>{type == 'Board' ? 'Columns' : "Subtasks"}</p>
           {

@@ -35,13 +35,14 @@ export const projectsRouter = createTRPCRouter({
   createTask: privateProcedure
     .input(z.object({
       name: z.string().min(1).max(32),
+      projectId: z.string().min(1).max(32),
       columnId: z.number(),
       subTasks: z.array(z.string().min(1).max(32)),
       description: z.string().min(1).max(244),
       position: z.number(),
     }))
     .mutation(async ({ ctx, input }) => {
-      return await ctx.prisma.task.create({
+      await ctx.prisma.task.create({
         // where: { id: input.projectId },
         data: {
           name: input.name,
@@ -54,6 +55,11 @@ export const projectsRouter = createTRPCRouter({
           }
         }
       })
+      const project = await ctx.prisma.project.findUnique({
+        where: { id: input.projectId },
+        include: { columns: { include: { tasks: { include: { subtasks: true } } } } }
+      })
+      return project
     }),
   update: privateProcedure
     .input(z.object({

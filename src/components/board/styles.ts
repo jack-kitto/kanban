@@ -15,6 +15,7 @@ export const useStyles = () => {
         display: 'grid',
         height: '100%',
         gridAutoFlow: 'row',
+        rowGap: '20px',
         gridAutoRows: '100px',
         gridTemplateRows: '50px 100px',
         gridColumnStart: col,
@@ -32,6 +33,7 @@ export const useStyles = () => {
       alignItems: 'center',
     },
     task: {
+      border: '1px solid red',
     },
   }
 }
