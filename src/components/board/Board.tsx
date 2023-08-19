@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import type { IColumnModel, IProjectModel } from "~/models/ProjectsStore";
+import type { IColumnModel, IProjectModel, ITaskModel } from "~/models/ProjectsStore";
 import { AddColumn, Column } from "./components";
 import { EmptyState } from "./components/emptyState";
 import Form from "../form/Form";
@@ -7,6 +7,10 @@ import React from "react";
 import { api } from "~/utils/api";
 import { useStores } from "~/models";
 import { toast } from "react-hot-toast";
+import { useStyles } from "./styles";
+import { colors } from "~/styles/colors";
+import { typography } from "~/styles/typography";
+import { AddTask } from "./components/column/AddTask";
 
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
@@ -17,6 +21,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [valid, setValid] = React.useState(false)
   const { projects } = useStores()
   const ctx = api.useContext()
+  const $styles = useStyles()
   const { mutate, isLoading } = api.projects.update.useMutation({
     onSuccess: (res): void => {
       if (!res) return
@@ -41,6 +46,8 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     setEditBoardFormOpen(true)
   }
 
+  const addNewTask = (columnId: string) => { }
+
   const onSubmitEditBoard = () => {
     if (!project) return
     mutate({
@@ -51,36 +58,142 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
   }
 
   return (
-    <div className="flex items-start justify-center h-full w-full">
-      <div className="flex h-full flex-nowrap w-full">
-        {project.columns.length < 1 && <EmptyState onAddNewColumn={addNewColumn} />}
-        {project.columns.length > 0 && project.columns.map((column: IColumnModel, index: number) => (
-          <Column key={`${column.id} ${index}`} column={column} />
-        ))}
-        <AddColumn onPress={addNewColumn} />
-        <Form
-          title={name}
-          setTitle={setName}
-          type='Board'
-          action='Edit'
-          open={editBoardFormOpen}
-          setOpen={setEditBoardFormOpen}
-          onClose={() => setEditBoardFormOpen(false)}
-          items={columns}
-          isLoading={isLoading}
-          newItemName={newColumnName}
-          setNewItemName={setNewColumnName}
-          onSubmit={() => onSubmitEditBoard()}
-          addItem={() => {
-            setColumns([...columns, newColumnName])
-            setNewColumnName('')
-          }}
-          valid={valid}
-          removeItemByIndex={(index: number) => {
-            setColumns(prev => prev.filter((_, i) => i !== index))
-          }}
-        />
-      </div>
+    <div style={$styles.container}>
+      {project.columns.length < 1 && <EmptyState onAddNewColumn={addNewColumn} />}
+      {project.columns.length > 0 && (
+        <div style={$styles.columns}>
+          {
+            project.columns.map((column, index) => (
+              <div style={$styles.col(index++)} className="group">
+                <div style={$styles.title}>
+                  <div className="flex flex-row items-center justify-center h-full">
+                    <div style={{ backgroundColor: colors.pallette['grey'].value }} className="w-4 h-4 rounded-full mr-2" />
+                    <div>
+                      <p style={{ ...typography.heading.S, color: colors.mediumGrey }}>{column.name}</p>
+                    </div>
+                  </div>
+                </div>
+                <button onClick={() => addNewTask(column.id)} className="w-full p-4 h-full group cursor-pointer flex flex-col justify-start items-center">
+                  <div className="hidden group-hover:block w-full">
+                    <AddTask />
+                  </div>
+                </button>
+              </div>
+            ))
+          }
+          <div style={$styles.addColumn}>
+            <button onClick={addNewColumn} className="h-full items-center justify-center flex ml-4 cursor-pointer rounded-md shadow-lg border-2 border-linesLight w-12">
+              <p style={{ ...typography.heading.XL, color: colors.mainPurple }}>+</p>
+            </button>
+          </div>
+        </div>
+
+      )}
+      <Form
+        title={name}
+        setTitle={setName}
+        type='Board'
+        action='Edit'
+        open={editBoardFormOpen}
+        setOpen={setEditBoardFormOpen}
+        onClose={() => setEditBoardFormOpen(false)}
+        items={columns}
+        isLoading={isLoading}
+        newItemName={newColumnName}
+        setNewItemName={setNewColumnName}
+        onSubmit={() => onSubmitEditBoard()}
+        addItem={() => {
+          setColumns([...columns, newColumnName])
+          setNewColumnName('')
+        }}
+        valid={valid}
+        removeItemByIndex={(index: number) => {
+          setColumns(prev => prev.filter((_, i) => i !== index))
+        }}
+      />
+    </div>
+  )
+
+  return (
+    <div style={$styles.columns}>
+      {
+        $columns.map((column, index) => (
+          <div style={$styles.col(index++)}>
+            <div style={$styles.title}> {column.name} </div>
+            {column.tasks.map((task) => (
+              <div style={$styles.task}> {task.name} </div>
+            ))}
+          </div>
+        ))
+      }
     </div>
   )
 })
+
+const $columns = [
+  {
+    name: "To Do",
+    tasks: [
+      { name: "Implement User Authentication" },
+      { name: "Create Database Schema" },
+      { name: "Design UI Mockups" },
+      { name: "Write API Documentation" },
+      { name: "Write API Documentation" },
+      { name: "Write API Documentation" },
+      { name: "Write API Documentation" },
+      { name: "Write API Documentation" },
+      { name: "Write API Documentation" },
+      { name: "Optimize Database Queries" },
+    ],
+  },
+  {
+    name: "In Progress",
+    tasks: [
+      { name: "Fix Cross-browser CSS Issues" },
+      { name: "Refactor Codebase for Modularity" },
+      { name: "Integrate Third-party API" },
+      { name: "Integrate Third-party API" },
+      { name: "Integrate Third-party API" },
+      { name: "Implement Unit Tests" },
+      { name: "Add User Profile Feature" },
+    ],
+  },
+  {
+    name: "Review",
+    tasks: [
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Test Application on Mobile Devices" },
+      { name: "Review Code Quality" },
+      { name: "Verify API Security" },
+      { name: "Check for Accessibility Compliance" },
+      { name: "Evaluate Performance Metrics" },
+    ],
+  },
+  {
+    name: "Testing",
+    tasks: [
+      { name: "Test Cross-browser Compatibility" },
+      { name: "Execute Load Testing" },
+      { name: "Perform Regression Testing" },
+    ],
+  },
+  {
+    name: "Done",
+    tasks: [
+      { name: "Deploy to Staging Environment" },
+      { name: "Test Data Integrity" },
+      { name: "Verify Error Handling" },
+      { name: "Finalize User Documentation" },
+      { name: "Prepare Release Notes" },
+      { name: "Run Security Vulnerability Scan" },
+      { name: "Go Live!" },
+    ],
+  },
+];
