@@ -6,7 +6,7 @@ import { colors } from '~/styles/colors';
 interface DropdownProps {
   options: string[];
   selected: string;
-  setSelected: React.Dispatch<React.SetStateAction<string>>;
+  setSelected: (value: string) => void;
   width?: string;
   height?: string;
   transformOptionText?: (text: string) => string

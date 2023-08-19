@@ -10,7 +10,6 @@ import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
-import { getSnapshot } from "mobx-state-tree";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   const [description, setDescription] = React.useState('');
@@ -111,7 +110,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                   </div>
                 </div>
                 {
-                  column.tasks?.map((task) => <Task task={task} />)
+                  column.tasks?.map((task) => <Task key={task.id} task={task} />)
                 }
                 <button onClick={() => setAddTaskFormOpen(column.id)} className="w-full p-4 h-full group cursor-pointer flex flex-col justify-start items-center">
                   <div className="hidden group-hover:block w-full">

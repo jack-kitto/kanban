@@ -123,7 +123,17 @@ export const Form = observer(({
           {type == 'Task' && columnId && setColumnId && (
             <div className="w-full mt-8">
               <p className="my-2" style={{ ...typography.body.L, color: theme.darkMode ? 'white' : colors.mediumGrey }}>Status</p>
-              <Dropdown transformOptionText={(id) => `${projects.getCurrentProject().getColumnById(id)?.name}`} options={projects.getCurrentProject().columns.map(col => col.id)} selected={columnId} setSelected={(id) => setColumnId(`${id}`)} />
+              <Dropdown
+                transformOptionText={(id) => {
+                  const column = projects.getCurrentProject().getColumnById(id);
+                  return column ? column.name : '';
+                }}
+                options={projects.getCurrentProject().columns.map(col => col.id)}
+                selected={columnId}
+                setSelected={(id) => {
+                  setColumnId(id)
+                }}
+              />
             </div>
           )}
           <div className="mt-4 w-full flex justify-center items-center">
