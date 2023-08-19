@@ -82,10 +82,10 @@ export default function Form({
           </div>
           <p className="mt-4" style={{ ...typography.body.M, color: colors.mediumGrey }}>Columns</p>
           {
-            items.length > 0 &&
+            items?.length > 0 &&
             <div className="w-full">
               {
-                items.map((item: string, index: number) => (
+                items?.map((item: string, index: number) => (
                   <div key={`${item} ${index}`} className="w-full flex flex-row items-center justify-center">
                     <div className="w-full flex mt-2 flex-row border-linesLight border-2 rounded-md p-2">
                       <p style={typography.body.L}>{item}</p>
