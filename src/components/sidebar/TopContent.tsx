@@ -12,13 +12,13 @@ import { nanoid } from 'nanoid';
 import { toast } from 'react-hot-toast';
 
 const TopContentObserver = () => {
-  const [activeItem, setActiveItem] = useState("Platform Launch")
   const [name, setName] = React.useState('')
   const [columns, setColumns] = React.useState<string[]>([])
   const [isOpen, setIsOpen] = React.useState(false)
   const [newColumnName, setNewColumnName] = React.useState('')
   const [valid, setValid] = React.useState(false)
   const { projects } = useStores()
+  const [activeItem, setActiveItem] = useState(projects.currentProjectIndex ? projects.getCurrentProject().name : '')
   const ctx = api.useContext()
   const { data, isLoading: isLoading } = api.projects.getAll.useQuery()
   const { mutate, isLoading: isCreatingBoard } = api.projects.create.useMutation({
@@ -57,7 +57,7 @@ const TopContentObserver = () => {
                 key={project.id}
                 text={project.name} setActive={setActiveItem}
                 onClick={() => projects.setCurrentProjectById(project.id)}
-                active={activeItem == project.name}
+                active={projects.getCurrentProject().name == project.name}
               />
             </Link>
           )
