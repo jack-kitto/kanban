@@ -1,4 +1,4 @@
-import { applySnapshot, types } from "mobx-state-tree";
+import { applySnapshot, getSnapshot, types } from "mobx-state-tree";
 import type { inferRouterOutputs } from '@trpc/server';
 import type { Instance, SnapshotIn } from "mobx-state-tree";
 import type { AppRouter } from "~/server/api/root";
@@ -80,7 +80,7 @@ export const ProjectModel = types.model("ProjectModel", {
     V extends SnapshotIn<typeof self>[K]
   >(field: K, newValue: V) {
     self[field] = newValue;
-  }
+  },
 }));
 
 export const ProjectsStore = types.model("ProjectsStore", {
