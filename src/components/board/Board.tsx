@@ -27,6 +27,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
       projects.removeProjectById(res?.id)
       projects.addProject(res)
       ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
+      setEditBoardFormOpen(false)
     },
     onError: (e): void => {
       if (e.data?.zodError?.fieldErrors?.name) {
@@ -64,7 +65,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
       {project?.columns?.length > 0 && (
         <div style={$styles.columns}>
           {
-            project?.columns?.map((column) => (
+            projects.getCurrentProject()?.columns?.map((column) => (
               <div key={column.id} style={$styles.col(column.position)} className="group">
                 <div style={$styles.title}>
                   <div className="flex flex-row items-center justify-center h-full">
