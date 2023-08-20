@@ -31,7 +31,7 @@ export const BottomContent = observer(() => {
         <Toggle isChecked={theme.darkMode} toggle={() => theme.setProp("darkMode", !theme.darkMode)} size='lg' />
         <Icon icon='darkTheme' size='medium' />
       </ToggleContainer>
-      <button onClick={() => uiState.setProp('sidebarOpen', false)} className='mt-4 w-full hover:opacity-50 cursor-pointer flex flex-row gap-4 ml-4'>
+      <button onClick={() => uiState.setProp('sidebarOpen', false)} className='mt-4 w-full outline-none hover:opacity-50 cursor-pointer flex flex-row gap-4 ml-4'>
         <Icon icon='eyeSlash' size='medium' />
         <p style={{ ...typography.heading.M, color: colors.mediumGrey }}>Hide Sidebar</p>
       </button>

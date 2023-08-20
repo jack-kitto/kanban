@@ -21,7 +21,7 @@ const SidebarItemComponent = ({ text, onClick }: SidebarItemProps) => {
         height: '48px',
         backgroundColor: active ? colors.mainPurple : undefined
       }}
-      className='flex flex-col rounded-r-full h-full w-full justify-center pl-6 hover:opacity-50'
+      className='flex outline-none flex-col rounded-r-full h-full w-full justify-center pl-6 hover:opacity-50'
       onClick={onClick}
     >
       <div className='flex-row flex'>

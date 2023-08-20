@@ -64,7 +64,7 @@ const ButtonComponent = ({ fitText, type, text, width, borderRadius, height, siz
   }
   return (
     <div style={styles[size]} className={styles[type].container}>
-      <button disabled={disabled} onClick={onPress} className='items-center justify-center flex w-full h-full'>
+      <button disabled={disabled} onClick={onPress} className='items-center justify-center outline-none flex w-full h-full'>
         <div style={styles[type].text} className={'h-full w-full flex justify-center items-center'}>
           {loading ? <MoonLoader size={16} color={'white'} />
             : text

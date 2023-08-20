@@ -38,8 +38,7 @@ const TaskModel = types.model("TaskModel", {
   subTasks: types.optional(types.array(SubTaskModel), []),
 }).actions((self) => ({
   setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
-    // applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
-    self[field] = newValue as any;
+    applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
   },
 }));
 
@@ -79,7 +78,6 @@ const ColumnModel = types.model("ColumnModel", {
       }
     });
     if (!taskExists) self.tasks.push(newTask);
-    // self.tasks.slice().sort((a, b) => a.position - b.position).forEach((t, i) => t.setProp("position", i + 1));
   }
 }));
 

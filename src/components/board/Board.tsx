@@ -56,7 +56,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                     <p style={{ ...typography.heading.S, color: colors.mediumGrey }}>{column.name.toUpperCase()}</p>
                   </div>
                 </div>
-                <div className="group/addTask h-4 w-full my-2 px-4">
+                <div className="group/addTask h-4 w-full my-2 px-4 outline-none">
                   <AddTask
                     onPress={() => {
                       setNewTaskPosition(0)

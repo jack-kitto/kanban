@@ -15,13 +15,13 @@ export const SubtaskCheckbox = observer(({ text, checked, setChecked }: SubtaskC
   const Wrapper = ({ children }: { children: React.ReactNode }) => {
     if (theme.darkMode) {
       return (
-        <button onClick={() => setChecked(!checked)} className='w-full group h-10 flex hover:opacity-25 flex-row items-center justify-start rounded-md bg-linesDark hover:bg-mainPurpleHover'>
+        <button onClick={() => setChecked(!checked)} className='w-full outline-none group h-10 flex hover:opacity-25 flex-row items-center justify-start rounded-md bg-linesDark hover:bg-mainPurpleHover'>
           {children}
         </button>
       )
 
     } return (
-      <button onClick={() => setChecked(!checked)} className='w-full h-10 group flex flex-row items-center justify-start rounded-md bg-linesLight hover:bg-mainPurpleHover'>
+      <button onClick={() => setChecked(!checked)} className='w-full h-10 group outline-none flex flex-row items-center justify-start rounded-md bg-linesLight hover:bg-mainPurpleHover'>
         {children}
       </button>
     )

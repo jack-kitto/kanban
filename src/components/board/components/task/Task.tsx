@@ -23,7 +23,7 @@ export const Task = observer(({ task, setAddTaskFormOpen, column, provided }: { 
               <p style={{ ...typography.body.M, color: colors.mediumGrey }}>{task.name}</p>
             </div>
           </div>
-          <button onClick={() => setAddTaskFormOpen(column.id)} className="w-full py-[10px] group/addTask cursor-pointer">
+          <button onClick={() => setAddTaskFormOpen(column.id)} className="w-full outline-none py-[10px] group/addTask cursor-pointer">
             <AddTask onPress={() => setAddTaskFormOpen(column.id)} />
           </button>
         </div>

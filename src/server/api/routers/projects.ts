@@ -1,6 +1,4 @@
-import { Task } from "@prisma/client";
-import { PrismaClientUnknownRequestError } from "@prisma/client/runtime";
-import { promises } from "fs";
+import type { Task } from "@prisma/client";
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
@@ -43,7 +41,7 @@ export const projectsRouter = createTRPCRouter({
       }))
     }))
     .mutation(async ({ ctx, input }) => {
-      let promises: Promise<Task | void>[] = []
+      const promises: Promise<Task | void>[] = []
       input.tasks.forEach((task) => {
         promises.push(
           ctx.prisma.task.update({

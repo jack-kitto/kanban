@@ -6,7 +6,6 @@ import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import type { DropResult } from "react-beautiful-dnd";
 import { getSnapshot } from "mobx-state-tree";
-import { useRouter } from "next/router";
 
 export const useBoard = (project: IProjectModel) => {
   let cols: string[] = [];
@@ -28,8 +27,8 @@ export const useBoard = (project: IProjectModel) => {
   const { projects } = useStores()
   const ctx = api.useContext()
   const $styles = useStyles()
-  const { mutate: updateTaskPositions, isLoading: isUpdatingTaskPositions } = api.projects.updateTaskPositions.useMutation({
-    onSuccess: (data) => {
+  const { mutate: updateTaskPositions } = api.projects.updateTaskPositions.useMutation({
+    onSuccess: () => {
       toast.success('Task positions updated')
     },
     onError: (e): void => {
@@ -57,7 +56,18 @@ export const useBoard = (project: IProjectModel) => {
     },
   });
   window.onbeforeunload = () => {
-    saveTaskPositions()
+    const tasks: { taskId: number, position: number, columnId: number }[] = []
+    projects.getCurrentProject().columns.forEach((column: IColumnModel) => {
+      column.tasks.forEach((task: ITaskModel) => {
+        tasks.push({
+          taskId: parseInt(task.id),
+          position: task.position,
+          columnId: parseInt(column.id)
+        })
+      })
+    })
+    toast('Saving task positions...')
+    updateTaskPositions({ tasks })
   }
   const { mutate, isLoading: isProjectUpdating } = api.projects.update.useMutation({
     onSuccess: (res): void => {
@@ -89,22 +99,23 @@ export const useBoard = (project: IProjectModel) => {
 
   }, [newTaskPosition, newTaskName, description, subTasks, editBoardFormOpen, project])
 
-  React.useEffect(() => saveTaskPositions, [])
-
-  const saveTaskPositions = () => {
-    let tasks: { taskId: number, position: number, columnId: number }[] = []
-    projects.getCurrentProject().columns.forEach((column: IColumnModel) => {
-      column.tasks.forEach((task: ITaskModel) => {
-        tasks.push({
-          taskId: parseInt(task.id),
-          position: task.position,
-          columnId: parseInt(column.id)
+  React.useEffect(() => {
+    return () => {
+      const tasks: { taskId: number, position: number, columnId: number }[] = []
+      projects.getCurrentProject().columns.forEach((column: IColumnModel) => {
+        column.tasks.forEach((task: ITaskModel) => {
+          tasks.push({
+            taskId: parseInt(task.id),
+            position: task.position,
+            columnId: parseInt(column.id)
+          })
         })
       })
-    })
-    toast('Saving task positions...')
-    updateTaskPositions({ tasks })
-  }
+      toast('Saving task positions...')
+      updateTaskPositions({ tasks })
+
+    }
+  }, [projects, updateTaskPositions])
 
 
   const addNewColumn = () => {

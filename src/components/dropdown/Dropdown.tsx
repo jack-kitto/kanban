@@ -28,13 +28,13 @@ export const Dropdown = observer(({ options, selected, setSelected, width, heigh
         className={
           active
             ? `outline-none bg-${theme.darkMode ? 'darkGrey' : 'white'} border-mainPurple border-2 rounded-md w-full h-full`
-            : `outline-none bg-${theme.darkMode ? 'darkGrey' : 'white'} border-lines${!theme.darkMode ? 'Light' : "Dark"} border-2 rounded-md w-full h-full selection:bg-none select-none`
+            : `outline-none bg-${theme.darkMode ? 'darkGrey' : 'white'} border-lines${!theme.darkMode ? 'Light' : "Dark"} border-2 rounded-md w-full h-full selection:bg-none outline-none`
         }
       >
         {
           options.map((option) => {
             return (
-              <option className='bg-none hover:bg-none active:bg-none select-none' key={option} value={option}>
+              <option className='bg-none hover:bg-none active:bg-none outline-none' key={option} value={option}>
                 <p style={{ color: theme.darkMode ? colors.white : 'black' }}>{transformOptionText ? transformOptionText(option) : option}</p>
               </option>
             )

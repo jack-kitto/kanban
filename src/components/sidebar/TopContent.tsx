@@ -59,8 +59,8 @@ const TopContentObserver = () => {
             </Link>
           )
         }
-        <button onClick={() => setIsOpen(true)} className='flex flex-col rounded-r-full justify-center pl-6'>
-          <div className='flex flex-row w-full hover:opacity-50'>
+        <button onClick={() => setIsOpen(true)} className='flex outline-none flex-col rounded-r-full justify-center pl-6'>
+          <div className='flex outline-none flex-row w-full hover:opacity-50'>
             <div className='mr-2 justify-center items-center flex flex-col'>
               <Icon icon='projectRegular' />
             </div>
