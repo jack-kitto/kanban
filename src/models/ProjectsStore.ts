@@ -37,8 +37,11 @@ const TaskModel = types.model("TaskModel", {
   position: types.number,
   subTasks: types.optional(types.array(SubTaskModel), []),
 }).actions((self) => ({
-  setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
-    applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
+  setProp<K extends keyof typeof self, V extends typeof self[K]>(field: K, newValue: V) {
+    self[field] = newValue; // Update the property directly
+  },
+  setSubTasks(newSubTasks: ISubTaskModel[]) {
+    self.subTasks.replace(newSubTasks); // Replace the entire subTasks array
   },
 }));
 
@@ -174,7 +177,7 @@ export const ProjectsStore = types.model("ProjectsStore", {
           position: t.position,
           description: t.description ? t.description : "",
         })
-        task.setProp('subTasks', subTasks)
+        task.setSubTasks(subTasks)
         return task;
       })
       const column: IColumnModel = ColumnModel.create({
