@@ -38,7 +38,7 @@ export const projectsRouter = createTRPCRouter({
       columnId: z.number(),
       subTasks: z.array(z.string().min(1).max(32)),
       description: z.string().min(1).max(244),
-      position: z.number(),
+      position: z.number().min(1).max(32),
     }))
     .mutation(async ({ ctx, input }) => {
       // increment position of tasks after the new task
@@ -46,7 +46,7 @@ export const projectsRouter = createTRPCRouter({
         where: {
           AND: [
             { columnId: input.columnId },
-            { position: input.position == 0 ? { gte: input.position } : { gt: input.position } },
+            { position: { gt: input.position } },
           ],
         },
         data: {
@@ -59,7 +59,7 @@ export const projectsRouter = createTRPCRouter({
       await ctx.prisma.task.create({
         data: {
           name: input.name,
-          position: input.position == 0 ? 1 : input.position,
+          position: input.position + 1,
           description: input.description,
           column: {
             connect: {

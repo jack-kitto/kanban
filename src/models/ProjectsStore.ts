@@ -70,6 +70,7 @@ const ColumnModel = types.model("ColumnModel", {
 
   },
   addTaskToPosition(task: ITaskModel, position: number) {
+    self.tasks.slice().sort((a, b) => a.position - b.position).forEach((t, i) => t.setProp("position", i + 1));
     const taskExists = self.tasks.find((t) => t.id === task.id);
     const newTask = TaskModel.create({ ...getSnapshot(task), position })
     self.tasks.forEach((t) => {
@@ -78,6 +79,7 @@ const ColumnModel = types.model("ColumnModel", {
       }
     });
     if (!taskExists) self.tasks.push(newTask);
+    // self.tasks.slice().sort((a, b) => a.position - b.position).forEach((t, i) => t.setProp("position", i + 1));
   }
 }));
 

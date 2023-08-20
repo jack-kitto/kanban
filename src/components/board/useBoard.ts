@@ -84,7 +84,7 @@ export const useBoard = (project: IProjectModel) => {
   const addNewTask = () => {
     createTask({
       name: newTaskName,
-      position: newTaskPosition,
+      position: newTaskPosition + 1,
       description,
       columnId: parseInt(addTaskFormOpen),
       subTasks: subTasks,
