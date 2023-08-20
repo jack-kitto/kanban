@@ -1,3 +1,6 @@
+import { Task } from "@prisma/client";
+import { PrismaClientUnknownRequestError } from "@prisma/client/runtime";
+import { promises } from "fs";
 import { z } from "zod";
 import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
@@ -30,6 +33,32 @@ export const projectsRouter = createTRPCRouter({
         include: { columns: { include: { tasks: { include: { subtasks: true } } } } }
       })
       return project
+    }),
+  updateTaskPositions: privateProcedure
+    .input(z.object({
+      tasks: z.array(z.object({
+        taskId: z.number(),
+        position: z.number(),
+        columnId: z.number(),
+      }))
+    }))
+    .mutation(async ({ ctx, input }) => {
+      let promises: Promise<Task | void>[] = []
+      input.tasks.forEach((task) => {
+        promises.push(
+          ctx.prisma.task.update({
+            where: { id: task.taskId },
+            data: {
+              position: task.position,
+              column: {
+                connect: { id: task.columnId }
+              }
+            }
+          })
+
+        )
+      })
+      await Promise.all(promises)
     }),
   createTask: privateProcedure
     .input(z.object({

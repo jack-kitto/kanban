@@ -1,4 +1,4 @@
-import type { IProjectModel } from "~/models/ProjectsStore";
+import type { IColumnModel, IProjectModel, ITaskModel } from "~/models/ProjectsStore";
 import React from "react";
 import { api } from "~/utils/api";
 import { useStores } from "~/models";
@@ -6,6 +6,7 @@ import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import type { DropResult } from "react-beautiful-dnd";
 import { getSnapshot } from "mobx-state-tree";
+import { useRouter } from "next/router";
 
 export const useBoard = (project: IProjectModel) => {
   let cols: string[] = [];
@@ -27,10 +28,19 @@ export const useBoard = (project: IProjectModel) => {
   const { projects } = useStores()
   const ctx = api.useContext()
   const $styles = useStyles()
+  const { mutate: updateTaskPositions, isLoading: isUpdatingTaskPositions } = api.projects.updateTaskPositions.useMutation({
+    onSuccess: (data) => {
+      toast.success('Task positions updated')
+    },
+    onError: (e): void => {
+      if (e.data?.zodError?.fieldErrors?.name) {
+        e.data.zodError.fieldErrors.name.forEach((err: string) => toast.error(err))
+      }
+    }
+  })
   const { mutate: createTask, isLoading: isTaskCreating } = api.projects.createTask.useMutation({
     onSuccess: (res): void => {
       if (!res) return
-      console.log(res)
       projects.removeProjectById(res?.id)
       projects.addProject(res)
       ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
@@ -46,6 +56,9 @@ export const useBoard = (project: IProjectModel) => {
       }
     },
   });
+  window.onbeforeunload = () => {
+    saveTaskPositions()
+  }
   const { mutate, isLoading: isProjectUpdating } = api.projects.update.useMutation({
     onSuccess: (res): void => {
       if (!res) return
@@ -75,6 +88,23 @@ export const useBoard = (project: IProjectModel) => {
     setNewTaskValid(true)
 
   }, [newTaskPosition, newTaskName, description, subTasks, editBoardFormOpen, project])
+
+  React.useEffect(() => saveTaskPositions, [])
+
+  const saveTaskPositions = () => {
+    let tasks: { taskId: number, position: number, columnId: number }[] = []
+    projects.getCurrentProject().columns.forEach((column: IColumnModel) => {
+      column.tasks.forEach((task: ITaskModel) => {
+        tasks.push({
+          taskId: parseInt(task.id),
+          position: task.position,
+          columnId: parseInt(column.id)
+        })
+      })
+    })
+    toast('Saving task positions...')
+    updateTaskPositions({ tasks })
+  }
 
 
   const addNewColumn = () => {
