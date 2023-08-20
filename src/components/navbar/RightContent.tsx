@@ -51,7 +51,7 @@ export const RightContent = observer(() => {
     <div className='flex flex-row w-full items-center justify-end'>
       <div>
         <AddTaskButton
-          position={1}
+          position={0}
           columnId={getColId()}
           Children={({ onPress }) => <Button fitText type='primary' size='lg' text='+ Add New Task' onPress={onPress} />}
         />

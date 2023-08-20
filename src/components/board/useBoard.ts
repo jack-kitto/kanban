@@ -12,18 +12,12 @@ export const useBoard = (project: IProjectModel) => {
   if (project.columns) {
     cols = [...project?.columns?.map((col) => col.name)]
   }
-  const [description, setDescription] = React.useState('');
   const [name, setName] = React.useState(project.name)
-  const [newTaskName, setNewTaskName] = React.useState('')
-  const [newTaskPosition, setNewTaskPosition] = React.useState(1)
   const [columns, setColumns] = React.useState<string[]>(cols)
   const [subTasks, setSubTasks] = React.useState<string[]>([])
   const [editBoardFormOpen, setEditBoardFormOpen] = React.useState(false)
-  const [addTaskFormOpen, setAddTaskFormOpen] = React.useState('')
   const [newColumnName, setNewColumnName] = React.useState('')
-  const [newSubTaskName, setNewSubTaskName] = React.useState('')
   const [valid, setValid] = React.useState(false)
-  const [newTaskValid, setNewTaskValid] = React.useState(false)
   const { projects } = useStores()
   const ctx = api.useContext()
   const $styles = useStyles()
@@ -37,24 +31,7 @@ export const useBoard = (project: IProjectModel) => {
       }
     }
   })
-  const { mutate: createTask, isLoading: isTaskCreating } = api.projects.createTask.useMutation({
-    onSuccess: (res): void => {
-      if (!res) return
-      projects.removeProjectById(res?.id)
-      projects.addProject(res)
-      ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
-      setAddTaskFormOpen('')
-      setNewTaskName('')
-      setNewTaskPosition(1)
-      setDescription('')
-      setSubTasks([])
-    },
-    onError: (e): void => {
-      if (e.data?.zodError?.fieldErrors?.name) {
-        e.data.zodError.fieldErrors.name.forEach((err: string) => toast.error(err))
-      }
-    },
-  });
+
   window.onbeforeunload = () => {
     const tasks: { taskId: number, position: number, columnId: number }[] = []
     projects.getCurrentProject().columns.forEach((column: IColumnModel) => {
@@ -108,21 +85,13 @@ export const useBoard = (project: IProjectModel) => {
     }
   }, [projects, updateTaskPositions])
 
+  React.useEffect(() => {
+    toast('Board updated!')
+  }, [projects, projects.currentProjectIndex])
+
 
   const addNewColumn = () => {
     setEditBoardFormOpen(true)
-  }
-
-  const addNewTask = () => {
-    createTask({
-      name: newTaskName,
-      position: newTaskPosition + 1,
-      description,
-      columnId: parseInt(addTaskFormOpen),
-      subTasks: subTasks,
-      projectId: projects.getCurrentProject()?.id
-    })
-
   }
 
   const onSubmitEditBoard = () => {
@@ -154,29 +123,17 @@ export const useBoard = (project: IProjectModel) => {
     onDragEnd,
     onSubmitEditBoard,
     addNewColumn,
-    addNewTask,
-    description,
-    setDescription,
     name,
     setName,
-    newTaskName,
-    setNewTaskName,
-    setNewTaskPosition,
     columns,
     setColumns,
     subTasks,
     setSubTasks,
     editBoardFormOpen,
     setEditBoardFormOpen,
-    addTaskFormOpen,
-    setAddTaskFormOpen,
     newColumnName,
-    newSubTaskName,
-    setNewSubTaskName,
     valid,
-    newTaskValid,
     $styles,
-    isTaskCreating,
     isProjectUpdating,
     setNewColumnName,
   }

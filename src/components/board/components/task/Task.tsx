@@ -7,7 +7,7 @@ import { typography } from "~/styles/typography";
 import { AddTask } from "../addTask";
 import { AddTaskButton } from "../addTaskButton";
 
-export const Task = observer(({ task, setAddTaskFormOpen, column, provided, index }: { index: number, provided: DraggableProvided, snapshot: DraggableStateSnapshot, task: ITaskModel, setAddTaskFormOpen: (id: string) => void, column: IColumnModel }) => {
+export const Task = observer(({ task, column, provided, index }: { index: number, provided: DraggableProvided, snapshot: DraggableStateSnapshot, task: ITaskModel, column: IColumnModel }) => {
   const { theme } = useStores()
   return (
     <div

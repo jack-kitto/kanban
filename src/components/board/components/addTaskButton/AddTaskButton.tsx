@@ -5,7 +5,6 @@ import { Form } from "~/components/form";
 import { useStores } from "~/models";
 import { api } from "~/utils/api";
 
-
 export const AddTaskButton = observer(({ Children, columnId, position }: { position: number, columnId: string, Children: React.FC<{ onPress: () => void }> }) => {
   const [description, setDescription] = React.useState('');
   const [newTaskName, setNewTaskName] = React.useState('')
@@ -30,6 +29,8 @@ export const AddTaskButton = observer(({ Children, columnId, position }: { posit
       projects.removeProjectById(res?.id)
       projects.addProject(res)
       ctx.projects.getAll.invalidate().catch((e: Error) => console.error(e.message))
+      projects.setProp('currentProjectIndex', null)
+      projects.openProjectById(res.id)
       setAddTaskFormOpen('')
       setNewTaskName('')
       setNewTaskPosition(1)

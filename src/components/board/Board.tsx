@@ -25,7 +25,6 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     editBoardFormOpen,
     setEditBoardFormOpen,
     setNewColumnName,
-    setAddTaskFormOpen,
     newColumnName,
     valid,
     isProjectUpdating,
@@ -73,7 +72,6 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                           provided={provided}
                           snapshot={snapshot}
                           task={task}
-                          setAddTaskFormOpen={setAddTaskFormOpen}
                           column={column}
                         />
                       }
