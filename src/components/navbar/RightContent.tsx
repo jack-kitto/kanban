@@ -41,7 +41,7 @@ export const RightContent = observer(() => {
   }
 
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-row w-full items-center justify-end'>
       <div>
         <Button fitText type='primary' size='lg' text='+ Add New Task' onPress={() => toast("Adding new task")} />
       </div>
