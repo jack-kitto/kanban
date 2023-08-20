@@ -9,6 +9,7 @@ import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
 import { useBoard } from "./useBoard";
 import { useStyles } from "./styles";
+import { AddTaskButton } from "./components/addTaskButton";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
   const { projects } = useStores()
@@ -17,29 +18,16 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     onDragEnd,
     onSubmitEditBoard,
     addNewColumn,
-    addNewTask,
-    description,
-    setDescription,
     name,
     setName,
-    newTaskName,
-    setNewTaskName,
-    setNewTaskPosition,
     columns,
     setColumns,
-    subTasks,
-    setSubTasks,
     editBoardFormOpen,
     setEditBoardFormOpen,
-    addTaskFormOpen,
     setNewColumnName,
     setAddTaskFormOpen,
     newColumnName,
-    newSubTaskName,
-    setNewSubTaskName,
     valid,
-    newTaskValid,
-    isTaskCreating,
     isProjectUpdating,
   } = useBoard(project)
 
@@ -57,11 +45,10 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                   </div>
                 </div>
                 <div className="group/addTask h-4 w-full my-2 px-4 outline-none">
-                  <AddTask
-                    onPress={() => {
-                      setNewTaskPosition(0)
-                      setAddTaskFormOpen(column.id)
-                    }}
+                  <AddTaskButton
+                    position={1}
+                    columnId={column.id}
+                    Children={({ onPress }) => <AddTask onPress={onPress} />}
                   />
                 </div>
               </div>
@@ -82,6 +69,7 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                     >
                       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) =>
                         <Task
+                          index={index}
                           provided={provided}
                           snapshot={snapshot}
                           task={task}
@@ -99,32 +87,6 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
         ))}
       </DragDropContext>
       <AddColumn onPress={addNewColumn} />
-      <Form
-        columnId={addTaskFormOpen}
-        setColumnId={setAddTaskFormOpen}
-        title={newTaskName}
-        setTitle={setNewTaskName}
-        type='Task'
-        action='Add'
-        open={addTaskFormOpen !== ''}
-        setOpen={() => setAddTaskFormOpen('')}
-        description={description}
-        setDescription={setDescription}
-        onClose={() => setAddTaskFormOpen('')}
-        items={subTasks}
-        isLoading={isTaskCreating}
-        newItemName={newSubTaskName}
-        setNewItemName={setNewSubTaskName}
-        onSubmit={addNewTask}
-        addItem={() => {
-          setSubTasks(prev => [...prev, newSubTaskName])
-          setNewSubTaskName('')
-        }}
-        valid={!newTaskValid}
-        removeItemByIndex={(index: number) => {
-          setSubTasks(prev => prev.filter((_, i) => i !== index))
-        }}
-      />
       <Form
         title={name}
         setTitle={setName}

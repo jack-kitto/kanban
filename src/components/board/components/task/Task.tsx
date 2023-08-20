@@ -5,8 +5,9 @@ import { colors } from "~/styles/colors";
 import type { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 import { typography } from "~/styles/typography";
 import { AddTask } from "../addTask";
+import { AddTaskButton } from "../addTaskButton";
 
-export const Task = observer(({ task, setAddTaskFormOpen, column, provided }: { provided: DraggableProvided, snapshot: DraggableStateSnapshot, task: ITaskModel, setAddTaskFormOpen: (id: string) => void, column: IColumnModel }) => {
+export const Task = observer(({ task, setAddTaskFormOpen, column, provided, index }: { index: number, provided: DraggableProvided, snapshot: DraggableStateSnapshot, task: ITaskModel, setAddTaskFormOpen: (id: string) => void, column: IColumnModel }) => {
   const { theme } = useStores()
   return (
     <div
@@ -23,9 +24,15 @@ export const Task = observer(({ task, setAddTaskFormOpen, column, provided }: { 
               <p style={{ ...typography.body.M, color: colors.mediumGrey }}>{task.name}</p>
             </div>
           </div>
-          <button onClick={() => setAddTaskFormOpen(column.id)} className="w-full outline-none py-[10px] group/addTask cursor-pointer">
-            <AddTask onPress={() => setAddTaskFormOpen(column.id)} />
-          </button>
+          <AddTaskButton
+            columnId={column.id}
+            position={index + 1}
+            Children={({ onPress }) => (
+              <button onClick={onPress} className="w-full outline-none py-[10px] group/addTask cursor-pointer">
+                <AddTask onPress={onPress} />
+              </button>
+            )}
+          />
         </div>
       </div>
     </div>

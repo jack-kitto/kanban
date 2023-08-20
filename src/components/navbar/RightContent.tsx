@@ -8,6 +8,7 @@ import { api } from '~/utils/api'
 import { observer } from 'mobx-react-lite'
 import { useStores } from '~/models'
 import { useRouter } from 'next/router'
+import { AddTaskButton } from '../board/components/addTaskButton'
 export const RightContent = observer(() => {
   const [open, setOpen] = useState(false)
   const { projects } = useStores()
@@ -40,10 +41,20 @@ export const RightContent = observer(() => {
     mutate({ id: project.id })
   }
 
+  const getColId = () => {
+    const id = projects?.getCurrentProject()?.columns[0]?.id ? projects?.getCurrentProject()?.columns[0]?.id : "0"
+    if (id) return id
+    return "0"
+  }
+
   return (
     <div className='flex flex-row w-full items-center justify-end'>
       <div>
-        <Button fitText type='primary' size='lg' text='+ Add New Task' onPress={() => toast("Adding new task")} />
+        <AddTaskButton
+          position={1}
+          columnId={getColId()}
+          Children={({ onPress }) => <Button fitText type='primary' size='lg' text='+ Add New Task' onPress={onPress} />}
+        />
       </div>
       <div className='m-4 hover:opacity-50 cursor-pointer'>
         <button onClick={() => setOpen(true)} className='cursor-pointer'>

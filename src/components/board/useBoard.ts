@@ -91,15 +91,6 @@ export const useBoard = (project: IProjectModel) => {
   }, [columns, name])
 
   React.useEffect(() => {
-    if (!editBoardFormOpen) return
-    if (!project) return
-    if (newTaskName.length === 0) return
-    if (description.length === 0) return
-    setNewTaskValid(true)
-
-  }, [newTaskPosition, newTaskName, description, subTasks, editBoardFormOpen, project])
-
-  React.useEffect(() => {
     return () => {
       const tasks: { taskId: number, position: number, columnId: number }[] = []
       projects.getCurrentProject().columns.forEach((column: IColumnModel) => {
