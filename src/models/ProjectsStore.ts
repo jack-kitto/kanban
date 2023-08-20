@@ -1,4 +1,4 @@
-import { applySnapshot, types } from "mobx-state-tree";
+import { applySnapshot, getSnapshot, types } from "mobx-state-tree";
 import type { inferRouterOutputs } from '@trpc/server';
 import type { Instance, SnapshotIn } from "mobx-state-tree";
 import type { AppRouter } from "~/server/api/root";
@@ -38,7 +38,8 @@ const TaskModel = types.model("TaskModel", {
   subTasks: types.optional(types.array(SubTaskModel), []),
 }).actions((self) => ({
   setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
-    applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
+    // applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
+    self[field] = newValue as any;
   },
 }));
 
@@ -61,6 +62,23 @@ const ColumnModel = types.model("ColumnModel", {
   setProp<K extends keyof SnapshotIn<typeof self>, V extends SnapshotIn<typeof self>[K]>(field: K, newValue: V) {
     applySnapshot(self[field], newValue); // Here we use applySnapshot to update the property
   },
+  removeTaskById(taskId: string) {
+    if (!taskId) return;
+    const foundTask = self.tasks.find((task) => task.id === taskId);
+    if (!foundTask) return;
+    self.tasks.remove(foundTask);
+
+  },
+  addTaskToPosition(task: ITaskModel, position: number) {
+    const taskExists = self.tasks.find((t) => t.id === task.id);
+    const newTask = TaskModel.create({ ...getSnapshot(task), position })
+    self.tasks.forEach((t) => {
+      if (t.position >= newTask.position) {
+        t.setProp("position", t.position + 1);
+      }
+    });
+    if (!taskExists) self.tasks.push(newTask);
+  }
 }));
 
 export interface IProject {

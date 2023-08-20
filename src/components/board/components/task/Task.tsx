@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import { toast } from "react-hot-toast";
 import { useStores } from "~/models";
 import type { IColumnModel, ITaskModel } from "~/models/ProjectsStore";
 import { colors } from "~/styles/colors";
@@ -7,11 +6,8 @@ import type { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-
 import { typography } from "~/styles/typography";
 import { AddTask } from "../addTask";
 
-export const Task = observer(({ task, setAddTaskFormOpen, column, provided, snapshot }: { provided: DraggableProvided, snapshot: DraggableStateSnapshot, task: ITaskModel, setAddTaskFormOpen: (id: string) => void, column: IColumnModel }) => {
+export const Task = observer(({ task, setAddTaskFormOpen, column, provided }: { provided: DraggableProvided, snapshot: DraggableStateSnapshot, task: ITaskModel, setAddTaskFormOpen: (id: string) => void, column: IColumnModel }) => {
   const { theme } = useStores()
-  const openTask = () => {
-    toast("Open task")
-  }
   return (
     <div
       ref={provided.innerRef}

@@ -5,6 +5,7 @@ import { useStores } from "~/models";
 import { toast } from "react-hot-toast";
 import { useStyles } from "./styles";
 import type { DropResult } from "react-beautiful-dnd";
+import { getSnapshot } from "mobx-state-tree";
 
 export const useBoard = (project: IProjectModel) => {
   let cols: string[] = [];
@@ -101,10 +102,21 @@ export const useBoard = (project: IProjectModel) => {
     })
   }
 
-  // const moveTask = (source:, destination:any, result:DropResult ) => {}
   const onDragEnd = (result: DropResult) => {
-    toast('Moving task')
-    console.log(result)
+    if (!projects.getCurrentProject()) return
+    if (!result.destination?.droppableId) return
+    const to_column = projects.getCurrentProject().getColumnById(result.destination?.droppableId)
+    const from_column = projects.getCurrentProject().getColumnById(result.source?.droppableId)
+    if (!to_column) return
+    if (!from_column) return
+    const draggedTask = from_column.tasks.find((task) => task.id == result.draggableId)
+    if (!draggedTask) return
+    to_column.tasks.slice().sort((a, b) => a.position - b.position).forEach((task) => console.log(getSnapshot(task)))
+    from_column.removeTaskById(draggedTask.id)
+    const to_position = result.destination.index == 0 ? 1 : result.destination.index + 1
+    to_column.addTaskToPosition(draggedTask, to_position)
+    to_column.tasks.slice().sort((a, b) => a.position - b.position).forEach((task) => console.log(getSnapshot(task)))
+
   }
   return {
     onDragEnd,

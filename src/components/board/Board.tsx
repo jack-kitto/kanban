@@ -1,15 +1,13 @@
-import { DragDropContext, Droppable, Draggable, DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, Draggable, type DraggableProvided, type DraggableStateSnapshot } from "react-beautiful-dnd";
 import { observer } from "mobx-react-lite";
 import type { IColumnModel, IProjectModel, ITaskModel } from "~/models/ProjectsStore";
 import { AddColumn, AddTask, Task } from "./components";
-import { EmptyState } from "./components/emptyState";
 import { Form } from "../form/Form";
 import React from "react";
 import { useStores } from "~/models";
 import { colors } from "~/styles/colors";
 import { typography } from "~/styles/typography";
 import { useBoard } from "./useBoard";
-import { Button } from "../button";
 import { useStyles } from "./styles";
 
 export const Board = observer(({ project }: { project: IProjectModel }) => {
@@ -45,13 +43,11 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
     isProjectUpdating,
   } = useBoard(project)
 
-  const grid = 8;
-
   return (
     <div className="h-full w-full flex">
       <DragDropContext onDragEnd={onDragEnd}>
-        {projects.getCurrentProject().columns.map((column: IColumnModel, ind: number) => (
-          <div className="flex flex-col h-full">
+        {projects.getCurrentProject().columns && projects.getCurrentProject().columns.map((column: IColumnModel, ind: number) => (
+          <div key={column.id} className="flex flex-col h-full">
             <div style={$styles.title}>
               <div className="flex flex-col items-center justify-center h-full">
                 <div className="flex flex-row items-center justify-center h-full">
@@ -70,15 +66,15 @@ export const Board = observer(({ project }: { project: IProjectModel }) => {
                 </div>
               </div>
             </div>
-            <Droppable key={ind} droppableId={`${ind}`}>
-              {(provided, snapshot) => (
+            <Droppable key={ind} droppableId={`${column.id}`}>
+              {(provided) => (
                 <div
                   style={$styles.col}
                   className="flex=1 flex-col px-4"
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                 >
-                  {column.tasks.map((task: ITaskModel, index: number) => (
+                  {column.tasks.slice().sort((a, b) => a.position - b.position).map((task: ITaskModel, index: number) => (
                     <Draggable
                       key={task.id}
                       draggableId={task.id}
