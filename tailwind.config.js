@@ -26,29 +26,70 @@ export default {
         red: '#EA5555',
         redHover: '#FF9898'
       },
-
-        secondary: '#828FA3',
-        secondaryLight: '#E4EBFA',
-        secondaryDark: '#3E3F4E',
-
-        textPrimary: '#000112',
-        textSecondary: '#2B2C37',
-        textLight: '#F4F7FD',
-
-        backgroundLight: '#F4F7FD',
-        backgroundDark: '#000112',
-        backgroundMuted: '#2B2C37',
-
-        accentRed: '#EA5555',
-        accentRedLight: '#FF9898',
-
-        error: '#EA5555',
-        warning: '#FF9898',
-
-        white: '#FFFFFF',
-        gray: '#828FA3',
-        grayLight: '#E4EBFA',
+      fontFamily: {
+        plusJakartaSans: ['var(--font-plus-jakarta-sans)'],
       },
+      typography: {
+
+        'hxl': {
+          css: {
+            fontSize: 24,
+            fontWeight: '700',
+            fontFamily: 'var(--font-plus-jakarta-sans)',
+            lineHeight: '30px',
+          }
+        },
+
+        'hl': {
+          css: {
+            fontSize: 18,
+            fontWeight: '700',
+            fontFamily: 'var(--font-plus-jakarta-sans)',
+            lineHeight: '23px',
+          }
+        },
+
+        'hm': {
+          css: {
+            fontSize: 15,
+            fontWeight: '700',
+            fontFamily: 'var(--font-plus-jakarta-sans)',
+            lineHeight: '19px',
+          }
+        },
+
+        'hs': {
+          css: {
+            fontSize: 12,
+            fontWeight: '700',
+            fontFamily: 'var(--font-plus-jakarta-sans)',
+            lineHeight: '12px',
+            letterSpacing: '2.4px',
+            color: '#828FA3'
+          }
+        },
+
+        'bl': {
+          css: {
+            fontSize: 13,
+            fontWeight: '500',
+            fontFamily: 'var(--font-plus-jakarta-sans)',
+            lineHeight: '23px',
+            color: '#2B2C37'
+          }
+        },
+
+        'bm': {
+          css: {
+            fontSize: 12,
+            fontWeight: '700',
+            fontFamily: 'var(--font-plus-jakarta-sans)',
+            lineHeight: '15px',
+            color: '#2B2C37'
+          }
+        },
+
+      }
     },
   },
   plugins: [

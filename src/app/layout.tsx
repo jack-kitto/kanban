@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
-
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata = {
@@ -10,13 +10,20 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
+})
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html
+      lang="en"
+      className={`${GeistSans.variable} ${plusJakartaSans.variable}`}
+    >
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
