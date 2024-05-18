@@ -28,9 +28,9 @@ export default function TooltipMenu(props: TooltipMenuProps): JSX.Element {
       <div className="peer w-fit h-fit">
         {props.children}
       </div>
-      <div className={`absolute hidden peer-hover:flex hover:flex flex-col shadow-md rounded-md px-[17px] py-5 min-w-[192px] items-start ${angleMap[props.angle]}`}>
+      <div className={`absolute bg-white dark:bg-veryDarkGray hidden peer-hover:flex hover:flex flex-col shadow-md rounded-md px-[17px] py-5 min-w-[192px] items-start ${angleMap[props.angle]}`}>
         {props.options.map((option: TooltipMenuOption, index: number): JSX.Element => (
-          <button key={index} onClick={option.onClick} className={`bg-white p-2 select-none prose-bl ${option.destructive ? 'text-red' : 'text-mediumGray'}`}>
+          <button key={index} onClick={option.onClick} className={`bg-white dark:bg-veryDarkGray p-2 select-none prose-bl ${option.destructive ? 'text-red' : 'text-mediumGray dark:text-white'}`}>
             {option.text}
           </button>
         ))}
