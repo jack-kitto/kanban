@@ -17,13 +17,13 @@ export default function Select(props: SelectProps): JSX.Element {
     <div>
       {
         props.label && (
-          <span className="prose-bm text-mediumGray">
+          <span className="prose-bm text-mediumGray dark:text-white">
             {props.label}
           </span>
         )
       }
       <select
-        className="bg-white outline caret-mainPurple outline-linesLight border-transparent border-r-[14px] bg-blend-color-dodge prose-bl hover:outline-mainPurple accent-mainPurple px-4 min-h-10 max-h-10 min-w-64 max-w-md rounded h-10 w-full prose-hm transition-colors duration-300 ease-in-out"
+        className="bg-white dark:bg-darkGray outline caret-mainPurple dark:text-white outline-linesLight dark:outline-linesDark border-transparent border-r-[14px] bg-blend-color-dodge prose-bl hover:outline-mainPurple accent-mainPurple px-4 min-h-10 max-h-10 min-w-64 max-w-md rounded h-10 w-full prose-hm transition-colors duration-300 ease-in-out"
         value={props.selected}
         onChange={handleChange}
       >
