@@ -1,5 +1,6 @@
 import Button from "./button/Button";
 import Checkbox from "./checkbox/Checkbox";
+import Select from "./select/Select";
 import Text from "./text/Text";
 import TextField from "./textField/TextField";
 
@@ -8,4 +9,5 @@ export {
   Text,
   Checkbox,
   TextField,
+  Select,
 }
