@@ -15,7 +15,7 @@ export default meta;
 
 type Story = StoryObj<typeof Checkbox>;
 
-export const Default: Story = {
+export const Light: Story = {
   args: {
     checked: false,
     setChecked: (_: boolean): void => { },
