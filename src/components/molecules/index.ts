@@ -1,11 +1,11 @@
 import { Confirmation } from "./confirmation/Confirmation";
 import Subtask from "./subtask/Subtask";
 import Tag from "./tag/Tag";
-import Task from "./task/Task";
+import TaskCard from "./taskCard/TaskCard";
 
 export {
   Subtask,
-  Task,
+  TaskCard,
   Tag,
   Confirmation,
 }

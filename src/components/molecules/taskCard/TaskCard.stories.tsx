@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Task from './Task';
+import TaskCard from './TaskCard';
 import { colors } from '~/styles';
 
 const meta = {
-  component: Task,
+  component: TaskCard,
   tags: ["autodocs"],
   parameters: {
     layout: 'centered',
   },
-} satisfies Meta<typeof Task>;
+} satisfies Meta<typeof TaskCard>;
 
 export default meta;
 
@@ -36,7 +36,7 @@ export const Dark: Story = {
   render: function Render(args) {
     return (
       <div className="dark">
-        <Task {...args} />
+        <TaskCard {...args} />
       </div>
     )
   }

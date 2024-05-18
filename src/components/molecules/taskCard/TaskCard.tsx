@@ -1,9 +1,9 @@
-export interface TaskProps {
+export interface TaskCardProps {
   title: string;
   subtitle: string;
 }
 
-export default function Task(props: TaskProps): JSX.Element {
+export default function TaskCard(props: TaskCardProps): JSX.Element {
   return (
     <div
       className="flex flex-col dark:bg-darkGray gap-3 min-h-[88px] min-w-[280px] rounded-lg px-4 py-7"
