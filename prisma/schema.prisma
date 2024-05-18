@@ -2,74 +2,105 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["driverAdapters"]
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+generator custom_generator {
+  provider = "prisma-generator-fake-data"
+  /// by default, the file will be generated at `./prisma/fake-data.ts`
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Project {
+  id      String   @id @default(cuid())
+  ///FAKE:faker.lorem.words({min: 1, max: 5})
+  name    String
+  users   User[]
+  columns Column[]
+}
 
-    createdBy   User   @relation(fields: [createdById], references: [id])
-    createdById String
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  ///FAKE:faker.lorem.sentence({ min: 1, max: 5 })
+  description String
+  subtasks    Subtask[]
+  column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnId    String
+  position    String
+}
 
-    @@index([name])
-    @@index([createdById])
+model Column {
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  id        String  @id @default(cuid())
+  title     String
+  tasks     Task[]
+  ///FAKE:faker.helpers.arrayElement(['Mimi Pink', 'Alice Blue', 'Light Sky Blue', 'Jordy Blue', 'Aquamarine', 'Aqua Blue', 'Purple Heart', 'Magic Mint', 'Powder blue', 'Slate blue', 'Tekhelet', 'Violet', 'Licorice'])
+  colour    String
+  position  String
+}
+
+model Subtask {
+  id        String  @id @default(cuid())
+  ///FAKE:faker.lorem.words({ min: 1, max: 20 })
+  title     String
+  task      Task    @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+  completed Boolean
 }
 
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? @db.Text
-    access_token      String? @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
-    @@index([userId])
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@index([userId])
+  @@index([userId])
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
-    posts         Post[]
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  projects      Project[]
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }
