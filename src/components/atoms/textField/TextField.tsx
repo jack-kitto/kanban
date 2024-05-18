@@ -64,7 +64,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
         </p>
         <input
           placeholder={props.placeholder}
-          className={`bg-white dark:bg-darkGray appearance-none border outline-none dark:text-white min-h-10 max-h-10 min-w-64 max-w-md ${borderStyles}  rounded h-10 w-full px-3 prose-bl transition-colors duration-300 ease-in-out`}
+          className={`bg-white dark:bg-darkGray dark:border-linesDark appearance-none border outline-none dark:text-white min-h-10 max-h-10 min-w-64 max-w-md ${borderStyles}  rounded h-10 w-full px-3 prose-bl transition-colors duration-300 ease-in-out`}
           type="text"
           maxLength={props.maxLength}
           minLength={props.minLength}
