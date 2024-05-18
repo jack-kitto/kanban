@@ -20,13 +20,13 @@ export const Default: Story = {
     setChecked: (_: boolean): void => { },
   },
   render: function Render(args: CheckboxProps): JSX.Element {
-    const [{ isChecked }, updateArgs] = useArgs();
+    const [{ checked }, updateArgs] = useArgs();
     return (
       <Checkbox
         {...args}
-        checked={isChecked}
+        checked={checked}
         setChecked={(checked: boolean) => {
-          updateArgs({ isChecked: checked });
+          updateArgs({ checked });
         }}
       />
     )
