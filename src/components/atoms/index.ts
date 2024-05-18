@@ -6,10 +6,11 @@ import { Modal } from "./modal/Modal";
 import Select from "./select/Select";
 import Text from "./text/Text";
 import TextField from "./textField/TextField";
-
+import TooltipMenu from "./tooltipMenu/TooltipMenu";
 
 export {
   MenuButton,
+  TooltipMenu,
   Modal,
   Button,
   Text,
