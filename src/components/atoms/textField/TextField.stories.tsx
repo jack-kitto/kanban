@@ -3,6 +3,7 @@ import { useArgs } from '@storybook/preview-api';
 
 import TextField, { TextFieldProps } from './TextField';
 import { z } from 'zod';
+import { colors } from '~/styles';
 
 const meta = {
   component: TextField,
@@ -19,8 +20,10 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     text: "text",
+    label: "label",
     setText: (): void => { },
     schema: z.string().min(1).max(10),
+    placeholder: "placeholder",
     validationErrors: [
       {
         message: "Can't be empty",
@@ -31,6 +34,38 @@ export const Default: Story = {
   },
   render: function Render(args: TextFieldProps): JSX.Element {
     const [{ text }, updateArgs] = useArgs();
-    return <TextField {...args} text={text} setText={(text: string) => { updateArgs({ text }) }} />;
+    return (
+      <TextField {...args} text={text} setText={(text: string) => { updateArgs({ text }) }} />
+    )
+  }
+};
+export const Dark: Story = {
+  args: {
+    text: "text",
+    setText: (): void => { },
+    label: "label",
+    placeholder: "placeholder",
+    schema: z.string().min(1).max(10),
+    validationErrors: [
+      {
+        message: "Can't be empty",
+        schema: z.string().min(1),
+        active: false
+      }
+    ]
+  },
+  parameters: {
+    backgrounds: {
+      default: 'dark',
+      values: [{ name: 'dark', value: colors.darkGray }]
+    }
+  },
+  render: function Render(args: TextFieldProps): JSX.Element {
+    const [{ text }, updateArgs] = useArgs();
+    return (
+      <div className='dark'>
+        <TextField {...args} text={text} setText={(text: string) => { updateArgs({ text }) }} />
+      </div>
+    )
   }
 };

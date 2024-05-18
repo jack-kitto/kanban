@@ -15,6 +15,8 @@ export interface TextFieldProps {
   maxLength?: number;
   errorText?: string;
   validationErrors?: ValidationError[];
+  placeholder?: string;
+  label?: string;
 }
 
 
@@ -48,18 +50,28 @@ export default function TextField(props: TextFieldProps): JSX.Element {
 
 
   return (
-    <div className="relative w-fit h-fit">
-      <p className={`${displayError} absolute right-0 h-full flex justify-center items-center pr-[15px] text-red transition-opacity duration-300 ease-in-out`}>
-        {error.message}
-      </p>
-      <input
-        className={`bg-white appearance-none border outline-none min-h-10 max-h-10 min-w-64 max-w-md ${borderStyles}  rounded h-10 w-full px-3 prose-hm transition-colors duration-300 ease-in-out`}
-        type="text"
-        maxLength={props.maxLength}
-        minLength={props.minLength}
-        value={text}
-        onChange={handleTextChange}
-      />
+    <div>
+      {
+        props.label && (
+          <span className="prose-bl text-mediumGray dark:text-white">
+            {props.label}
+          </span>
+        )
+      }
+      <div className="relative w-fit h-fit">
+        <p className={`${displayError} absolute prose-bl right-0 h-full flex justify-center items-center pr-[15px] text-red transition-opacity duration-300 ease-in-out`}>
+          {error.message}
+        </p>
+        <input
+          placeholder={props.placeholder}
+          className={`bg-white dark:bg-darkGray appearance-none border outline-none dark:text-white min-h-10 max-h-10 min-w-64 max-w-md ${borderStyles}  rounded h-10 w-full px-3 prose-bl transition-colors duration-300 ease-in-out`}
+          type="text"
+          maxLength={props.maxLength}
+          minLength={props.minLength}
+          value={text}
+          onChange={handleTextChange}
+        />
+      </div>
     </div>
   );
 }
