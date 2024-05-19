@@ -1,3 +1,5 @@
+import { ColourName } from "./atoms/bubble/Bubble";
+
 export type Subtask = {
   completed: boolean;
   title: string;
@@ -15,6 +17,7 @@ export type Task = {
 export type Column = {
   title: string;
   id: string;
+  colour: ColourName;
 }
 
 export type Project = {

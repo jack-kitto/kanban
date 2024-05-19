@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useArgs } from '@storybook/preview-api';
 import { DragDropContext } from "react-beautiful-dnd"
 import type { Task as TaskType } from '~/components/types';
 import { colors } from '~/styles';
-import Column from './Column';
+import Column, { ColumnProps } from './Column';
 
 const meta = {
   component: Column,
@@ -43,7 +44,7 @@ export const Light: Story = {
     id: "1",
     tasks: tasks,
     columns: columns,
-    column: { id: "To Do", title: "To Do" },
+    column: { id: "To Do", title: "To Do", colour: "Aquamarine" },
     updateTask: (): void => { console.log("updateTask") },
     onDeleteTask: (): void => { console.log("onDeleteTask") }
   },
@@ -53,11 +54,18 @@ export const Light: Story = {
       values: [{ name: 'light', value: colors.linesLight }],
     },
   },
-  render: (args) => (
-    <div className="w-96">
-      <DragDropContext onDragEnd={() => { console.log('drag end') }}>
-        <Column {...args} />
-      </DragDropContext>
-    </div>
-  )
+  render: (args) => {
+    const [{ tasks }, updateArgs] = useArgs<ColumnProps>();
+    return (
+      <div className="w-96">
+        <DragDropContext onDragEnd={() => { console.log('drag end') }}>
+          <Column
+            {...args}
+            tasks={tasks}
+            updateTask={(task: TaskType): void => updateArgs({ tasks: tasks.map(t => t.id === task.id ? task : t) })}
+          />
+        </DragDropContext>
+      </div>
+    )
+  }
 };
