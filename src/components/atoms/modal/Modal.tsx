@@ -30,7 +30,7 @@ export function Modal(props: ModalProps): JSX.Element {
   }, [props.open, props.close])
 
   return (
-    <div className={`${displayStyles} absolute w-full h-full`}>
+    <div className={`${displayStyles} absolute top-0 left-0 right-0 bottom-0 w-full h-full`}>
       <button onClick={props.close} className={`${displayStyles} absolute z-0 cursor-default bg-black bg-opacity-50 w-full h-full`} />
       <div className="z-10 align-middle w-1/3 m-auto p-4 rounded-lg">
         {props.children}
