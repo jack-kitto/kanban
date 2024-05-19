@@ -9,6 +9,8 @@ export interface TaskProps {
   columns: string[];
   updateTask: (task: Task) => void;
   onDeleteTask: (task: Task) => void;
+  index: number;
+  id?: string;
 }
 
 export default function Task(props: TaskProps): JSX.Element {
@@ -35,10 +37,14 @@ export default function Task(props: TaskProps): JSX.Element {
   return (
     <>
       <Button
-        btn={{ onClick: (): void => setShowTaskDetail(true) }}
+        btn={{
+          onClick: (): void => setShowTaskDetail(true)
+        }}
       >
         <TaskCard
           title={props.task.title}
+          id={props.id}
+          index={props.index}
           subtitle={subtitle}
         />
       </Button>

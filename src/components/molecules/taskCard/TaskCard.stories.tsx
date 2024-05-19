@@ -18,6 +18,7 @@ type Story = StoryObj<typeof meta>;
 export const Light: Story = {
   args: {
     title: "Title",
+    index: 0,
     subtitle: "Subtitle"
   }
 };
@@ -25,6 +26,7 @@ export const Light: Story = {
 export const Dark: Story = {
   args: {
     title: "Title",
+    index: 0,
     subtitle: "Subtitle"
   },
   parameters: {

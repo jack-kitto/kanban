@@ -36,6 +36,7 @@ export const Light: Story = {
   args: {
     task: task,
     updateTask: (): void => { console.log("updateTask") },
+    index: 0,
     onDeleteTask: (): void => { console.log("onDeleteTask") },
     columns: columns
   },
