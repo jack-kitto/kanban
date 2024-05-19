@@ -19,6 +19,13 @@ export const Primary: Story = {
   }
 }
 
+export const Disabled: Story = {
+  args: {
+    text: "Disabled",
+    type: "primary",
+    disabled: true,
+  }
+}
 export const Secondary: Story = {
   args: {
     text: "Secondary",
