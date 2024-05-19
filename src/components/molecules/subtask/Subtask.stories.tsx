@@ -101,7 +101,7 @@ export const Dark: Story = {
 export const DarkEditing: Story = {
   args: {
     checked: true,
-    editing: false,
+    editing: true,
     onDelete: (): void => { console.log("onDelete") },
     setText: (): void => { console.log("setText") },
     setChecked: (): void => { console.log("setChecked") },
