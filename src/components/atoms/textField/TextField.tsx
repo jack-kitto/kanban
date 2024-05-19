@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCallback, useMemo } from "react";
 import { z } from "zod";
 
@@ -23,7 +23,11 @@ export interface TextFieldProps {
 
 
 export default function TextField(props: TextFieldProps): JSX.Element {
-  const { text, setText } = props;
+  const [text, setText] = useState(props.text);
+
+  useEffect((): void => {
+    props.setText(text);
+  }, [text]);
 
   const error: ValidationError = useMemo((): ValidationError => {
     if (!props.validationErrors) return { message: '', schema: z.string().min(1), active: false };
@@ -33,7 +37,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       }
     }
     return { message: '', schema: z.string().min(1), active: false };
-  }, [text, props.validationErrors]);
+  }, [text, props.validationErrors])
 
   const borderStyles = useMemo((): string => {
     return !error.active ? 'border-linesLight' : 'border-red';
