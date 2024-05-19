@@ -30,7 +30,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
 
   useEffect((): void => {
     updateText(text, props.setText)
-  }, [text, props.setText]);
+  }, [text]);
 
   const error: ValidationError = useMemo((): ValidationError => {
     if (!props.validationErrors) return { message: '', schema: z.string().min(1), active: false };
