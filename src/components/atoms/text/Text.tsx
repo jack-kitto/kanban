@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Colors, colors } from "~/styles";
+import { type Colors, colors } from "~/styles";
 
 const textTypes = ['hxl', 'hl', 'hm', 'hs', 'bl', 'bm'] as const;
 export type TextType = typeof textTypes[number];
@@ -15,18 +15,18 @@ export default function Text(props: TextProps) {
   const { children, type, style, text, color } = props;
 
   const content = useMemo(() => {
-    return children || text
+    return children ?? text
   }, [children, text]);
 
   const args = useMemo(() => {
     return {
       className: `prose-${type}`,
       style: {
-        color: colors[color || 'black'],
+        color: colors[color ?? 'black'],
         ...style,
       }
     }
-  }, [type]);
+  }, [type, color, style]);
 
   if (!textTypes.includes(type)) {
     throw new Error(`Invalid text type: ${type}`);

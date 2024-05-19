@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 export interface ModalProps {
   open: boolean;
@@ -6,6 +6,11 @@ export interface ModalProps {
   children: JSX.Element;
 }
 
+function handleEscape(e: KeyboardEvent, onClose: () => void): void {
+  if (e.key === 'Escape') {
+    onClose();
+  }
+}
 
 export function Modal(props: ModalProps): JSX.Element {
   const displayStyles = useMemo(() => {
@@ -17,18 +22,12 @@ export function Modal(props: ModalProps): JSX.Element {
     }
   }, [props.open])
 
-  const handleEscape = useCallback((e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      props.close();
-    }
-  }, [props.close]);
-
   useEffect(() => {
-    window.addEventListener('keydown', handleEscape);
+    window.addEventListener('keydown', (e) => handleEscape(e, props.close));
     return () => {
-      window.removeEventListener('keydown', handleEscape);
+      window.removeEventListener('keydown', (e) => handleEscape(e, props.close));
     };
-  }, [props.open])
+  }, [props.open, props.close])
 
   return (
     <div className={`${displayStyles} absolute w-full h-full`}>

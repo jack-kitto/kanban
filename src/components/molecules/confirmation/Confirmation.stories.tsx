@@ -21,8 +21,8 @@ export const Light: Story = {
     message: "message",
     confirmText: "confirmText",
     cancelText: "cancelText",
-    onConfirm: () => { },
-    onCancel: () => { }
+    onConfirm: (): void => { console.log("onConfirm") },
+    onCancel: (): void => { console.log("onCancel") },
   },
   parameters: {
     backgrounds: {
@@ -38,8 +38,8 @@ export const Dark: Story = {
     message: "message",
     confirmText: "confirmText",
     cancelText: "cancelText",
-    onConfirm: () => { },
-    onCancel: () => { }
+    onConfirm: (): void => { console.log("onConfirm") },
+    onCancel: (): void => { console.log("onCancel") },
   },
   parameters: {
     backgrounds: {

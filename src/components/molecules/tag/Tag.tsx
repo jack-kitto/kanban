@@ -1,4 +1,4 @@
-import Bubble, { ColourName } from "~/components/atoms/bubble/Bubble";
+import Bubble, { type ColourName } from "~/components/atoms/bubble/Bubble";
 
 export interface TagProps {
   colour: ColourName,

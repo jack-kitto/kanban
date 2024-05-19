@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 
-import { Modal, ModalProps } from './Modal';
+import { Modal, type ModalProps } from './Modal';
 import Button from '../button/Button';
 
 const meta = {
@@ -16,16 +16,16 @@ export const Default: Story = {
   args: {
     open: true,
     children: <div className="bg-red p-12"></div>,
-    close: () => { }
+    close: (): void => { console.log("close") }
   },
   render: function Render(args: ModalProps): JSX.Element {
-    const [{ open }, updateArgs] = useArgs();
+    const [{ open }, updateArgs] = useArgs<ModalProps>();
     return (
       <div className="dark">
         <Modal
           {...args}
           open={open}
-          close={() => updateArgs({ open: false })}
+          close={(): void => updateArgs({ open: false })}
         >
           <div className="bg-red p-12 flex justify-center">
             <Button btn={{ onClick: () => updateArgs({ open: false }) }} type="secondary" text="Close" />

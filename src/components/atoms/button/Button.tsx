@@ -39,7 +39,7 @@ const roundMap = {
 
 export default function Button(props: ButtonProps): JSX.Element {
   return (
-    <button {...props.btn} className={`${bgMap[props.type]} ${hoverBgMap[props.type]} ${textMap[props.type]} px-5 prose-hm max-w-[255px] ${sizeMap[props.size ?? 'sm']} w-full ${roundMap[props.size ?? 'sm']} transition hover-duration-150 ease-in-out hover:scale-125 active:scale-90 select-none`}>
+    <button {...props.btn} className={`${bgMap[props.type]} ${hoverBgMap[props.type]} ${textMap[props.type]} px-5 prose-hm ${sizeMap[props.size ?? 'sm']} w-full ${roundMap[props.size ?? 'sm']} transition hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
       {props.text}
     </button>
   )

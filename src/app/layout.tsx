@@ -12,6 +12,7 @@ export const metadata = {
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
+  subsets: ['latin']
 })
 
 export default function RootLayout({

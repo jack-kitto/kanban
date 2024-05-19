@@ -1,6 +1,6 @@
-import { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react";
 import { useArgs } from '@storybook/preview-api';
-import Checkbox, { CheckboxProps } from "./Checkbox";
+import Checkbox, { type CheckboxProps } from "./Checkbox";
 import { colors } from "~/styles";
 
 const meta: Meta = {
@@ -18,15 +18,14 @@ type Story = StoryObj<typeof Checkbox>;
 export const Light: Story = {
   args: {
     checked: false,
-    setChecked: (_: boolean): void => { },
   },
   render: function Render(args: CheckboxProps): JSX.Element {
-    const [{ checked }, updateArgs] = useArgs();
+    const [{ checked }, updateArgs] = useArgs<CheckboxProps>();
     return (
       <Checkbox
         {...args}
         checked={checked}
-        setChecked={(checked: boolean) => {
+        setChecked={(checked: boolean): void => {
           updateArgs({ checked });
         }}
       />
@@ -37,7 +36,6 @@ export const Light: Story = {
 export const Dark: Story = {
   args: {
     checked: false,
-    setChecked: (_: boolean): void => { },
   },
   parameters: {
     backgrounds: {
@@ -46,13 +44,13 @@ export const Dark: Story = {
     }
   },
   render: function Render(args: CheckboxProps): JSX.Element {
-    const [{ checked }, updateArgs] = useArgs();
+    const [{ checked }, updateArgs] = useArgs<CheckboxProps>();
     return (
       <div className="dark">
         <Checkbox
           {...args}
           checked={checked}
-          setChecked={(checked: boolean) => {
+          setChecked={(checked: boolean): void => {
             updateArgs({ checked });
           }}
         />

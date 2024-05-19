@@ -20,11 +20,11 @@ export const Left: Story = {
     options: [
       {
         text: 'Option 1',
-        onClick: () => { }
+        onClick: (): void => { console.log("Option 1") }
       },
       {
         text: 'Option 2',
-        onClick: () => { },
+        onClick: (): void => { console.log("Option 2") },
         destructive: true
       }
     ],

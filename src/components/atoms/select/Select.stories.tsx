@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 
-import Select from './Select';
+import Select, { type SelectProps } from './Select';
 import { colors } from '~/styles';
 
 const meta = {
@@ -22,10 +22,10 @@ export const Light: Story = {
     options: ["Todo", "Doing", "Done"],
     label: "label",
     selected: "selected",
-    setSelected: () => { }
+    setSelected: (): void => { console.log("selected") }
   },
   render: function Render(args) {
-    const [{ options, selected }, updateArgs] = useArgs();
+    const [{ options, selected }, updateArgs] = useArgs<SelectProps>();
     return <Select {...args} options={options} selected={selected} setSelected={(selected: string) => { updateArgs({ selected }) }} />;
   }
 };
@@ -35,7 +35,7 @@ export const Dark: Story = {
     options: ["Todo", "Doing", "Done"],
     label: "label",
     selected: "selected",
-    setSelected: () => { }
+    setSelected: (): void => { console.log("selected") }
   },
   parameters: {
     backgrounds: {
@@ -44,7 +44,7 @@ export const Dark: Story = {
     }
   },
   render: function Render(args) {
-    const [{ options, selected }, updateArgs] = useArgs();
+    const [{ options, selected }, updateArgs] = useArgs<SelectProps>();
     return (
       <div className="dark">
         <Select {...args} options={options} selected={selected} setSelected={(selected: string) => { updateArgs({ selected }) }} />

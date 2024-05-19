@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 
-import Subtask, { SubtaskProps } from './Subtask';
+import Subtask, { type SubtaskProps } from './Subtask';
 import { colors } from '~/styles';
 
 const meta = {
@@ -19,11 +19,11 @@ type Story = StoryObj<typeof meta>;
 export const Light: Story = {
   args: {
     checked: true,
-    setChecked: () => { },
+    setChecked: (): void => { console.log("setChecked") },
     text: "text"
   },
   render: function Render(args: SubtaskProps): JSX.Element {
-    const [{ checked }, updateArgs] = useArgs();
+    const [{ checked }, updateArgs] = useArgs<SubtaskProps>();
     return (
       <Subtask
         {...args}
@@ -39,7 +39,7 @@ export const Light: Story = {
 export const Dark: Story = {
   args: {
     checked: true,
-    setChecked: () => { },
+    setChecked: (): void => { console.log("setChecked") },
     text: "text"
   },
   parameters: {
@@ -49,7 +49,7 @@ export const Dark: Story = {
     }
   },
   render: function Render(args: SubtaskProps): JSX.Element {
-    const [{ checked }, updateArgs] = useArgs();
+    const [{ checked }, updateArgs] = useArgs<SubtaskProps>();
     return (
       <div className='dark'>
         <Subtask
