@@ -12,14 +12,24 @@ export type Subtask = {
   id?: string;
 }
 
+export type Task = {
+  title: string;
+  description: string;
+  subtasks: Subtask[];
+  id: string;
+  currentColumn: string;
+  columns: string[];
+}
+
 export interface TaskDetailProps {
   title?: string;
   description?: string;
   subtasks?: Subtask[];
-  onSubtaskToggle?: (id: string) => void;
   id?: string;
   columns?: string[];
   currentColumn?: string;
+
+  onSubtaskToggle?: (id: string) => void;
   setCurrentColumn?: (column: string) => void;
   menuOptions: TooltipMenuOption[];
   editing: boolean;
