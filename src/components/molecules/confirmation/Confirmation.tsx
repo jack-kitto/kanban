@@ -16,7 +16,7 @@ export function Confirmation(props: ConfirmationProps): JSX.Element {
       <p className="prose-bl text-mediumGray">{props.message}</p>
       <div className="flex gap-4 py-6">
         <Button btn={{ onClick: props.onConfirm }} type="destructive" text={props.confirmText} />
-        <Button btn={{ onClick: props.onConfirm }} type="secondary" text={props.confirmText} />
+        <Button btn={{ onClick: props.onCancel }} type="secondary" text={props.cancelText} />
       </div>
     </div>
   );
