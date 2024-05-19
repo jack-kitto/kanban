@@ -32,7 +32,6 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
       >
         <TaskDetail
           columns={props.columns}
-          visible={showTaskDetail}
           newTask={newTask}
           editing={editing}
           setEditing={setEditing}
