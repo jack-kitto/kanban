@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
-import TaskDetail, { type Subtask, type TaskDetailProps } from './TaskDetail';
+import TaskDetail, { type TaskDetailProps, type Task } from './TaskDetail';
 import { colors } from '~/styles';
 
 const meta = {
@@ -35,23 +35,24 @@ const columns = [
   "Done"
 ]
 
+const task = {
+  title: "Research pricing points of various competitors and trial different business models",
+  id: "1",
+  currentColumn: "To Do",
+  columns,
+  description: "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+  subtasks,
+}
+
 export const Light: Story = {
   args: {
+    task,
     menuOptions: options,
     newTask: false,
     saveChanges: (): void => { console.log("saveChanges") },
     editing: false,
-    createSubtask: (): void => { console.log("createSubtask") },
     setEditing: (): void => { console.log("setEditing") },
     setNewTask: (): void => { console.log("setNewTask") },
-    title: "Research pricing points of various competitors and trial different business models",
-    id: "1",
-    currentColumn: "To Do",
-    columns,
-    setCurrentColumn: (): void => { console.log("setCurrentColumn") },
-    description: "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
-    subtasks,
-    onSubtaskToggle: (): void => { console.log("onSubtaskToggle") }
   },
   parameters: {
     backgrounds: {
@@ -62,37 +63,20 @@ export const Light: Story = {
     }
   },
   render: (props) => {
-    const [{ subtasks, editing }, updateArgs] = useArgs<TaskDetailProps>();
+    const [{ task, editing }, updateArgs] = useArgs<TaskDetailProps>();
     return (
       <div className='w-full'>
         <TaskDetail
           {...props}
-          subtasks={subtasks}
+          task={task}
+          newTask={false}
           setNewTask={(newTask: boolean): void => { updateArgs({ newTask }) }}
-          onSubtaskToggle={(id: string): void => {
-            console.log("TOGGLE", id)
-            const newSubtasks = subtasks?.map((subtask: Subtask): Subtask => {
-              console.log("SUBTASK", subtask)
-              if (subtask.id === id) {
-                return {
-                  ...subtask,
-                  completed: !subtask.completed
-                }
-              }
-              return subtask
-            })
-            updateArgs({ subtasks: newSubtasks })
-          }}
-          setCurrentColumn={(column: string): void => {
-            updateArgs({ currentColumn: column })
+          saveChanges={(task: Task): void => {
+            console.log("saveChanges", task)
+            updateArgs({ task })
           }}
           setEditing={(editing: boolean): void => { updateArgs({ editing }) }}
           editing={editing}
-          createSubtask={(title?: string): void => {
-            const arr = subtasks ?? []
-            const newSubtask: Subtask = { title: `${title}`, completed: false, id: `${arr.length}` }
-            updateArgs({ subtasks: [...arr, newSubtask] })
-          }}
           menuOptions={[
             {
               text: "Edit Task",
