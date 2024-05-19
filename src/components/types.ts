@@ -1,4 +1,4 @@
-import { ColourName } from "./atoms/bubble/Bubble";
+import type { ColourName } from "./atoms/bubble/Bubble";
 
 export type Subtask = {
   completed: boolean;

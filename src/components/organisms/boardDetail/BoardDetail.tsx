@@ -22,7 +22,8 @@ export interface BoardDetailProps {
 function createColumn(title?: string): Column {
   return {
     title: title ?? '',
-    id: createId()
+    id: createId(),
+    colour: 'Aqua Blue'
   }
 }
 

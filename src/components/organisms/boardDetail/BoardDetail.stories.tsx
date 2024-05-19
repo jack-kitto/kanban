@@ -15,9 +15,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 const columns: Column[] = [
-  { title: "Todo", id: "1" },
-  { title: "Doing", id: "2" },
-  { title: "Done", id: "3" }
+  { title: "Todo", id: "1", colour: "Aquamarine" },
+  { title: "Doing", id: "2", colour: "Violet" },
+  { title: "Done", id: "3", colour: "Jordy Blue" }
 ]
 const options = [
   {

@@ -1,6 +1,6 @@
 import type { Column, Task as TaskType } from "~/components/types";
 import Task from "~/components/organisms/task/Task";
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable, type DroppableProvided } from 'react-beautiful-dnd';
 
 export interface TaskListProps {
   tasks: TaskType[]
@@ -18,7 +18,7 @@ export default function TaskList(props: TaskListProps): JSX.Element {
       isDropDisabled={false}
       isCombineEnabled={false}
     >
-      {(dropProvided, dropSnapshot) => (
+      {(dropProvided: DroppableProvided): JSX.Element => (
         <div
           className="flex flex-col"
           ref={dropProvided.innerRef}

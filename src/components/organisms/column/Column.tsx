@@ -1,6 +1,6 @@
 import React from "react";
 import TaskList from "../taskList/TaskList";
-import { Column as ColumnType, Task } from "~/components/types";
+import type { Column as ColumnType, Task } from "~/components/types";
 import { Tag } from "~/components/molecules";
 
 export interface ColumnProps {

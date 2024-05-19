@@ -3,7 +3,7 @@ import { useArgs } from '@storybook/preview-api';
 import { DragDropContext } from "react-beautiful-dnd"
 import type { Task as TaskType } from '~/components/types';
 import { colors } from '~/styles';
-import Column, { ColumnProps } from './Column';
+import Column, { type ColumnProps } from './Column';
 
 const meta = {
   component: Column,
@@ -15,11 +15,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const subtasks = [
-  { completed: false, title: "subtask 1", id: "1" },
-  { completed: true, title: "subtask 2", id: "2" },
-  { completed: false, title: "subtask 3", id: "3" }
-]
 const columns = [
   "To Do",
   "In Progress",

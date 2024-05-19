@@ -1,4 +1,4 @@
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable, type DraggableProvided } from 'react-beautiful-dnd';
 export interface TaskCardProps {
   title: string;
   subtitle: string;
@@ -21,7 +21,7 @@ export default function TaskCard(props: TaskCardProps): JSX.Element {
 
   return (
     <Draggable key={`${props.id}`} draggableId={`${props.id}`} index={props.index}>
-      {(dragProvided, dragSnapshot) => {
+      {(dragProvided: DraggableProvided): JSX.Element => {
         return (
           <div
             ref={dragProvided.innerRef}

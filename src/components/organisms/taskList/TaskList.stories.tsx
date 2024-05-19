@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import TaskList from './TaskList';
 import type { Task as TaskType } from '~/components/types';
 import { colors } from '~/styles';
@@ -14,11 +14,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const subtasks = [
-  { completed: false, title: "subtask 1", id: "1" },
-  { completed: true, title: "subtask 2", id: "2" },
-  { completed: false, title: "subtask 3", id: "3" }
-]
 const columns = [
   "To Do",
   "In Progress",
@@ -41,7 +36,7 @@ export const Light: Story = {
   args: {
     tasks: tasks,
     columns: columns,
-    column: { id: "To Do", title: "To Do" },
+    column: { id: "To Do", title: "To Do", colour: "Aquamarine" },
     updateTask: (): void => { console.log("updateTask") },
     onDeleteTask: (): void => { console.log("onDeleteTask") }
   },
