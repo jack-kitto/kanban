@@ -12,7 +12,7 @@ function handleEscape(e: KeyboardEvent, onClose: () => void): void {
   }
 }
 
-export function Modal(props: ModalProps): JSX.Element {
+export function Modal(props: ModalProps): JSX.Element | null {
   const displayStyles = useMemo(() => {
     if (props.open) {
       return 'flex'
@@ -28,6 +28,7 @@ export function Modal(props: ModalProps): JSX.Element {
       window.removeEventListener('keydown', (e) => handleEscape(e, props.close));
     };
   }, [props.open, props.close])
+  if (!props.open) return null
 
   return (
     <div className={`${displayStyles} absolute top-0 left-0 right-0 bottom-0 w-full h-full`}>
