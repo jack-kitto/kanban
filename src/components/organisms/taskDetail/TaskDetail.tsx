@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useReducer } from "react";
+import { useEffect, useMemo, useReducer, useState } from "react";
 import { createId } from '@paralleldrive/cuid2';
 import { ActionTypes, reducer } from "./reducer";
 import { z } from "zod";
 import { Button, MenuButton, Select, TextField, TooltipMenu } from "~/components/atoms";
 import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMenu";
 import { Subtask } from "~/components/molecules";
+import { Icon } from "~/components/atoms/icon";
+import { colors } from "~/styles";
 
 export type Subtask = {
   completed: boolean;
@@ -18,14 +20,14 @@ export type Task = {
   subtasks: Subtask[];
   id: string;
   currentColumn: string;
-  columns: string[];
 }
 
 export interface TaskDetailProps {
-  task: Task;
+  task?: Task;
   menuOptions: TooltipMenuOption[];
   editing: boolean;
   newTask: boolean;
+  columns: string[];
   setNewTask: (newTask: boolean) => void;
   setEditing: (editing: boolean) => void;
   saveChanges: (task: Task) => void;
@@ -39,8 +41,19 @@ function createSubtask(title?: string): Subtask {
   }
 }
 
+function createNewTask(): Task {
+  return {
+    title: '',
+    description: '',
+    subtasks: [],
+    id: createId(),
+    currentColumn: '',
+  }
+}
+
 export default function TaskDetail(props: TaskDetailProps): JSX.Element {
-  const [task, dispatch] = useReducer(reducer, props.task);
+  const [task, dispatch] = useReducer(reducer, props.task ?? createNewTask());
+  const [newSubtask, setNewSubtask] = useState<string>('');
   const completedSubtasks = useMemo((): number => {
     if (!task.subtasks) {
       return 0;
@@ -60,7 +73,8 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
   }, [task]);
 
   useEffect((): void => {
-    dispatch({ type: ActionTypes.SET_TASK, payload: props.task });
+    if (props.task)
+      dispatch({ type: ActionTypes.SET_TASK, payload: props.task });
   }, [props.task]);
 
   return (
@@ -93,21 +107,31 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
             <>
               <div className="flex w-full justify-between items-center gap-6">
                 <h2 className="prose-hl dark:text-white">
-                  {props.task.title}
+                  {task.title}
                 </h2>
                 <TooltipMenu options={props.menuOptions} angle="S">
                   <MenuButton type="hover" />
                 </TooltipMenu>
               </div>
               <span className="prose-bl text-mediumGray py-6">
-                {props.task.description}
+                {task.description}
               </span>
             </>
           )
       }
-      <span className="prose-bm text-mediumGray dark:text-white py-4">
-        Subtasks {props.newTask || `(${completedSubtasks} of ${totalSubtasks})`}
-      </span>
+      {
+        task.subtasks.length > 0 && (
+          <span className="prose-bm text-mediumGray dark:text-white py-4">
+            Subtasks {
+              props.newTask
+                ? ''
+                : props.editing
+                  ? ''
+                  : `(${completedSubtasks} of ${totalSubtasks})`
+            }
+          </span>
+        )
+      }
       <div className="w-full flex flex-col gap-2">
         {task.subtasks.map((subtask: Subtask, index: number): JSX.Element => (
           <div key={`${subtask.id} ${index}`} className="w-full">
@@ -125,21 +149,19 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
           </div>
         ))}
 
-        {/* {props.newTask && task.subtasks.length < 1 && ( */}
-        {/*   <div className="flex gap-2 justify-between w-full items-center "> */}
-        {/*     <TextField */}
-        {/*       placeholder="e.g. Make coffee" */}
-        {/*       text={newSubtask} */}
-        {/*       validationErrors={[{ message: 'Required', schema: z.string().min(1), active: false }]} */}
-        {/*       setText={setNewSubtask} */}
-        {/*     /> */}
-        {/*     <Icon icon="Save" onClick={(): void => { */}
-        {/*       // props.createSubtask(newSubtask) */}
-        {/*       setSubtasks([...subtasks, { title: newSubtask, completed: false }]) */}
-        {/*       setNewSubtask('') */}
-        {/*     }} color={colors.mediumGray} size="small" /> */}
-        {/*   </div> */}
-        {/* )} */}
+        {props.newTask && task.subtasks.length < 1 && (
+          <div className="flex gap-2 justify-between w-full items-center ">
+            <TextField
+              placeholder="e.g. Make coffee"
+              text={newSubtask}
+              setText={setNewSubtask}
+            />
+            <Icon icon="Save" onClick={(): void => {
+              dispatch({ type: ActionTypes.ADD_SUBTASK, payload: createSubtask(newSubtask) })
+              setNewSubtask('')
+            }} color={colors.mediumGray} size="small" />
+          </div>
+        )}
         {
           props.editing && (
             <div className="pt-6">
@@ -158,9 +180,9 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
       <span className="prose-bl text-mediumGray dark:text-white py-2 pt-5">
         {props.newTask ? 'Status' : 'Current Status'}
       </span>
-      {props.task.columns && props.task.currentColumn && (
+      {props.columns && (
         <Select
-          options={task.columns}
+          options={props.columns}
           selected={task.currentColumn}
           setSelected={(column: string): void => dispatch({ type: ActionTypes.SET_COLUMN, payload: column })}
         />
