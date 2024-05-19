@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Modal } from "~/components/atoms";
-import { TaskCard } from "~/components/molecules";
+import { Confirmation, TaskCard } from "~/components/molecules";
 import type { Subtask, Task } from "~/components/types";
 import TaskDetail from "../taskDetail/TaskDetail";
 
@@ -16,6 +16,7 @@ export interface TaskProps {
 export default function Task(props: TaskProps): JSX.Element {
   const [showTaskDetail, setShowTaskDetail] = useState<boolean>(false)
   const [editing, setEditing] = useState<boolean>(false)
+  const [confirmationOpen, setConfirmationOpen] = useState<boolean>(false)
   const completedSubtasks = useMemo((): number => {
     if (!props.task.subtasks) {
       return 0;
@@ -62,7 +63,10 @@ export default function Task(props: TaskProps): JSX.Element {
             },
             {
               destructive: true,
-              onClick: (): void => { (): void => props.onDeleteTask(props.task) },
+              onClick: (): void => {
+                setShowTaskDetail(false)
+                setConfirmationOpen(true)
+              },
               text: 'Delete Task'
             }
           ]}
@@ -71,6 +75,26 @@ export default function Task(props: TaskProps): JSX.Element {
         />
       </Modal>
 
+      <Modal
+        open={confirmationOpen}
+        close={(): void => setConfirmationOpen(false)}
+      >
+        <Confirmation
+          title="Delete this task?"
+          message={`Are you sure you want to delete the '${props.task.title}' task and its subtasks? This action cannot be reversed.`}
+          confirmText="Delete"
+          cancelText="Cancel"
+          onConfirm={(): void => {
+            setShowTaskDetail(false)
+            setConfirmationOpen(false)
+            props.onDeleteTask(props.task)
+          }}
+          onCancel={(): void => {
+            setShowTaskDetail(true)
+            setConfirmationOpen(false)
+          }}
+        />
+      </Modal>
     </>
   );
 }
