@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Button, Modal } from "~/components/atoms";
+import { Modal } from "~/components/atoms";
 import { TaskCard } from "~/components/molecules";
 import type { Subtask, Task } from "~/components/types";
 import TaskDetail from "../taskDetail/TaskDetail";
@@ -31,15 +31,13 @@ export default function Task(props: TaskProps): JSX.Element {
   }, [props.task.subtasks]);
 
   const subtitle = useMemo((): string => {
-    return `${completedSubtasks} of ${totalSubtasks} subtasks completed`
+    return `${completedSubtasks} of ${totalSubtasks} subtasks`
   }, [completedSubtasks, totalSubtasks]);
 
   return (
     <>
-      <Button
-        btn={{
-          onClick: (): void => setShowTaskDetail(true)
-        }}
+      <button
+        onClick={(): void => setShowTaskDetail(true)}
       >
         <TaskCard
           title={props.task.title}
@@ -47,7 +45,7 @@ export default function Task(props: TaskProps): JSX.Element {
           index={props.index}
           subtitle={subtitle}
         />
-      </Button>
+      </button>
       <Modal
         open={showTaskDetail}
         close={(): void => setShowTaskDetail(false)}
