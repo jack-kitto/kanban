@@ -7,18 +7,7 @@ import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMe
 import { EditableCheckboxInput } from "~/components/molecules";
 import { colors } from "~/styles";
 import { ActionTypes, reducer } from "./reducer";
-
-export type Column = {
-  title: string;
-  id: string;
-}
-
-export type Project = {
-  title: string;
-  description: string;
-  columns: Column[];
-  id: string;
-}
+import type { Column, Project } from '~/components/types';
 
 export interface BoardDetailProps {
   project?: Project;
@@ -47,7 +36,7 @@ function createNewProject(): Project {
 }
 
 export default function BoardDetail(props: BoardDetailProps): JSX.Element {
-  const [project, dispatch] = useReducer(reducer, props.project ?? createNewProject());
+  const [project, dispatch] = useReducer<typeof reducer>(reducer, props.project ?? createNewProject());
   const [newColumn, setNewColumn] = useState<string>('');
 
   useEffect((): void => {

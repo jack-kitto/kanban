@@ -7,20 +7,7 @@ import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMe
 import { EditableCheckboxInput } from "~/components/molecules";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
-
-export type Subtask = {
-  completed: boolean;
-  title: string;
-  id: string;
-}
-
-export type Task = {
-  title: string;
-  description: string;
-  subtasks: Subtask[];
-  id: string;
-  currentColumn: string;
-}
+import type { Subtask, Task } from "~/components/types";
 
 export interface TaskDetailProps {
   task?: Task;
@@ -52,7 +39,7 @@ function createNewTask(): Task {
 }
 
 export default function TaskDetail(props: TaskDetailProps): JSX.Element {
-  const [task, dispatch] = useReducer(reducer, props.task ?? createNewTask());
+  const [task, dispatch] = useReducer<typeof reducer>(reducer, props.task ?? createNewTask());
   const [newSubtask, setNewSubtask] = useState<string>('');
   const completedSubtasks = useMemo((): number => {
     if (!task.subtasks) {

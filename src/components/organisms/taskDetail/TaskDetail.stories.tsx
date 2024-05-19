@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
-import TaskDetail, { type TaskDetailProps, type Task } from './TaskDetail';
+import TaskDetail, { type TaskDetailProps } from './TaskDetail';
 import { colors } from '~/styles';
+import type { Task } from '~/components/types';
 
 const meta = {
   component: TaskDetail,

@@ -1,8 +1,9 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
-import BoardDetail, { type BoardDetailProps, type Project, Column } from './BoardDetail';
+import BoardDetail, { type BoardDetailProps } from './BoardDetail';
 import { colors } from '~/styles';
+import type { Column, Project } from '~/components/types';
 
 const meta = {
   component: BoardDetail,

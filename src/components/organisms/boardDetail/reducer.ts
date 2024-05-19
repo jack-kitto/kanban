@@ -1,4 +1,4 @@
-import type { Column, Project } from "./BoardDetail";
+import type { Column, Project } from "~/components/types";
 
 export const ActionTypes = {
   SET_TITLE: 'SET_TITLE',
