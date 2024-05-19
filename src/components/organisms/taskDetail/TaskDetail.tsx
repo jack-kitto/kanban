@@ -15,7 +15,7 @@ export interface TaskDetailProps {
   editing: boolean;
   newTask: boolean;
   columns: string[];
-  setNewTask: (newTask: boolean) => void;
+  setNewTask?: (newTask: boolean) => void;
   setEditing: (editing: boolean) => void;
   saveChanges: (task: Task) => void;
 }
@@ -56,13 +56,19 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
   }, [task.subtasks]);
 
   useEffect((): void => {
-    console.log('task', task)
-  }, [task]);
-
-  useEffect((): void => {
     if (props.task)
       dispatch({ type: ActionTypes.SET_TASK, payload: props.task });
   }, [props.task]);
+
+  useEffect((): void => {
+    if (task.subtasks.length === 0) {
+      return;
+    }
+    if (props.editing) {
+      return;
+    }
+    props.saveChanges(task);
+  }, [task.subtasks]);
 
   return (
     <div className="bg-white flex flex-col dark:bg-darkGray md:w-[480px] w-[280px] p-2 md:p-8 min-w-[280px] max-w-[480px] h-full">
@@ -135,7 +141,6 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
               }} />
           </div>
         ))}
-
         {props.newTask && task.subtasks.length < 1 && (
           <div className="flex gap-2 justify-between w-full items-center ">
             <TextField
@@ -182,7 +187,8 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
               btn={{
                 onClick: (): void => {
                   props.saveChanges(task)
-                  props.setNewTask(false)
+                  if (props.setNewTask)
+                    props.setNewTask(false)
                   props.setEditing(false)
                 }
               }}
