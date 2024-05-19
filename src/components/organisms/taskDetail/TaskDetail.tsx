@@ -47,28 +47,17 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
     }
     return task.subtasks.filter((subtask: Subtask): boolean => subtask.completed).length;
   }, [task.subtasks]);
-
   const totalSubtasks = useMemo((): number => {
     if (!task.subtasks) {
       return 0;
     }
     return task.subtasks.length;
   }, [task.subtasks]);
-
   useEffect((): void => {
     if (props.task)
       dispatch({ type: ActionTypes.SET_TASK, payload: props.task });
   }, [props.task]);
 
-  useEffect((): void => {
-    if (task.subtasks.length === 0) {
-      return;
-    }
-    if (props.editing) {
-      return;
-    }
-    props.saveChanges(task);
-  }, [task.subtasks]);
 
   return (
     <div className="bg-white flex flex-col dark:bg-darkGray md:w-[480px] w-[280px] p-2 md:p-8 min-w-[280px] max-w-[480px] h-full">
@@ -135,9 +124,15 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
               editing={props.editing}
               checked={subtask.completed}
               setChecked={(): void => {
-                console.log('subtask.id', subtask.id)
-                if (subtask.id)
-                  dispatch({ type: ActionTypes.TOGGLE_SUBTASK, payload: subtask.id })
+                const newTask = { ...task }
+                newTask.subtasks = newTask.subtasks.map((st: Subtask): Subtask => {
+                  if (st.id === subtask.id) {
+                    st.completed = !st.completed
+                  }
+                  return st
+                })
+                dispatch({ type: ActionTypes.SET_TASK, payload: newTask })
+                props.saveChanges(newTask)
               }} />
           </div>
         ))}
