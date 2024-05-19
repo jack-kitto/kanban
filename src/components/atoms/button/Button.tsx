@@ -2,11 +2,12 @@ const buttonTypes = ['primary', 'secondary', 'destructive'] as const
 export type ButtonType = typeof buttonTypes[number]
 
 export interface ButtonProps {
-  text: string
+  text?: string
   style?: React.CSSProperties
-  type: ButtonType
+  type?: ButtonType
   btn?: React.ButtonHTMLAttributes<HTMLButtonElement>
   size?: 'sm' | 'lg'
+  children?: React.ReactNode
 }
 
 const bgMap: Record<ButtonType, string> = {
@@ -38,8 +39,16 @@ const roundMap = {
 }
 
 export default function Button(props: ButtonProps): JSX.Element {
+
+  if (props.children) {
+    return (
+      <button {...props.btn} className={`transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
+        {props.children}
+      </button>
+    )
+  }
   return (
-    <button {...props.btn} className={`${bgMap[props.type]} ${hoverBgMap[props.type]} ${textMap[props.type]} px-5 prose-hm ${sizeMap[props.size ?? 'sm']} w-full ${roundMap[props.size ?? 'sm']} transition hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
+    <button {...props.btn} className={`${bgMap[props.type ?? 'primary']} outline-none ${hoverBgMap[props.type ?? 'primary']} ${textMap[props.type ?? 'primary']} px-5 prose-hm ${sizeMap[props.size ?? 'sm']} w-full ${roundMap[props.size ?? 'sm']} transition hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
       {props.text}
     </button>
   )
