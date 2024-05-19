@@ -16,7 +16,6 @@ export interface EditableCheckboxInputProps {
 export default function EditableCheckboxInput(props: EditableCheckboxInputProps): JSX.Element {
   const { checked, setChecked, text, setText } = props;
   const checkStyle = checked ? 'line-through' : 'none';
-
   if (props.editing) {
     return (
       <div className="flex gap-2 justify-between w-full items-center ">
@@ -35,8 +34,7 @@ export default function EditableCheckboxInput(props: EditableCheckboxInputProps)
       </div>
     )
   }
-
-  if (!setChecked || !checked) throw new Error('setChecked and checked must be defined');
+  if (setChecked === undefined || checked === undefined) return <></>;
   return (
     <button
       onClick={(): void => setChecked && setChecked(!checked)}
