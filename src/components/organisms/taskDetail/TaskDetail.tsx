@@ -57,7 +57,9 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
     if (props.task)
       dispatch({ type: ActionTypes.SET_TASK, payload: props.task });
   }, [props.task]);
-
+  const canSave = useMemo((): boolean => {
+    return task.title.length > 0;
+  }, [task]);
 
   return (
     <div className="bg-white flex flex-col dark:bg-darkGray md:w-[480px] w-[280px] p-2 md:p-8 min-w-[280px] max-w-[480px] h-full">
@@ -80,7 +82,7 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
                 text={task.description}
                 label="Description"
                 rows={5}
-                validationErrors={[{ message: 'Required', schema: z.string().min(1), active: false }]}
+                validationErrors={[]}
                 setText={(text: string): void => dispatch({ type: ActionTypes.SET_DESCRIPTION, payload: text })}
               />
             </div>
@@ -179,6 +181,7 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
           <div className="pt-6">
             <Button
               text={!props.newTask ? `Save Changes` : "Create Task"}
+              disabled={!canSave}
               btn={{
                 onClick: (): void => {
                   props.saveChanges(task)
