@@ -21,13 +21,16 @@ export interface TextFieldProps {
   rows?: number;
 }
 
+function updateText(text: string, setText: (text: string) => void): void {
+  setText(text);
+}
 
 export default function TextField(props: TextFieldProps): JSX.Element {
   const [text, setText] = useState(props.text);
 
   useEffect((): void => {
-    props.setText(text);
-  }, [text]);
+    updateText(text, props.setText)
+  }, [text, props.setText]);
 
   const error: ValidationError = useMemo((): ValidationError => {
     if (!props.validationErrors) return { message: '', schema: z.string().min(1), active: false };

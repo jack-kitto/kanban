@@ -1,4 +1,4 @@
-import { Subtask, Task } from "./TaskDetail";
+import type { Subtask, Task } from "./TaskDetail";
 
 export const ActionTypes = {
   SET_TITLE: 'SET_TITLE',
@@ -32,13 +32,13 @@ export function reducer(state: Task, action: Action): Task {
     case ActionTypes.SET_TITLE:
       const task: Task = {
         ...state,
-        title: `${action.payload}`
+        title: action.payload as string
       }
       return task;
     case ActionTypes.SET_DESCRIPTION:
       return {
         ...state,
-        description: `${action.payload}`
+        description: action.payload as string
       }
     case ActionTypes.ADD_SUBTASK:
       return {
