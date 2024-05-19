@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 
-import Subtask, { type SubtaskProps } from './Subtask';
+import EditableCheckboxInput, { type EditableCheckboxInputProps } from './EditableCheckboxInput';
 import { colors } from '~/styles';
 
 const meta = {
-  component: Subtask,
+  component: EditableCheckboxInput,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof Subtask>;
+} satisfies Meta<typeof EditableCheckboxInput>;
 
 export default meta;
 
@@ -25,10 +25,10 @@ export const Light: Story = {
     setChecked: (): void => { console.log("setChecked") },
     text: "text"
   },
-  render: function Render(args: SubtaskProps): JSX.Element {
-    const [{ checked, text }, updateArgs] = useArgs<SubtaskProps>();
+  render: function Render(args: EditableCheckboxInputProps): JSX.Element {
+    const [{ checked, text }, updateArgs] = useArgs<EditableCheckboxInputProps>();
     return (
-      <Subtask
+      <EditableCheckboxInput
         {...args}
         checked={checked}
         text={text}
@@ -50,10 +50,10 @@ export const LightEditing: Story = {
     setChecked: (): void => { console.log("setChecked") },
     text: "text"
   },
-  render: function Render(args: SubtaskProps): JSX.Element {
-    const [{ checked, text }, updateArgs] = useArgs<SubtaskProps>();
+  render: function Render(args: EditableCheckboxInputProps): JSX.Element {
+    const [{ checked, text }, updateArgs] = useArgs<EditableCheckboxInputProps>();
     return (
-      <Subtask
+      <EditableCheckboxInput
         {...args}
         checked={checked}
         text={text}
@@ -81,11 +81,11 @@ export const Dark: Story = {
       values: [{ name: 'dark', value: colors.darkGray }]
     }
   },
-  render: function Render(args: SubtaskProps): JSX.Element {
-    const [{ checked, text }, updateArgs] = useArgs<SubtaskProps>();
+  render: function Render(args: EditableCheckboxInputProps): JSX.Element {
+    const [{ checked, text }, updateArgs] = useArgs<EditableCheckboxInputProps>();
     return (
       <div className='dark'>
-        <Subtask
+        <EditableCheckboxInput
           {...args}
           checked={checked}
           text={text}
@@ -113,11 +113,11 @@ export const DarkEditing: Story = {
       values: [{ name: 'dark', value: colors.darkGray }]
     }
   },
-  render: function Render(args: SubtaskProps): JSX.Element {
-    const [{ checked, text }, updateArgs] = useArgs<SubtaskProps>();
+  render: function Render(args: EditableCheckboxInputProps): JSX.Element {
+    const [{ checked, text }, updateArgs] = useArgs<EditableCheckboxInputProps>();
     return (
       <div className='dark'>
-        <Subtask
+        <EditableCheckboxInput
           {...args}
           text={text}
           setText={(text: string) => { updateArgs({ text }) }}

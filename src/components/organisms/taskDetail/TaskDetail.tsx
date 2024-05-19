@@ -4,7 +4,7 @@ import { ActionTypes, reducer } from "./reducer";
 import { z } from "zod";
 import { Button, MenuButton, Select, TextField, TooltipMenu } from "~/components/atoms";
 import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMenu";
-import { Subtask } from "~/components/molecules";
+import { EditableCheckboxInput } from "~/components/molecules";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
 
@@ -135,7 +135,7 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
       <div className="w-full flex flex-col gap-2">
         {task.subtasks.map((subtask: Subtask, index: number): JSX.Element => (
           <div key={`${subtask.id} ${index}`} className="w-full">
-            <Subtask
+            <EditableCheckboxInput
               text={subtask.title}
               setText={(text: string): void => { dispatch({ type: ActionTypes.UPDATE_SUBTASK, payload: { ...subtask, title: text } }) }}
               onDelete={(): void => { if (subtask.id) dispatch({ type: ActionTypes.REMOVE_SUBTASK, payload: subtask.id }) }}

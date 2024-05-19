@@ -1,10 +1,10 @@
 import { Confirmation } from "./confirmation/Confirmation";
-import Subtask from "./subtask/Subtask";
+import EditableCheckboxInput from "./editableCheckboxInput/EditableCheckboxInput";
 import Tag from "./tag/Tag";
 import TaskCard from "./taskCard/TaskCard";
 
 export {
-  Subtask,
+  EditableCheckboxInput,
   TaskCard,
   Tag,
   Confirmation,
