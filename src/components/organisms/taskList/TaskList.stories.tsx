@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useArgs } from '@storybook/preview-api';
 import { DragDropContext } from "react-beautiful-dnd";
-import TaskList from './TaskList';
+import TaskList, { TaskListProps } from './TaskList';
 import type { Task as TaskType } from '~/components/types';
 import { colors } from '~/styles';
 
@@ -46,12 +47,19 @@ export const Light: Story = {
       values: [{ name: 'light', value: colors.linesLight }],
     },
   },
-  render: (args) => (
-
-    <div className="w-96">
-      <DragDropContext onDragEnd={() => { console.log('drag end') }}>
-        <TaskList {...args} />
-      </DragDropContext>
-    </div>
-  )
+  render: (args) => {
+    const [{ tasks }, updateArgs] = useArgs<TaskListProps>();
+    return (
+      <div className="w-96">
+        <DragDropContext onDragEnd={() => { console.log('drag end') }}>
+          <TaskList
+            {...args}
+            updateTask={(task: TaskType): void => updateArgs({ tasks: tasks.map(t => t.id === task.id ? task : t) })}
+            onDeleteTask={(task: TaskType): void => updateArgs({ tasks: tasks.filter(t => t.id !== task.id) })}
+            tasks={tasks}
+          />
+        </DragDropContext>
+      </div>
+    )
+  }
 };

@@ -58,6 +58,7 @@ export const Light: Story = {
             {...args}
             tasks={tasks}
             updateTask={(task: TaskType): void => updateArgs({ tasks: tasks.map(t => t.id === task.id ? task : t) })}
+            onDeleteTask={(task: TaskType): void => updateArgs({ tasks: tasks.filter(t => t.id !== task.id) })}
           />
         </DragDropContext>
       </div>
