@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 
-import DarkModeToggle from './DarkModeToggle';
+import DarkModeToggle, { type DarkModeToggleProps } from './DarkModeToggle';
 
 const meta = {
   component: DarkModeToggle,
@@ -20,7 +20,7 @@ export const Default: Story = {
     setDarkMode: () => { console.log("setDarkMode") }
   },
   render: () => {
-    const [{ darkMode }, updateArgs] = useArgs();
+    const [{ darkMode }, updateArgs] = useArgs<DarkModeToggleProps>();
     return (
       <div className={`w-[300px] ${darkMode && 'dark'}`}>
         <DarkModeToggle
