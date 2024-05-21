@@ -1,22 +1,22 @@
-import { useMemo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { Modal } from "~/components/atoms";
 import { Confirmation, TaskCard } from "~/components/molecules";
-import type { Subtask, Task } from "~/components/types";
+import type { ColumnType, Subtask, TaskType as TaskType } from "~/components/types";
 import TaskDetail from "../taskDetail/TaskDetail";
 
 export interface TaskProps {
-  task: Task;
-  columns: string[];
-  updateTask: (task: Task) => void;
-  onDeleteTask: (task: Task) => void;
+  task: TaskType;
+  columns: ColumnType[];
+  updateTask: (task: TaskType) => void;
+  onDeleteTask: (task: TaskType) => void;
   index: number;
   id?: string;
 }
 
-export default function Task(props: TaskProps): JSX.Element {
-  const [showTaskDetail, setShowTaskDetail] = useState<boolean>(false)
-  const [editing, setEditing] = useState<boolean>(false)
-  const [confirmationOpen, setConfirmationOpen] = useState<boolean>(false)
+function TaskComponent(props: TaskProps): JSX.Element {
+  const [showTaskDetail, setShowTaskDetail] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(false);
+  const [confirmationOpen, setConfirmationOpen] = useState<boolean>(false);
   const completedSubtasks = useMemo((): number => {
     if (!props.task.subtasks) {
       return 0;
@@ -32,8 +32,8 @@ export default function Task(props: TaskProps): JSX.Element {
   }, [props.task.subtasks]);
 
   const subtitle = useMemo((): string => {
-    return `${completedSubtasks} of ${totalSubtasks} subtasks`
-  }, [completedSubtasks, totalSubtasks]);
+    return `${completedSubtasks} of ${totalSubtasks} subtasks (${props.task.position})`;
+  }, [completedSubtasks, totalSubtasks, props.task.position])
 
   return (
     <>
@@ -44,8 +44,7 @@ export default function Task(props: TaskProps): JSX.Element {
           title={props.task.title}
           id={props.id}
           index={props.index}
-          subtitle={subtitle}
-        />
+          subtitle={subtitle} />
       </button>
       <Modal
         open={showTaskDetail}
@@ -58,21 +57,20 @@ export default function Task(props: TaskProps): JSX.Element {
           setEditing={setEditing}
           menuOptions={[
             {
-              onClick: (): void => { setEditing(true) },
+              onClick: (): void => { setEditing(true); },
               text: 'Edit Task'
             },
             {
               destructive: true,
               onClick: (): void => {
-                setShowTaskDetail(false)
-                setConfirmationOpen(true)
+                setShowTaskDetail(false);
+                setConfirmationOpen(true);
               },
               text: 'Delete Task'
             }
           ]}
           saveChanges={props.updateTask}
-          task={props.task}
-        />
+          task={props.task} />
       </Modal>
 
       <Modal
@@ -85,16 +83,16 @@ export default function Task(props: TaskProps): JSX.Element {
           confirmText="Delete"
           cancelText="Cancel"
           onConfirm={(): void => {
-            setShowTaskDetail(false)
-            setConfirmationOpen(false)
-            props.onDeleteTask(props.task)
+            setShowTaskDetail(false);
+            setConfirmationOpen(false);
+            props.onDeleteTask(props.task);
           }}
           onCancel={(): void => {
-            setShowTaskDetail(true)
-            setConfirmationOpen(false)
-          }}
-        />
+            setShowTaskDetail(true);
+            setConfirmationOpen(false);
+          }} />
       </Modal>
     </>
   );
 }
+export const Task = memo(TaskComponent)

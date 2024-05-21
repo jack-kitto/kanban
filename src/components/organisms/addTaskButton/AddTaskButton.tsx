@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { Button, Modal } from "~/components/atoms";
-import type { Task } from "~/components/types";
+import type { ColumnType, TaskType } from "~/components/types";
 import TaskDetail from "../taskDetail/TaskDetail";
 
 export interface AddTaskButtonProps {
-  task: Task;
-  columns: string[];
-  updateTask: (task: Task) => void;
-  onDeleteTask: (task: Task) => void;
+  task: TaskType;
+  columns: ColumnType[];
+  updateTask: (task: TaskType) => void;
+  onDeleteTask: (task: TaskType) => void;
 }
 
 export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
@@ -46,9 +46,14 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
               text: 'Delete Task'
             }
           ]}
-          saveChanges={(task: Task): void => {
+          saveChanges={(task: TaskType): void => {
             props.updateTask(task)
             setNewTask(false)
+
+            //
+            // TODO: make sure to caculate the new position based on the column chosen and the last task in that column
+            //
+
           }}
         />
       </Modal>

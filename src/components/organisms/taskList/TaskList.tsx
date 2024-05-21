@@ -1,22 +1,25 @@
-import type { Column, Task as TaskType } from "~/components/types";
-import Task from "~/components/organisms/task/Task";
+import type { ColumnType, TaskType as TaskType } from "~/components/types";
+import { Task } from "~/components/organisms/task/Task";
 import { Droppable, type DroppableProvided } from 'react-beautiful-dnd';
+import { memo } from "react";
+import { sortItems } from "~/components/helpers";
 
 export interface TaskListProps {
   tasks: TaskType[]
-  columns: string[]
+  columns: ColumnType[]
   updateTask: (task: TaskType) => void
   onDeleteTask: (task: TaskType) => void
-  column: Column
+  column: ColumnType
 }
 
-export default function TaskList(props: TaskListProps): JSX.Element {
+const TaskListComponent = (props: TaskListProps): JSX.Element => {
   return (
     <Droppable
-      droppableId={'tasks'}
+      droppableId={props.column.id}
       type={'TASK'}
       isDropDisabled={false}
       isCombineEnabled={false}
+      direction="vertical"
     >
       {(dropProvided: DroppableProvided): JSX.Element => (
         <div
@@ -25,17 +28,18 @@ export default function TaskList(props: TaskListProps): JSX.Element {
           {...dropProvided.droppableProps}
         >
           {
-            props.tasks.map((task: TaskType, index: number): JSX.Element => (
-              <Task
-                key={task.id}
-                id={task.id}
-                index={index}
-                onDeleteTask={props.onDeleteTask}
-                updateTask={props.updateTask}
-                columns={props.columns}
-                task={task}
-              />
-            ))
+            sortItems<TaskType>(props.tasks)
+              .map((task: TaskType, index: number): JSX.Element => (
+                <Task
+                  key={task.id}
+                  id={task.id}
+                  index={index}
+                  onDeleteTask={props.onDeleteTask}
+                  updateTask={props.updateTask}
+                  columns={props.columns}
+                  task={task}
+                />
+              ))
           }
           {dropProvided.placeholder}
         </div>
@@ -44,3 +48,4 @@ export default function TaskList(props: TaskListProps): JSX.Element {
 
   );
 }
+export const TaskList = memo(TaskListComponent)

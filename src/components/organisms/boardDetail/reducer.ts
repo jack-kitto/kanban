@@ -1,4 +1,4 @@
-import type { Column, Project } from "~/components/types";
+import type { ColumnType, Project } from "~/components/types";
 
 export const ActionTypes = {
   SET_TITLE: 'SET_TITLE',
@@ -11,9 +11,9 @@ export const ActionTypes = {
 export type ActionTypes = typeof ActionTypes[keyof typeof ActionTypes];
 export type PayloadTypes = {
   [ActionTypes.SET_TITLE]: string;
-  [ActionTypes.ADD_COLUMN]: Column;
+  [ActionTypes.ADD_COLUMN]: ColumnType;
   [ActionTypes.REMOVE_COLUMN]: string;
-  [ActionTypes.UPDATE_COLUMN]: Column;
+  [ActionTypes.UPDATE_COLUMN]: ColumnType;
   [ActionTypes.SET_PROJECT]: Project;
 }
 export type Action = {
@@ -32,18 +32,18 @@ export function reducer(state: Project, action: Action): Project {
     case ActionTypes.ADD_COLUMN:
       return {
         ...state,
-        columns: [...state.columns, action.payload as Column]
+        columns: [...state.columns, action.payload as ColumnType]
       }
     case ActionTypes.REMOVE_COLUMN:
       return {
         ...state,
-        columns: state.columns.filter((column: Column): boolean => column.id !== action.payload)
+        columns: state.columns.filter((column: ColumnType): boolean => column.id !== action.payload)
       }
     case ActionTypes.UPDATE_COLUMN:
       return {
         ...state,
-        columns: state.columns.map((column: Column): Column => {
-          const _column: Column = action.payload as Column
+        columns: state.columns.map((column: ColumnType): ColumnType => {
+          const _column: ColumnType = action.payload as ColumnType
           if (column.id === _column.id) {
             console.log('column.id', column.id)
             console.log('title', _column.title)

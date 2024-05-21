@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 import TaskDetail, { type TaskDetailProps } from './TaskDetail';
 import { colors } from '~/styles';
-import type { Task } from '~/components/types';
+import type { ColumnType, TaskType } from '~/components/types';
+import { generateNKeysBetween } from 'fractional-indexing';
 
 const meta = {
   component: TaskDetail,
@@ -30,16 +31,35 @@ const options = [
     destructive: true
   },
 ]
-const columns = [
-  "To Do",
-  "In Progress",
-  "Done"
-]
 
-const task: Task = {
+const taskPositions = generateNKeysBetween(null, null, 5)
+const columnPositions = generateNKeysBetween(null, null, 3)
+const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => ({
+  id: `column-${i}`,
+  title: `Column ${i}`,
+  colour: 'Violet',
+  position: `${columnPositions[i]}`,
+  tasks: Array.from({ length: 5 }, (_, j) => ({
+    title: `Task ${j}`,
+    id: `${j}`,
+    columnTitle: `Column ${i}`,
+    columnId: `column-${i}`,
+    position: `${taskPositions[j]}`,
+    description: `Description for task ${j}`,
+    subtasks: Array.from({ length: 3 }, (_, k) => ({
+      completed: k % 2 === 0,
+      title: `Task ${j} Subtask ${k}`,
+      id: `${k}`
+    }))
+  }))
+}))
+
+const task: TaskType = {
   title: "Research pricing points of various competitors and trial different business models",
+  position: "a0",
   id: "1",
-  currentColumn: "To Do",
+  columnId: 'columnId',
+  columnTitle: "To Do",
   description: "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
   subtasks,
 }
@@ -72,7 +92,7 @@ export const Light: Story = {
           task={task}
           newTask={false}
           setNewTask={(newTask: boolean): void => { updateArgs({ newTask }) }}
-          saveChanges={(task: Task): void => {
+          saveChanges={(task: TaskType): void => {
             console.log("saveChanges", task)
             updateArgs({ task })
           }}
@@ -124,7 +144,7 @@ export const Dark: Story = {
           task={task}
           newTask={false}
           setNewTask={(newTask: boolean): void => { updateArgs({ newTask }) }}
-          saveChanges={(task: Task): void => {
+          saveChanges={(task: TaskType): void => {
             console.log("saveChanges", task)
             updateArgs({ task })
           }}
@@ -175,7 +195,7 @@ export const NewTaskLight: Story = {
           task={task}
           newTask={newTask}
           setNewTask={(newTask: boolean): void => { updateArgs({ newTask }) }}
-          saveChanges={(task: Task): void => {
+          saveChanges={(task: TaskType): void => {
             console.log("saveChanges", task)
             updateArgs({ task })
           }}
@@ -226,7 +246,7 @@ export const NewTaskDark: Story = {
           task={task}
           newTask={newTask}
           setNewTask={(newTask: boolean): void => { updateArgs({ newTask }) }}
-          saveChanges={(task: Task): void => {
+          saveChanges={(task: TaskType): void => {
             console.log("saveChanges", task)
             updateArgs({ task })
           }}

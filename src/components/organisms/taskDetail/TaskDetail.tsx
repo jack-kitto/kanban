@@ -7,17 +7,20 @@ import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMe
 import { EditableCheckboxInput } from "~/components/molecules";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
-import type { Subtask, Task } from "~/components/types";
+import type { ColumnType, Subtask, TaskType } from "~/components/types";
+import { SelectOption } from "~/components/atoms/select/Select";
+import { sortItems } from "~/components/helpers";
+import { generateKeyBetween } from "fractional-indexing";
 
 export interface TaskDetailProps {
-  task?: Task;
+  task?: TaskType;
   menuOptions: TooltipMenuOption[];
   editing: boolean;
   newTask: boolean;
-  columns: string[];
+  columns: ColumnType[];
   setNewTask?: (newTask: boolean) => void;
   setEditing: (editing: boolean) => void;
-  saveChanges: (task: Task) => void;
+  saveChanges: (task: TaskType) => void;
 }
 
 function createSubtask(title?: string): Subtask {
@@ -28,35 +31,41 @@ function createSubtask(title?: string): Subtask {
   }
 }
 
-function createNewTask(): Task {
+function createNewTask(): TaskType {
   return {
     title: '',
     description: '',
     subtasks: [],
     id: createId(),
-    currentColumn: '',
+    columnTitle: '',
+    position: '',
+    columnId: '',
   }
 }
 
 export default function TaskDetail(props: TaskDetailProps): JSX.Element {
   const [task, dispatch] = useReducer<typeof reducer>(reducer, props.task ?? createNewTask());
   const [newSubtask, setNewSubtask] = useState<string>('');
+
   const completedSubtasks = useMemo((): number => {
     if (!task.subtasks) {
       return 0;
     }
     return task.subtasks.filter((subtask: Subtask): boolean => subtask.completed).length;
   }, [task.subtasks]);
+
   const totalSubtasks = useMemo((): number => {
     if (!task.subtasks) {
       return 0;
     }
     return task.subtasks.length;
   }, [task.subtasks]);
+
   useEffect((): void => {
     if (props.task)
       dispatch({ type: ActionTypes.SET_TASK, payload: props.task });
   }, [props.task]);
+
   const canSave = useMemo((): boolean => {
     return task.title.length > 0;
   }, [task]);
@@ -171,9 +180,26 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
       </span>
       {props.columns && (
         <Select
-          options={props.columns}
-          selected={task.currentColumn}
-          setSelected={(column: string): void => dispatch({ type: ActionTypes.SET_COLUMN, payload: column })}
+          options={props.columns.map((column: ColumnType): SelectOption => ({ label: column.title, id: column.id }))}
+          selected={task.columnId}
+          setSelected={(selectedOptionId: string): void => {
+            const column: ColumnType = props.columns.find((c: ColumnType): boolean => c.id === selectedOptionId)!
+            if (!column) return
+            const newTask = task
+            newTask.columnTitle = column.title
+            newTask.columnId = column.id
+            const finalPositionInNewColumn = sortItems(column.tasks)[column.tasks.length - 1]?.position
+            if (!finalPositionInNewColumn) {
+              newTask.position = generateKeyBetween(null, null)
+              props.saveChanges(newTask)
+              return
+            }
+            newTask.position = generateKeyBetween(finalPositionInNewColumn, null)
+            props.saveChanges(newTask)
+            dispatch({ type: ActionTypes.SET_COLUMN_ID, payload: column.id })
+            dispatch({ type: ActionTypes.SET_COLUMN_TITLE, payload: column.title })
+
+          }}
         />
       )}
       {

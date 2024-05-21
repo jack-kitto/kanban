@@ -1,4 +1,4 @@
-import type { Subtask, Task } from "~/components/types";
+import type { ColumnType, Subtask, TaskType } from "~/components/types";
 
 export const ActionTypes = {
   SET_TITLE: 'SET_TITLE',
@@ -6,7 +6,8 @@ export const ActionTypes = {
   ADD_SUBTASK: 'ADD_SUBTASK',
   REMOVE_SUBTASK: 'REMOVE_SUBTASK',
   UPDATE_SUBTASK: 'UPDATE_SUBTASK',
-  SET_COLUMN: 'SET_COLUMN',
+  SET_COLUMN_ID: 'SET_COLUMN_ID',
+  SET_COLUMN_TITLE: 'SET_COLUMN_TITLE',
   SET_TASK: 'SET_TASK',
   TOGGLE_SUBTASK: 'TOGGLE_SUBTASK'
 } as const
@@ -18,8 +19,9 @@ export type PayloadTypes = {
   [ActionTypes.ADD_SUBTASK]: Subtask;
   [ActionTypes.REMOVE_SUBTASK]: string;
   [ActionTypes.UPDATE_SUBTASK]: Subtask;
-  [ActionTypes.SET_COLUMN]: string;
-  [ActionTypes.SET_TASK]: Task;
+  [ActionTypes.SET_COLUMN_ID]: string;
+  [ActionTypes.SET_COLUMN_TITLE]: string;
+  [ActionTypes.SET_TASK]: TaskType;
   [ActionTypes.TOGGLE_SUBTASK]: string;
 }
 export type Action = {
@@ -27,10 +29,10 @@ export type Action = {
   payload: PayloadTypes[ActionTypes];
 }
 
-export function reducer(state: Task, action: Action): Task {
+export function reducer(state: TaskType, action: Action): TaskType {
   switch (action.type) {
     case ActionTypes.SET_TITLE:
-      const task: Task = {
+      const task: TaskType = {
         ...state,
         title: action.payload as string
       }
@@ -66,13 +68,18 @@ export function reducer(state: Task, action: Action): Task {
           return subtask;
         })
       }
-    case ActionTypes.SET_COLUMN:
+    case ActionTypes.SET_COLUMN_ID:
       return {
         ...state,
-        currentColumn: action.payload as string
+        columnId: action.payload as string
+      }
+    case ActionTypes.SET_COLUMN_TITLE:
+      return {
+        ...state,
+        columnTitle: action.payload as string
       }
     case ActionTypes.SET_TASK:
-      return action.payload as Task
+      return action.payload as TaskType
     case ActionTypes.TOGGLE_SUBTASK:
       return {
         ...state,

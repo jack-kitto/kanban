@@ -6,24 +6,32 @@ export type Subtask = {
   id: string;
 }
 
-export type Task = {
+export type TaskType = {
   title: string;
   description: string;
   subtasks: Subtask[];
   id: string;
-  currentColumn: string;
+  columnTitle: string
+  columnId: string;
+  position: string;
 }
 
-export type Column = {
+export type ColumnType = {
   title: string;
   id: string;
   colour: ColourName;
+  position: string;
+  tasks: TaskType[];
 }
 
 export type Project = {
   title: string;
   description: string;
-  columns: Column[];
+  columns: ColumnType[];
   id: string;
 }
 
+export type DndItem = {
+  position: string;
+  id: string;
+}

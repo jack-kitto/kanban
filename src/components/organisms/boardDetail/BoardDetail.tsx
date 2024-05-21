@@ -1,5 +1,6 @@
 import { createId } from '@paralleldrive/cuid2';
-import { useEffect, useReducer, useState } from "react";
+import { generateKeyBetween } from 'fractional-indexing';
+import { useEffect, useMemo, useReducer, useState } from "react";
 import { z } from "zod";
 import { Button, MenuButton, TextField, TooltipMenu } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
@@ -7,7 +8,7 @@ import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMe
 import { EditableCheckboxInput } from "~/components/molecules";
 import { colors } from "~/styles";
 import { ActionTypes, reducer } from "./reducer";
-import type { Column, Project } from '~/components/types';
+import type { ColumnType, Project } from '~/components/types';
 
 export interface BoardDetailProps {
   project?: Project;
@@ -19,11 +20,13 @@ export interface BoardDetailProps {
   saveChanges: (project: Project) => void;
 }
 
-function createColumn(title?: string): Column {
+function createColumn(title: string, prevPosition: string | null): ColumnType {
   return {
     title: title ?? '',
     id: createId(),
-    colour: 'Aqua Blue'
+    colour: 'Aqua Blue',
+    position: generateKeyBetween(prevPosition, null),
+    tasks: []
   }
 }
 
@@ -48,6 +51,13 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
     if (props.project)
       dispatch({ type: ActionTypes.SET_PROJECT, payload: props.project });
   }, [props.project]);
+
+  const finalColPosition: string | null = useMemo((): string | null => {
+    if (project.columns.length < 1) return null
+    const finalCol = project.columns[project.columns.length - 1]
+    if (!finalCol) return null
+    return finalCol.position
+  }, [project.columns])
 
   return (
     <div className="bg-white flex flex-col dark:bg-darkGray md:w-[480px] w-[280px] p-2 md:p-8 min-w-[280px] max-w-[480px] h-full">
@@ -87,7 +97,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
         Board Columns
       </span>
       <div className="w-full flex flex-col gap-2">
-        {project.columns.map((column: Column, index: number): JSX.Element => (
+        {project.columns.map((column: ColumnType, index: number): JSX.Element => (
           <div key={`${column.id} ${index}`} className="w-full">
             <EditableCheckboxInput
               text={column.title}
@@ -106,7 +116,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
               setText={setNewColumn}
             />
             <Icon icon="Save" onClick={(): void => {
-              dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn(newColumn) })
+              dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn(newColumn, `${project.columns[project.columns.length - 1]?.position}`) })
               setNewColumn('')
             }} color={colors.mediumGray} size="small" />
           </div>
@@ -117,7 +127,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
               <Button
                 text="+ Add New Column"
                 btn={{
-                  onClick: (): void => dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn() })
+                  onClick: (): void => dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn('', finalColPosition) })
                 }}
                 type="secondary"
                 size="sm"

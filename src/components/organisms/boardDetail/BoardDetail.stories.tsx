@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 import BoardDetail, { type BoardDetailProps } from './BoardDetail';
 import { colors } from '~/styles';
-import type { Column, Project } from '~/components/types';
+import type { ColumnType, Project } from '~/components/types';
+import { generateNKeysBetween } from 'fractional-indexing';
 
 const meta = {
   component: BoardDetail,
@@ -14,11 +15,29 @@ const meta = {
 } satisfies Meta<typeof BoardDetail>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-const columns: Column[] = [
-  { title: "Todo", id: "1", colour: "Aquamarine" },
-  { title: "Doing", id: "2", colour: "Violet" },
-  { title: "Done", id: "3", colour: "Jordy Blue" }
-]
+
+const taskPositions = generateNKeysBetween(null, null, 5)
+const columnPositions = generateNKeysBetween(null, null, 3)
+const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => ({
+  id: `column-${i}`,
+  title: `Column ${i}`,
+  colour: 'Violet',
+  position: `${columnPositions[i]}`,
+  tasks: Array.from({ length: 5 }, (_, j) => ({
+    title: `Task ${j}`,
+    columnId: `column-${i}`,
+    id: `${j}`,
+    columnTitle: `Column ${i}`,
+    position: `${taskPositions[j]}`,
+    description: `Description for task ${j}`,
+    subtasks: Array.from({ length: 3 }, (_, k) => ({
+      completed: k % 2 === 0,
+      title: `Task ${j} Subtask ${k}`,
+      id: `${k}`
+    }))
+  }))
+}))
+
 const options = [
   {
     text: "Edit Board",

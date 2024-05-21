@@ -1,23 +1,23 @@
-import React from "react";
-import TaskList from "../taskList/TaskList";
-import type { Column as ColumnType, Task } from "~/components/types";
+import React, { memo } from "react";
+import { TaskList } from "../taskList/TaskList";
+import type { ColumnType, TaskType } from "~/components/types";
 import { Tag } from "~/components/molecules";
 
 export interface ColumnProps {
   index: number;
   id: string;
-  tasks: Task[];
-  columns: string[];
+  tasks: TaskType[];
+  columns: ColumnType[];
   column: ColumnType;
-  updateTask: (task: Task) => void;
-  onDeleteTask: (task: Task) => void;
+  updateTask: (task: TaskType) => void;
+  onDeleteTask: (task: TaskType) => void;
 }
 
-export default function Column(props: ColumnProps): JSX.Element {
+const ColumnComponent = (props: ColumnProps): JSX.Element => {
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col pr-5">
       <div className="w-full flex py-6">
-        <Tag colour={props.column.colour} label={`${props.column.title} (${props.tasks.length})`.toUpperCase()} />
+        <Tag colour={props.column.colour} label={`${`${props.column.title} (${props.tasks.length})`.toUpperCase()} ${props.column.position}`} />
       </div>
       <div className="h-[800px] overflow-auto no-scrollbar rounded-lg scroll-m-2">
         <TaskList
@@ -31,3 +31,4 @@ export default function Column(props: ColumnProps): JSX.Element {
     </div>
   );
 }
+export const Column = memo(ColumnComponent);
