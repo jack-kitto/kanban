@@ -1,10 +1,10 @@
-export interface MainProps {
+export interface MainLayoutProps {
   sidebar: JSX.Element;
   navbar: JSX.Element;
   children: JSX.Element;
 }
 
-export default function Main(props: MainProps): JSX.Element {
+export default function MainLayout(props: MainLayoutProps): JSX.Element {
   return (
     <div className="">
       <div className="max-sm:hidden sm:w-[261px] md:w-[300px] sm:visible sm:fixed sm:left-0 sm:top-0 h-full bottom-0">

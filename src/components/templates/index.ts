@@ -1,5 +1,5 @@
-import Main from "./main/Main";
+import MainLayout from "./mainLayout/MainLayout";
 
 export {
-  Main,
+  MainLayout,
 }
