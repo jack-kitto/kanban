@@ -42,6 +42,9 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import LightMode from '../../../../public/lightMode.svg';
 import DarkMode from '../../../../public/darkMode.svg'
 import EyeSlash from '../../../../public/eyeSlash.svg'
+import Board from '../../../../public/board.svg'
+import BoardGray from '../../../../public/boardGray.svg'
+import BoardPurple from '../../../../public/BoardPurple.svg'
 
 export type IconSizeType = 'small' | 'medium' | 'large' | 'inherit';
 export interface IconProps {
@@ -106,6 +109,24 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
       width={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
       height={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
     />,
+    Board: <Image
+      src={Board as string}
+      alt="Board"
+      width={16}
+      height={16}
+    />,
+    BoardGray: <Image
+      src={BoardGray as string}
+      alt="Board Gray"
+      width={16}
+      height={16}
+    />,
+    BoardPurple: <Image
+      src={BoardPurple as string}
+      alt="Board Purple"
+      width={16}
+      height={16}
+    />,
 
 
   };
@@ -122,8 +143,11 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
 
 export type IconType = typeof iconRegistry[number];
 export const iconRegistry = [
+  "BoardGray",
+  "BoardPurple",
   "EyeSlash",
   "LightMode",
+  "Board",
   "DarkMode",
   "KeyboardArrowUpIcon",
   "AddIcon",
