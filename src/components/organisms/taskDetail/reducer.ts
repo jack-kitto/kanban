@@ -1,4 +1,4 @@
-import type { ColumnType, Subtask, TaskType } from "~/components/types";
+import type { Subtask, TaskType } from "~/components/types";
 
 export const ActionTypes = {
   SET_TITLE: 'SET_TITLE',

@@ -8,7 +8,7 @@ import { EditableCheckboxInput } from "~/components/molecules";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
 import type { ColumnType, Subtask, TaskType } from "~/components/types";
-import { SelectOption } from "~/components/atoms/select/Select";
+import type { SelectOption } from "~/components/atoms/select/Select";
 import { sortItems } from "~/components/helpers";
 import { generateKeyBetween } from "fractional-indexing";
 

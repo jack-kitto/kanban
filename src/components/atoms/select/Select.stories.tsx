@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 
-import Select, { SelectOption, type SelectProps } from './Select';
+import Select, { type SelectOption, type SelectProps } from './Select';
 import { colors } from '~/styles';
 
 const meta = {
