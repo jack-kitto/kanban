@@ -6,9 +6,11 @@ import { Modal } from "./modal/Modal";
 import Select from "./select/Select";
 import Text from "./text/Text";
 import TextField from "./textField/TextField";
+import Toggle from "./toggle/Toggle";
 import TooltipMenu from "./tooltipMenu/TooltipMenu";
 
 export {
+  Toggle,
   MenuButton,
   TooltipMenu,
   Modal,
