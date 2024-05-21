@@ -39,6 +39,9 @@ import Logo from '../../../../public/logo.svg';
 import Image from 'next/image';
 import AddIcon from '@mui/icons-material/Add';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import LightMode from '../../../../public/lightMode.svg';
+import DarkMode from '../../../../public/darkMode.svg'
+import EyeSlash from '../../../../public/eyeSlash.svg'
 
 export type IconSizeType = 'small' | 'medium' | 'large' | 'inherit';
 export interface IconProps {
@@ -85,6 +88,25 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
       height={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
     />,
     KeyboardArrowUpIcon: <KeyboardArrowUpIcon sx={{ color }} fontSize={size} />,
+    LightMode: <Image
+      src={LightMode as string}
+      alt="Light Mode"
+      width={18}
+      height={18}
+    />,
+    DarkMode: <Image
+      src={DarkMode as string}
+      alt="Dark Mode"
+      width={18}
+      height={18}
+    />,
+    EyeSlash: <Image
+      src={EyeSlash as string}
+      alt="Eye Slash"
+      width={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
+      height={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
+    />,
+
 
   };
 
@@ -100,6 +122,9 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
 
 export type IconType = typeof iconRegistry[number];
 export const iconRegistry = [
+  "EyeSlash",
+  "LightMode",
+  "DarkMode",
   "KeyboardArrowUpIcon",
   "AddIcon",
   "Logo",
