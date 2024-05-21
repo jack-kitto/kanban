@@ -78,7 +78,12 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
     PostAddIcon: <PostAddIcon sx={{ color }} fontSize={size} />,
     KeyboardArrowDownIcon: <KeyboardArrowDownIcon sx={{ color }} fontSize={size} />,
     AddIcon: <AddIcon sx={{ color }} fontSize={size} />,
-    Logo: <Image src={Logo} alt="Logo" width={size === 'small' ? 24 : size === 'medium' ? 32 : 40} height={size === 'small' ? 24 : size === 'medium' ? 32 : 40} />,
+    Logo: <Image
+      src={Logo as string}
+      alt="Logo"
+      width={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
+      height={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
+    />,
     KeyboardArrowUpIcon: <KeyboardArrowUpIcon sx={{ color }} fontSize={size} />,
 
   };

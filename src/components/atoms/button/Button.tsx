@@ -1,4 +1,4 @@
-import { Icon, IconType } from "../icon"
+import { Icon, type IconType } from "../icon"
 
 const buttonTypes = ['primary', 'secondary', 'destructive'] as const
 export type ButtonType = typeof buttonTypes[number]
