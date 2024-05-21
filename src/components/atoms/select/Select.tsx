@@ -1,10 +1,14 @@
 import React, { type ChangeEvent } from "react";
 
+export type SelectOption = {
+  label: string;
+  id: string;
+}
 export interface SelectProps {
   label?: string;
-  options: string[];
+  options: SelectOption[];
   selected: string;
-  setSelected: (selected: string) => void;
+  setSelected: (selectedOptionId: string) => void;
 }
 
 function handleChange(e: React.ChangeEvent<HTMLSelectElement>, setSelected: (selected: string) => void): void {
@@ -12,11 +16,6 @@ function handleChange(e: React.ChangeEvent<HTMLSelectElement>, setSelected: (sel
 }
 
 export default function Select(props: SelectProps): JSX.Element {
-
-  // const handleChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>): void => {
-  //   props.setSelected(e.target.value);
-  // }, [props.setSelected]);
-
   return (
     <div>
       {
@@ -31,8 +30,8 @@ export default function Select(props: SelectProps): JSX.Element {
         value={props.selected}
         onChange={(e: ChangeEvent<HTMLSelectElement>): void => handleChange(e, props.setSelected)}
       >
-        {props.options.map((option: string, i: number): JSX.Element => (
-          <option className="prose-bl" key={i} value={option}>{option}</option>
+        {props.options.map((option: SelectOption, i: number): JSX.Element => (
+          <option className="prose-bl" key={i} value={option.id}>{option.label}</option>
         ))}
       </select>
     </div>
