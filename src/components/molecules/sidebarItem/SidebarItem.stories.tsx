@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import SidebarItem, { type SidebarItemProps } from './SidebarItem';
+import SidebarItem from './SidebarItem';
 
 const meta = {
   component: SidebarItem,
