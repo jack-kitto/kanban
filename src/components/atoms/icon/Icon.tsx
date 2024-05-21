@@ -28,12 +28,17 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import SaveIcon from '@mui/icons-material/Save';
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import SearchIcon from '@mui/icons-material/Search';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
 import HelpIcon from '@mui/icons-material/Help';
 import React from 'react';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Logo from '../../../../public/logo.svg';
+import Image from 'next/image';
+import AddIcon from '@mui/icons-material/Add';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 export type IconSizeType = 'small' | 'medium' | 'large' | 'inherit';
 export interface IconProps {
@@ -71,6 +76,10 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
     ExpandMoreIcon: <ExpandMoreIcon sx={{ color }} fontSize={size} />,
     ExpandLessIcon: <ExpandLessIcon sx={{ color }} fontSize={size} />,
     PostAddIcon: <PostAddIcon sx={{ color }} fontSize={size} />,
+    KeyboardArrowDownIcon: <KeyboardArrowDownIcon sx={{ color }} fontSize={size} />,
+    AddIcon: <AddIcon sx={{ color }} fontSize={size} />,
+    Logo: <Image src={Logo} alt="Logo" width={size === 'small' ? 24 : size === 'medium' ? 32 : 40} height={size === 'small' ? 24 : size === 'medium' ? 32 : 40} />,
+    KeyboardArrowUpIcon: <KeyboardArrowUpIcon sx={{ color }} fontSize={size} />,
 
   };
 
@@ -86,6 +95,10 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
 
 export type IconType = typeof iconRegistry[number];
 export const iconRegistry = [
+  "KeyboardArrowUpIcon",
+  "AddIcon",
+  "Logo",
+  "KeyboardArrowDownIcon",
   'HelpIcon',
   'SaveAlt',
   'Close',

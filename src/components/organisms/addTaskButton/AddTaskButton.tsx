@@ -16,11 +16,20 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
 
   return (
     <>
-      <Button
-        btn={{ onClick: (): void => setShowTaskDetail(true) }}
-        text="+ Add New Task"
-        type="primary"
-      />
+      <div className="sm:hidden">
+        <Button
+          btn={{ onClick: (): void => setShowTaskDetail(true) }}
+          type="primary"
+          icon="AddIcon"
+        />
+      </div>
+      <div className="max-sm:hidden">
+        <Button
+          btn={{ onClick: (): void => setShowTaskDetail(true) }}
+          text="+ Add New Task"
+          type="primary"
+        />
+      </div>
       <Modal
         open={showTaskDetail}
         close={(): void => {
