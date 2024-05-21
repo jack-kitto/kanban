@@ -16,7 +16,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     checked: true,
-    setChecked: () => { }
+    setChecked: () => { console.log("setChecked") }
   },
   render: (args) => {
     const [{ checked }, updateArgs] = useArgs<ToggleProps>();
