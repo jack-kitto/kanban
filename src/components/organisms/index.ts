@@ -4,8 +4,13 @@ import { Task } from "./task/Task";
 import AddTaskButton from "./addTaskButton/AddTaskButton";
 import { TaskList } from "./taskList/TaskList";
 import Board from "./board/Board";
+import ProjectCard from "./projectCard/ProjectCard";
+import ProjectCardList from "./projectCardList/ProjectCardList";
+
 
 export {
+  ProjectCardList,
+  ProjectCard,
   Board,
   TaskList,
   AddTaskButton,
