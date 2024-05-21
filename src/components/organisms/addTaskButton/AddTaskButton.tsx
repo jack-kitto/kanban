@@ -4,7 +4,6 @@ import type { ColumnType, TaskType } from "~/components/types";
 import TaskDetail from "../taskDetail/TaskDetail";
 
 export interface AddTaskButtonProps {
-  task: TaskType;
   columns: ColumnType[];
   updateTask: (task: TaskType) => void;
   onDeleteTask: (task: TaskType) => void;
@@ -35,19 +34,10 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
           newTask={newTask}
           editing={editing}
           setEditing={setEditing}
-          menuOptions={[
-            {
-              onClick: (): void => { setEditing(true) },
-              text: 'Edit Task'
-            },
-            {
-              destructive: true,
-              onClick: (): void => { (): void => props.onDeleteTask(props.task) },
-              text: 'Delete Task'
-            }
-          ]}
+          menuOptions={[]}
           saveChanges={(task: TaskType): void => {
             props.updateTask(task)
+            setShowTaskDetail(false)
             setNewTask(false)
 
             //

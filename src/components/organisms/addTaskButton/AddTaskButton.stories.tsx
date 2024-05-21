@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { useArgs } from '@storybook/preview-api';
-import AddTaskButton, { type AddTaskButtonProps } from './AddTaskButton';
+import AddTaskButton from './AddTaskButton';
 import type { ColumnType, TaskType as TaskType } from '~/components/types';
 import { colors } from '~/styles';
 import { generateNKeysBetween } from 'fractional-indexing';
@@ -55,7 +54,6 @@ const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => ({
 
 export const Light: Story = {
   args: {
-    task: task,
     updateTask: (): void => { console.log("updateTask") },
     onDeleteTask: (): void => { console.log("onDeleteTask") },
     columns: columns
@@ -67,13 +65,10 @@ export const Light: Story = {
     },
   },
   render: (args) => {
-    const [{ task }, updateArgs] = useArgs<AddTaskButtonProps>();
     return (
       <div className="">
         <AddTaskButton
           {...args}
-          task={task}
-          updateTask={(task: TaskType): void => updateArgs({ task })}
         />
       </div>
     )
