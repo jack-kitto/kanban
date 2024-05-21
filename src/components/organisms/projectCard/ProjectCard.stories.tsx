@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ProjectCard from './ProjectCard';
 import { generateNKeysBetween } from 'fractional-indexing';
 import { createId } from '@paralleldrive/cuid2';
-import { ColumnType, Project, TaskType } from '~/components/types';
+import type { ColumnType, Project, TaskType } from '~/components/types';
 import { colors } from '~/styles';
 
 const meta = {
@@ -43,7 +43,6 @@ const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => {
   }
 })
 
-const column: ColumnType = columns[0]!
 const project: Project = {
   id: createId(),
   columns: columns,

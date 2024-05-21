@@ -6,9 +6,10 @@ import { TaskList } from "./taskList/TaskList";
 import Board from "./board/Board";
 import ProjectCard from "./projectCard/ProjectCard";
 import ProjectCardList from "./projectCardList/ProjectCardList";
-
+import Navbar from "./navbar/Navbar";
 
 export {
+  Navbar,
   ProjectCardList,
   ProjectCard,
   Board,

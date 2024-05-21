@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tag } from '~/components/molecules';
-import { Project } from '~/components/types';
+import type { Project } from '~/components/types';
 
 export interface ProjectCardProps {
   project: Project;
