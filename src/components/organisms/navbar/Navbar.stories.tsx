@@ -17,6 +17,7 @@ export const Default: Story = {
   render: () => {
     return (
       <MainLayout
+        sidebarHidden={false}
         navbar={
           <Navbar
             updateTask={(): void => { console.log("updateTask") }}

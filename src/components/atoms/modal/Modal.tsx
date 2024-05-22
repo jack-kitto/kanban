@@ -31,9 +31,9 @@ export function Modal(props: ModalProps): JSX.Element | null {
   if (!props.open) return null
 
   return (
-    <div className={`${displayStyles} fixed top-0 left-0 right-0 bottom-0 w-full h-full`}>
-      <button onClick={props.close} className={`${displayStyles} absolute z-0 cursor-default bg-black bg-opacity-50 w-full h-full`} />
-      <div className="z-10 align-middle w/full sm:2/3 md:w-1/3 m-auto p-4 rounded-lg">
+    <div className={`${displayStyles} fixed z-50 top-0 left-0 right-0 bottom-0 w-full h-full`}>
+      <button onClick={props.close} className={`${displayStyles} absolute z-10 cursor-default bg-black bg-opacity-50 w-full h-full`} />
+      <div className="z-20 align-middle w/full sm:2/3 md:w-1/3 m-auto p-4 rounded-lg">
         {props.children}
       </div>
     </div>

@@ -12,6 +12,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Light: Story = {
   args: {
+    sidebarHidden: false,
+    sidebar: <div className='w-full flex items-center justify-center h-full bg-lime-300'>Sidebar</div>,
+    navbar: <div className='w-full flex items-center justify-center h-full bg-purple-300'>Navbar</div>,
+    children: <div className='w-full flex items-center justify-center h-full bg-teal-400'>Children</div>
+  }
+};
+
+export const SidebarHidden: Story = {
+  args: {
+    sidebarHidden: true,
     sidebar: <div className='w-full flex items-center justify-center h-full bg-lime-300'>Sidebar</div>,
     navbar: <div className='w-full flex items-center justify-center h-full bg-purple-300'>Navbar</div>,
     children: <div className='w-full flex items-center justify-center h-full bg-teal-400'>Children</div>
@@ -21,6 +31,7 @@ export const Light: Story = {
 export const Dark: Story = {
   args: {
     sidebar: <div className='w-full flex items-center justify-center h-full bg-lime-300'>Sidebar</div>,
+    sidebarHidden: false,
     navbar: <div className='w-full flex items-center justify-center h-full bg-purple-300'>Navbar</div>,
     children: <div className='w-full flex items-center justify-center h-full bg-teal-400'>Children</div>
   },

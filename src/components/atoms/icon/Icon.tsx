@@ -45,6 +45,7 @@ import EyeSlash from '../../../../public/eyeSlash.svg'
 import Board from '../../../../public/board.svg'
 import BoardGray from '../../../../public/boardGray.svg'
 import BoardPurple from '../../../../public/BoardPurple.svg'
+import Eye from '../../../../public/eye.svg'
 
 export type IconSizeType = 'small' | 'medium' | 'large' | 'inherit';
 export interface IconProps {
@@ -90,6 +91,12 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
       width={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
       height={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
     />,
+    Eye: <Image
+      src={Eye as string}
+      alt="Eye"
+      width={18}
+      height={18}
+    />,
     KeyboardArrowUpIcon: <KeyboardArrowUpIcon sx={{ color }} fontSize={size} />,
     LightMode: <Image
       src={LightMode as string}
@@ -106,8 +113,8 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
     EyeSlash: <Image
       src={EyeSlash as string}
       alt="Eye Slash"
-      width={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
-      height={size === 'small' ? 24 : size === 'medium' ? 32 : 40}
+      width={18}
+      height={16}
     />,
     Board: <Image
       src={Board as string}
@@ -179,4 +186,5 @@ export const iconRegistry = [
   'ExpandLessIcon',
   'ExpandMoreIcon',
   'PlaylistRemoveIcon',
+  'Eye'
 ] as const;
