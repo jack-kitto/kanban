@@ -5,11 +5,8 @@ import { Column } from "../column/Column";
 import { handleDragEnd, handleInsertItem, sortItems } from "~/components/helpers";
 
 export interface BoardProps {
-  index: number;
-  id: string;
   columns: ColumnType[];
   updateTask: (task: TaskType) => void;
-  updateColumn: (tasks: TaskType[]) => void;
   updateColumns: (columns: ColumnType[]) => void;
   onDeleteTask: (task: TaskType) => void;
 }
