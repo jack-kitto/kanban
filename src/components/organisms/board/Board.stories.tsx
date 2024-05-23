@@ -45,10 +45,7 @@ const column: ColumnType = columns[0]!
 
 export const Light: Story = {
   args: {
-    index: 0,
-    updateColumn: (): void => { console.log("updateColumn") },
     updateColumns: (): void => { console.log("updateColumns") },
-    id: "1",
     columns: columns,
     updateTask: (): void => { console.log("updateTask") },
     onDeleteTask: (): void => { console.log("onDeleteTask") }
@@ -62,12 +59,11 @@ export const Light: Story = {
   render: (args) => {
     const [{ columns }, updateArgs] = useArgs<BoardProps>();
     return (
-      <div className="min-w-[100vh] min-h-[100vh]">
+      <div className="w-full h-full">
         <Board
           {...args}
           updateTask={(task: TaskType): void => updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => updateArgs({ columns: newColumns }))}
           onDeleteTask={(task: TaskType): void => updateArgs({ columns: columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c) })}
-          updateColumn={(tasks: TaskType[]): void => updateArgs({ columns: columns.map((c: ColumnType): ColumnType => c.id === column.id ? { ...c, tasks } : c) })}
           updateColumns={(columns: ColumnType[]): void => updateArgs({ columns })}
           columns={columns}
         />
