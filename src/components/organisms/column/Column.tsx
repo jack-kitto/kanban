@@ -15,7 +15,7 @@ export interface ColumnProps {
 
 const ColumnComponent = (props: ColumnProps): JSX.Element => {
   return (
-    <div className="w-full flex flex-col pr-5">
+    <div className="flex flex-col pr-5 max-w-[500px] justify-center items-center">
       <div className="w-full flex py-6">
         <Tag colour={props.column.colour} label={`${`${props.column.title} (${props.tasks.length})`.toUpperCase()}`} />
       </div>
