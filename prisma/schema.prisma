@@ -18,11 +18,12 @@ datasource db {
 }
 
 model Project {
-  id      String   @id @default(cuid())
+  id          String   @id @default(cuid())
   ///FAKE:faker.lorem.words({min: 1, max: 5})
-  name    String
-  users   User[]
-  columns Column[]
+  title       String
+  description String
+  users       User[]
+  columns     Column[]
 }
 
 model Task {
@@ -32,6 +33,7 @@ model Task {
   description String
   subtasks    Subtask[]
   column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  columnTitle String
   columnId    String
   position    String
 }

@@ -6,19 +6,22 @@ import Decimal from 'decimal.js';
 
 export function fakeProject() {
   return {
-    name: faker.lorem.words({min: 1, max: 5}),
+    title: faker.lorem.words({min: 1, max: 5}),
+    description: faker.lorem.words(5),
   };
 }
 export function fakeProjectComplete() {
   return {
     id: faker.string.uuid(),
-    name: faker.lorem.words({min: 1, max: 5}),
+    title: faker.lorem.words({min: 1, max: 5}),
+    description: faker.lorem.words(5),
   };
 }
 export function fakeTask() {
   return {
     title: faker.lorem.words(5),
     description: faker.lorem.sentence({ min: 1, max: 5 }),
+    columnTitle: faker.lorem.words(5),
     position: faker.lorem.words(5),
   };
 }
@@ -27,6 +30,7 @@ export function fakeTaskComplete() {
     id: faker.string.uuid(),
     title: faker.lorem.words(5),
     description: faker.lorem.sentence({ min: 1, max: 5 }),
+    columnTitle: faker.lorem.words(5),
     columnId: faker.string.uuid(),
     position: faker.lorem.words(5),
   };
