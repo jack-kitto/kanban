@@ -1,8 +1,9 @@
 import React from "react";
-import { DragDropContext, Draggable, type DraggableProvided, type DropResult, Droppable, type DroppableProvided } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, type DraggableProvided, type DropResult, type DroppableProvided } from "react-beautiful-dnd";
 import type { ColumnType as ColumnType, TaskType } from "~/components/types";
 import { Column } from "../column/Column";
 import { handleDragEnd, handleInsertItem, sortItems } from "~/components/helpers";
+import { StrictModeDroppable } from "~/components/atoms/strictModeDroppable/StrictModeDroppable";
 
 export interface BoardProps {
   columns: ColumnType[];
@@ -54,7 +55,7 @@ export default function Board(props: BoardProps): JSX.Element {
         }
       }}
     >
-      <Droppable
+      <StrictModeDroppable
         droppableId={'columns'}
         type={'COLUMN'}
         isDropDisabled={false}
@@ -98,7 +99,7 @@ export default function Board(props: BoardProps): JSX.Element {
             {dropProvided.placeholder}
           </div>
         )}
-      </Droppable>
+      </StrictModeDroppable>
 
     </DragDropContext>
   );

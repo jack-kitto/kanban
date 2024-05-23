@@ -3,6 +3,7 @@ import { Task } from "~/components/organisms/task/Task";
 import { Droppable, type DroppableProvided } from 'react-beautiful-dnd';
 import { memo } from "react";
 import { sortItems } from "~/components/helpers";
+import { StrictModeDroppable } from "~/components/atoms/strictModeDroppable/StrictModeDroppable";
 
 export interface TaskListProps {
   tasks: TaskType[]
@@ -14,7 +15,7 @@ export interface TaskListProps {
 
 const TaskListComponent = (props: TaskListProps): JSX.Element => {
   return (
-    <Droppable
+    <StrictModeDroppable
       droppableId={props.column.id}
       type={'TASK'}
       isDropDisabled={false}
@@ -44,7 +45,7 @@ const TaskListComponent = (props: TaskListProps): JSX.Element => {
           {dropProvided.placeholder}
         </div>
       )}
-    </Droppable>
+    </StrictModeDroppable>
 
   );
 }
