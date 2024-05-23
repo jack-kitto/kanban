@@ -18,13 +18,13 @@ export default function Navbar(props: NavbarProps): JSX.Element {
   const [editing, setEditing] = useState<boolean>(true)
   const [newBoard, setNewBoard] = useState<boolean>(false)
   return (
-    <div className="w-full h-full flex justify-between items-center px-8">
+    <div className="w-full h-full bg-white dark:bg-darkGray flex justify-between items-center px-8">
       <div className="flex justify-center items-center">
         <div className="pr-4 sm:hidden">
           <Icon icon="Logo" color={colors.mainPurple} size="medium" />
         </div>
         <button className="flex  gap-2 justify-center items-center transition outline-none hover-duration-300 ease-in-out hover:opacity-50 active:scale-90 select-none">
-          <h1 className="prose-hxl">{props.project?.title ?? 'Kanban'}</h1>
+          <h1 className="prose-hxl dark:text-white">{props.project?.title ?? 'Kanban'}</h1>
           <div className="pr-4 sm:hidden">
             <Icon icon={props.sidebarOpen ? "KeyboardArrowUpIcon" : "KeyboardArrowDownIcon"} color={colors.mainPurple} size="medium" />
           </div>

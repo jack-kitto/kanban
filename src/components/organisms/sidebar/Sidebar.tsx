@@ -11,6 +11,7 @@ export interface SidebarProps {
   setSidebarHidden: (hidden: boolean) => void
   sidebarHidden: boolean
   setCreateProjectOpen: (open: boolean) => void
+  onLogoClick?: () => void
 }
 
 export default function Sidebar(props: SidebarProps): JSX.Element {
@@ -28,12 +29,12 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
       <div>
         {
           props.modal ?? (
-            <div className="flex pt-8 pl-[34px] pb-14">
+            <button onClick={props.onLogoClick} className="flex pt-8 pl-[34px] outline-none pb-14">
               <div className="pr-4">
                 <Icon icon="Logo" size="medium" />
               </div>
-              <h1 className="prose-hxl">{'Kanban'}</h1>
-            </div>
+              <h1 className="prose-hxl dark:text-white">{'Kanban'}</h1>
+            </button>
           )
         }
         <div className={`pl-8 pb-[22px] ${props.modal && 'pt-[19px]'}`}>
