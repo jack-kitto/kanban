@@ -40,3 +40,10 @@ export const Destructive: Story = {
     type: "destructive",
   }
 }
+
+export const Login: Story = {
+  args: {
+    text: "Login",
+    type: "login",
+  }
+}

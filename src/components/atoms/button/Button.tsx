@@ -1,6 +1,6 @@
 import { Icon, type IconType } from "../icon"
 
-const buttonTypes = ['primary', 'secondary', 'destructive'] as const
+const buttonTypes = ['primary', 'secondary', 'destructive', 'login'] as const
 export type ButtonType = typeof buttonTypes[number]
 
 export interface ButtonProps {
@@ -16,18 +16,21 @@ export interface ButtonProps {
 
 const bgMap: Record<ButtonType, string> = {
   primary: 'bg-mainPurple',
+  login: 'bg-mainPurple rounded-[2px]',
   secondary: 'bg-mainPurple10',
   destructive: 'bg-red',
 }
 
 const hoverBgMap = {
   primary: 'hover:bg-mainPurpleHover',
+  login: 'hover:bg-mainPurpleHover rounded-[2px]',
   secondary: 'hover:bg-mainPurple25',
   destructive: 'hover:bg-redHover',
 }
 
 const textMap = {
   primary: 'text-white',
+  login: 'text-white',
   secondary: 'text-mainPurple',
   destructive: 'text-white',
 }
@@ -43,7 +46,6 @@ const roundMap = {
 }
 
 export default function Button(props: ButtonProps): JSX.Element {
-
   if (props.children) {
     return (
       <button {...props.btn} className={`transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
