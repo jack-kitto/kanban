@@ -64,7 +64,7 @@ export default function Board(props: BoardProps): JSX.Element {
       >
         {(dropProvided: DroppableProvided): JSX.Element => (
           <div
-            className="flex w-full justify-normal items-center"
+            className="flex w-full justify-normal items-center overflow-x-auto no-scrollbar"
             ref={dropProvided.innerRef}
             {...dropProvided.droppableProps}
           >
