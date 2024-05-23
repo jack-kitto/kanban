@@ -48,6 +48,7 @@ const projects: Project[] = Array.from({ length: 5 }, (_, i) => {
 export const Light: Story = {
   args: {
     projects,
+    onClick: (project: Project) => console.log(project)
   },
   parameters: {
     backgrounds: {
@@ -61,6 +62,7 @@ export const Light: Story = {
 export const Dark: Story = {
   args: {
     projects,
+    onClick: (project: Project) => console.log(project)
   },
   parameters: {
     backgrounds: {

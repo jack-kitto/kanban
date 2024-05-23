@@ -41,8 +41,6 @@ const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => {
   }
 })
 
-const column: ColumnType = columns[0]!
-
 export const Light: Story = {
   args: {
     updateColumns: (): void => { console.log("updateColumns") },

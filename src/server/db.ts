@@ -1,9 +1,5 @@
-import { Client } from "@planetscale/database";
 import { PrismaClient } from "@prisma/client";
-
 import { env } from "~/env";
-
-const psClient = new Client({ url: env.DATABASE_URL });
 
 const createPrismaClient = () =>
   new PrismaClient({

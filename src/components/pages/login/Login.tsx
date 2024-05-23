@@ -4,10 +4,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { Button, TextField } from "~/components/atoms";
 
-export interface LoginProps {
-}
-
-export default function Login(props: LoginProps): JSX.Element {
+export default function Login(): JSX.Element {
   const [email, setEmail] = useState<string>("")
   return (
     <div className="h-screen w-screen flex justify-center items-center">
@@ -32,13 +29,8 @@ export default function Login(props: LoginProps): JSX.Element {
           <Button
             disabled={!email || !z.string().email().safeParse(email).success}
             btn={{
-              onSubmit: (e) => { signIn("email", { email }) },
-              type: 'submit',
-              onClick: () => signIn("email", { email }),
-              onKeyPress: (e) => {
-                if (e.key === 'Enter') {
-                  signIn("email", { email })
-                }
+              onClick: () => {
+                signIn("email", { email }).catch(() => { console.log("Error") })
               }
             }}
             type="login"

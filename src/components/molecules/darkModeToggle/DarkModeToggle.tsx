@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Toggle } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
 import { useDarkmode } from "~/hooks/useDarkmode";

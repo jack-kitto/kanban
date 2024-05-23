@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import React from "react";
-import { ColourName } from "~/components/atoms/bubble/Bubble";
+import type { ColourName } from "~/components/atoms/bubble/Bubble";
 import { HomePage } from "~/components/pages";
-import { Project } from "~/components/types";
+import type { Project } from "~/components/types";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
 export default async function Home() {

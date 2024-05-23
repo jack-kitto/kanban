@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { Navbar, ProjectCardList } from "~/components/organisms";
 import HomeLayout from "~/components/templates/homeLayout/HomeLayout";
-import { Project } from "~/components/types";
+import type { Project } from "~/components/types";
 
 export interface HomePageProps {
   projects: Project[]
@@ -10,8 +10,8 @@ export interface HomePageProps {
 
 export default function HomePage(props: HomePageProps) {
   const router = useRouter()
-  function updateTask() { }
-  function deleteTask() { }
+  function updateTask() { console.log('update task') }
+  function deleteTask() { console.log('delete task') }
   return (
     <HomeLayout
       navbar={<Navbar updateTask={updateTask} onDeleteTask={deleteTask} />}

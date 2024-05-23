@@ -1,12 +1,11 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ColourName } from "~/components/atoms/bubble/Bubble";
 import { updateTaskInListOfColumns } from "~/components/helpers";
 import { Board, Navbar } from "~/components/organisms";
 import Sidebar from "~/components/organisms/sidebar/Sidebar";
 import { MainLayout } from "~/components/templates";
-import { ColumnType, Project, TaskType } from "~/components/types";
+import type { ColumnType, Project, TaskType } from "~/components/types";
 
 export interface ProjectPageProps {
   projects: Project[]
@@ -16,6 +15,7 @@ export interface ProjectPageProps {
 export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [currentProject, setCurrentProject] = useState<Project | null>(props.project)
   const [isClient, setIsClient] = useState(false)
+  const [, setCreateProjectOpen] = useState<boolean>(false)
   const [columns, setColumns] = useState<ColumnType[]>([])
   const [sidebarHidden, setSidebarHidden] = useState<boolean>(false)
   const router = useRouter()
@@ -26,7 +26,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
       title: column.title.length > 20 ? column.title.slice(0, 20) + "..." : column.title,
       id: column.id,
       position: column.position,
-      colour: column.colour as ColourName,
+      colour: column.colour,
       tasks: column.tasks.map((task) => ({
         title: task.title,
         columnId: column.id,
@@ -64,7 +64,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           currentProject={currentProject}
           projects={props.projects}
           onClickProject={(project: Project): void => setCurrentProject(project)}
-          setCreateProjectOpen={() => { }}
+          setCreateProjectOpen={setCreateProjectOpen}
           setSidebarHidden={setSidebarHidden}
           sidebarHidden={sidebarHidden}
           onLogoClick={() => router.push('/')}

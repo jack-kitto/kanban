@@ -1,6 +1,6 @@
 import type { ColumnType, TaskType as TaskType } from "~/components/types";
 import { Task } from "~/components/organisms/task/Task";
-import { Droppable, type DroppableProvided } from 'react-beautiful-dnd';
+import { type DroppableProvided } from 'react-beautiful-dnd';
 import { memo } from "react";
 import { sortItems } from "~/components/helpers";
 import { StrictModeDroppable } from "~/components/atoms/strictModeDroppable/StrictModeDroppable";
