@@ -45,8 +45,8 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         }))
       }))
     })) ?? []
-    console.log(data)
     setColumns(data)
+    document.title = currentProject?.title ?? "Kanban"
   }, [currentProject])
 
   useEffect(() => {
