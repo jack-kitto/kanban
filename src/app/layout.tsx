@@ -1,4 +1,5 @@
 import "~/styles/globals.css";
+import { Analytics } from "@vercel/analytics/react"
 
 import { GeistSans } from "geist/font/sans";
 import { Plus_Jakarta_Sans } from 'next/font/google'
@@ -34,7 +35,11 @@ export default function RootLayout({
     >
       <body>
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Analytics />
       </body>
     </html>
   );
 }
+
+
+// test commit
