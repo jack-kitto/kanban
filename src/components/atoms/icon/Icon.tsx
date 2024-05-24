@@ -142,7 +142,7 @@ export function Icon({ icon, size = 'medium', color = 'white', onClick, disabled
 
   if (onClick === undefined) return React.cloneElement(selectedIcon, { fontSize: size });
   return (
-    <button disabled={disabled} onClick={onClick} className=' transition hover-duration-150 ease-in-out hover:scale-125 active:scale-90'>
+    <button disabled={disabled} onMouseDown={onClick} className=' transition hover-duration-150 ease-in-out hover:scale-125 active:scale-90'>
       {React.cloneElement(selectedIcon, { fontSize: size })}
     </button>
   )

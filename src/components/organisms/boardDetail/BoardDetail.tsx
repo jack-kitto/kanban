@@ -127,7 +127,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
               <Button
                 text="+ Add New Column"
                 btn={{
-                  onClick: (): void => dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn('', finalColPosition) })
+                  onMouseDown: (): void => dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn('', finalColPosition) })
                 }}
                 type="secondary"
                 size="sm"
@@ -142,7 +142,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
             <Button
               text={!props.newBoard ? `Save Changes` : "Create New Board"}
               btn={{
-                onClick: (): void => {
+                onMouseDown: (): void => {
                   props.saveChanges(project)
                   props.setNewBoard(false)
                 }

@@ -18,7 +18,7 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
 
   if (props.sidebarHidden) {
     return (
-      <button onClick={() => props.setSidebarHidden(false)} className="absolute bottom-8 left-0 h-12 flex justify-center items-center rounded-r-full z-50 bg-mainPurple w-[56px] transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-100 select-none">
+      <button onMouseDown={() => props.setSidebarHidden(false)} className="absolute bottom-8 left-0 h-12 flex justify-center items-center rounded-r-full z-50 bg-mainPurple w-[56px] transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-100 select-none">
         <Icon icon="Eye" />
       </button>
     );
@@ -29,7 +29,7 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
       <div>
         {
           props.modal ?? (
-            <button onClick={props.onLogoClick} className="flex pt-8 pl-[34px] outline-none pb-14">
+            <button onMouseDown={props.onLogoClick} className="flex pt-8 pl-[34px] outline-none pb-14">
               <div className="pr-4">
                 <Icon icon="Logo" size="medium" />
               </div>
@@ -53,7 +53,7 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
         <DarkModeToggle />
         {
           props.modal ?? (
-            <Button btn={{ onClick: () => props.setSidebarHidden(true) }}>
+            <Button btn={{ onMouseDown: () => props.setSidebarHidden(true) }}>
               <div className=" flex gap-4 pb-12 pt-[26px]">
                 <Icon icon="EyeSlash" />
                 <h1 className="prose-hm text-mediumGray">Hide Sidebar</h1>

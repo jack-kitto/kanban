@@ -28,10 +28,10 @@ export const Default: Story = {
           close={(): void => updateArgs({ open: false })}
         >
           <div className="bg-red p-12 flex justify-center">
-            <Button btn={{ onClick: () => updateArgs({ open: false }) }} type="secondary" text="Close" />
+            <Button btn={{ onMouseDown: () => updateArgs({ open: false }) }} type="secondary" text="Close" />
           </div>
         </Modal>
-        <Button btn={{ onClick: () => updateArgs({ open: !open }) }} type="primary" text="Open Modal" />
+        <Button btn={{ onMouseDown: () => updateArgs({ open: !open }) }} type="primary" text="Open Modal" />
       </div>
     )
   }

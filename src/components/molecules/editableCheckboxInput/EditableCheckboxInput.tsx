@@ -37,7 +37,7 @@ export default function EditableCheckboxInput(props: EditableCheckboxInputProps)
   if (setChecked === undefined || checked === undefined) return <></>;
   return (
     <button
-      onClick={(): void => setChecked && setChecked(!checked)}
+      onMouseDown={(): void => setChecked && setChecked(!checked)}
       className="flex gap-4 items-start cursor-pointer transition-colors duration-300 ease-in-out justify-start bg-linesLight dark:bg-veryDarkGray p-3 hover:bg-mainPurpleHover dark:hover:bg-mainPurple rounded w-full min-w-[295px]"
     >
       <div className="flex justify-center">
