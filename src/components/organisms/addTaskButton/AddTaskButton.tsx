@@ -56,7 +56,6 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
           }}
         />
       </Modal>
-
     </>
   );
 }
