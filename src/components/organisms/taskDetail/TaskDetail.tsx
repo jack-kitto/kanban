@@ -185,6 +185,13 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
           setSelected={(selectedOptionId: string): void => {
             const column: ColumnType = props.columns.find((c: ColumnType): boolean => c.id === selectedOptionId)!
             if (!column) return
+            dispatch({ type: ActionTypes.SET_COLUMN_ID, payload: column.id })
+            dispatch({ type: ActionTypes.SET_COLUMN_TITLE, payload: column.title })
+
+            if (props.editing) {
+              return
+            }
+
             const newTask = task
             newTask.columnTitle = column.title
             newTask.columnId = column.id
@@ -196,8 +203,6 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
             }
             newTask.position = generateKeyBetween(finalPositionInNewColumn, null)
             props.saveChanges(newTask)
-            dispatch({ type: ActionTypes.SET_COLUMN_ID, payload: column.id })
-            dispatch({ type: ActionTypes.SET_COLUMN_TITLE, payload: column.title })
 
           }}
         />
