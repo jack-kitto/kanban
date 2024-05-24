@@ -37,7 +37,7 @@ export default function Login(): JSX.Element {
             text="Send Login Email"
           />
           <div className="w-full flex justify-center items-center">
-            <p className="prose-bl">Make sure to check you spam folder 😭</p>
+            <p className="prose-bl">Make sure to check your spam folder 😭</p>
           </div>
         </div>
       </div>
