@@ -12,6 +12,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    position: 'left-start',
     options: [
       {
         text: 'Option 1',

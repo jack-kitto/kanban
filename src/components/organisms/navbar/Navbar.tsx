@@ -1,6 +1,6 @@
-import { AddTaskButton, BoardDetail } from "~/components/organisms";
+import { BoardDetail } from "~/components/organisms";
 import type { Project, TaskType } from "~/components/types";
-import { Button, MenuButton, Modal, TooltipMenu } from "~/components/atoms";
+import { Button, Modal } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
 import { useState } from "react";

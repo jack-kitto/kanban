@@ -1,5 +1,5 @@
 import React from "react";
-import { Popover, PopoverProps, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
+import { Popover, type PopoverProps, PopoverTrigger, PopoverContent, Button } from "@nextui-org/react";
 import { MenuButton } from "~/components/atoms";
 export type PopoverMenuOption = {
   text: string
