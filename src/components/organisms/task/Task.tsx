@@ -38,7 +38,7 @@ function TaskComponent(props: TaskProps): JSX.Element {
   return (
     <>
       <button
-        onMouseDown={(): void => setShowTaskDetail(true)}
+        onClick={(): void => setShowTaskDetail(true)}
       >
         <TaskCard
           title={props.task.title}
