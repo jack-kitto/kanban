@@ -13,6 +13,7 @@ This Kanban app is built using the T3 stack (Next.js, Prisma, PostgreSQL, Tailwi
 - Drag and drop columns to rearrange them
 - Drag and drop tasks to rearrange them within their column or across columns
 - Dark mode support
+- Passwordless Sign in
 
 ## Installation
 
