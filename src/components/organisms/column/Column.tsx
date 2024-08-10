@@ -14,10 +14,11 @@ export interface ColumnProps {
 }
 
 const ColumnComponent = (props: ColumnProps): JSX.Element => {
+  //TODO: Make it so that changing the amount of tasks in a column doesn't affect the width of the column
   return (
     <div className="flex flex-col pr-5 max-w-[500px] justify-center items-center">
       <div className="w-full flex py-6">
-        <Tag colour={props.column.colour} label={`${`${props.column.title} (${props.tasks.length})`.toUpperCase()}`} />
+        <Tag colour={props.column.colour} label={`${`${props.column.title} (${props.tasks.length})`.toUpperCase()}`} /> //T
       </div>
       <div className="h-[800px] overflow-auto no-scrollbar rounded-lg scroll-m-2">
         <TaskList
