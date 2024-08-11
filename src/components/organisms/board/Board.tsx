@@ -8,7 +8,7 @@ import { StrictModeDroppable } from "~/components/atoms/strictModeDroppable/Stri
 export interface BoardProps {
   columns: ColumnType[];
   updateTask: (task: TaskType) => void;
-  updateColumns: (columns: ColumnType[]) => void;
+  updateColumnTasks: (columns: ColumnType[]) => void;
   onDeleteTask: (task: TaskType) => void;
 }
 
@@ -18,7 +18,7 @@ export default function Board(props: BoardProps): JSX.Element {
       onDragEnd={(result: DropResult): void => {
         try {
           if (result.type === 'COLUMN') {
-            handleDragEnd<ColumnType>(result, props.columns, props.updateColumns)
+            handleDragEnd<ColumnType>(result, props.columns, props.updateColumnTasks)
           } else {
             const sourceColumn = props.columns.find((c: ColumnType): boolean => c.id === result.source.droppableId)
             const destinationColumn = props.columns.find((c: ColumnType): boolean => c.id === result.destination?.droppableId)
@@ -29,7 +29,7 @@ export default function Board(props: BoardProps): JSX.Element {
             if (sourceColumn.id === destinationColumn.id) {
               handleDragEnd<TaskType>(result, sourceColumn.tasks, (tasks: TaskType[]): void => {
                 sourceColumn.tasks = tasks
-                props.updateColumns(props.columns)
+                props.updateColumnTasks(props.columns)
               })
               return
             }
@@ -40,7 +40,7 @@ export default function Board(props: BoardProps): JSX.Element {
             if (destinationIndex === undefined) throw new Error('destinationIndex is undefined')
             const newDestinationTasks: TaskType[] = handleInsertItem<TaskType>(destinationTasks, draggedTask, destinationIndex)
             const newSourceTasks = sourceColumn.tasks.filter((task: TaskType): boolean => task.id !== draggedTask.id)
-            props.updateColumns(props.columns.map((column: ColumnType): ColumnType => {
+            props.updateColumnTasks(props.columns.map((column: ColumnType): ColumnType => {
               if (column.id === sourceColumn.id) {
                 column.tasks = newSourceTasks
               }

@@ -43,7 +43,7 @@ const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => {
 
 export const Light: Story = {
   args: {
-    updateColumns: (): void => { console.log("updateColumns") },
+    updateColumnTasks: (): void => { console.log("updateColumns") },
     columns: columns,
     updateTask: (): void => { console.log("updateTask") },
     onDeleteTask: (): void => { console.log("onDeleteTask") }
@@ -62,7 +62,7 @@ export const Light: Story = {
           {...args}
           updateTask={(task: TaskType): void => updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => updateArgs({ columns: newColumns }))}
           onDeleteTask={(task: TaskType): void => updateArgs({ columns: columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c) })}
-          updateColumns={(columns: ColumnType[]): void => updateArgs({ columns })}
+          updateColumnTasks={(columns: ColumnType[]): void => updateArgs({ columns })}
           columns={columns}
         />
       </div>

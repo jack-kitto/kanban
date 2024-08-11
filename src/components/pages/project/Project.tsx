@@ -49,6 +49,16 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     }
   })
 
+  const updateColumnTasksMutation = api.column.update.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+    onSuccess: () => {
+      toast('🔥 Successfully updated board')
+    }
+  })
+
   const deleteTaskMutation = api.task.delete.useMutation({
     onError: (e) => {
       console.error(e)
@@ -201,8 +211,9 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
               setColumns(columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c))
               deleteTaskMutation.mutate(task.id)
             }}
-            updateColumns={(columns: ColumnType[]): void => {
+            updateColumnTasks={(columns: ColumnType[]): void => {
               setColumns(columns)
+              updateColumnTasksMutation.mutate(columns)
             }}
             columns={columns}
           />
