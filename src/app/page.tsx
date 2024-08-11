@@ -12,11 +12,11 @@ export default async function Home() {
   }
   const projectsData = await db.project.findMany({
     where: {
-      // users: {
-      //   some: {
-      //     id: session.user.id
-      //   }
-      // }
+      users: {
+        some: {
+          id: session.user.id
+        }
+      }
     },
     include: {
       columns: {
@@ -30,7 +30,6 @@ export default async function Home() {
       }
     }
   })
-  console.log(projectsData)
 
   const projects: Project[] = projectsData.map((project) => {
     return {
