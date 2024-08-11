@@ -17,7 +17,6 @@ export const taskRouter = createTRPCRouter({
   create: protectedProcedure
     .input(taskTypeSchema)
     .mutation(async ({ ctx, input }) => {
-      ctx.session.user.id
       return ctx.db.task.create({
         data: {
           title: input.title,
@@ -36,4 +35,13 @@ export const taskRouter = createTRPCRouter({
         },
       });
     }),
+  delete: protectedProcedure
+    .input(z.string().min(1))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.task.delete({
+        where: {
+          id: input
+        }
+      })
+    })
 });

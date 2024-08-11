@@ -49,6 +49,16 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     }
   })
 
+  const deleteTaskMutation = api.task.delete.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+    onSuccess: () => {
+      toast('✅ Successfully removed task')
+    }
+  })
+
   const deleteProjectMutation = api.project.delete.useMutation({
     onError: (e) => {
       console.error(e)
@@ -174,7 +184,10 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         <div className="w-full h-full p-6 bg-lightGray dark:bg-veryDarkGray">
           <Board
             updateTask={(task: TaskType): void => updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))}
-            onDeleteTask={(task: TaskType): void => setColumns(columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c))}
+            onDeleteTask={(task: TaskType): void => {
+              setColumns(columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c))
+              deleteTaskMutation.mutate(task.id)
+            }}
             updateColumns={(columns: ColumnType[]): void => setColumns(columns)}
             columns={columns}
           />
