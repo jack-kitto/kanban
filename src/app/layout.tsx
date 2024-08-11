@@ -4,6 +4,15 @@ import { Analytics } from "@vercel/analytics/react"
 import { GeistSans } from "geist/font/sans";
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { TRPCReactProvider } from "~/trpc/react";
+import posthog from 'posthog-js'
+import { env } from "~/env";
+
+posthog.init(env.NEXT_PUBLIC_POSTHOG_TOKEN,
+  {
+    api_host: 'https://us.i.posthog.com',
+    person_profiles: 'always' // or 'always' to create profiles for anonymous users as well
+  }
+)
 
 export const metadata = {
   title: "Kanban",

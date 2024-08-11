@@ -45,3 +45,4 @@ yarn-error.log*
 *storybook.log
 prisma/migrations
 .env.development
+.env.grafana
