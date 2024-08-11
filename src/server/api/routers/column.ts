@@ -36,5 +36,16 @@ export const columnRouter = createTRPCRouter({
         }).then(() => true).catch(() => false))
       }
       return Promise.all(promises)
+    }),
+  delete: protectedProcedure
+    .input(z.array(z.string()))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.column.deleteMany({
+        where: {
+          id: {
+            in: input
+          }
+        }
+      })
     })
 });
