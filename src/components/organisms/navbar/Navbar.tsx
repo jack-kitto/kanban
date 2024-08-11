@@ -1,5 +1,5 @@
 import { BoardDetail } from "~/components/organisms";
-import type { Project, TaskType } from "~/components/types";
+import type { Project } from "~/components/types";
 import { Button, Modal } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
@@ -8,11 +8,9 @@ import PopoverMenu from "~/components/molecules/popoverMenu/PopoverMenu";
 
 export interface NavbarProps {
   project?: Project;
-  updateTask: (task: TaskType) => void;
-  onDeleteTask: (task: TaskType) => void;
   onSidebarOpen?: () => void;
   sidebarOpen?: boolean;
-  onAddTask?: () => void;
+  openTaskDetail?: () => void;
   createProject: (p: Project) => void
 }
 
@@ -24,10 +22,6 @@ export default function Navbar(props: NavbarProps): JSX.Element {
 
   function handleAddProject() {
     setCreateProjectOpen(true)
-  }
-
-  function handleAddTask() {
-    if (props.onAddTask) props.onAddTask()
   }
 
   function createProject(p: Project) {
@@ -64,7 +58,7 @@ export default function Navbar(props: NavbarProps): JSX.Element {
           {
             props.project &&
             <Button
-              btn={{ onMouseDown: handleAddTask }}
+              btn={{ onMouseDown: props.openTaskDetail }}
               type="primary"
               icon="AddIcon"
             />
@@ -82,7 +76,7 @@ export default function Navbar(props: NavbarProps): JSX.Element {
           {
             props.project &&
             <Button
-              btn={{ onMouseDown: handleAddTask }}
+              btn={{ onMouseDown: props.openTaskDetail }}
               disabled={false}
               text="+ Add New Task"
               type="primary"

@@ -31,20 +31,21 @@ function createSubtask(title?: string): Subtask {
   }
 }
 
-function createNewTask(): TaskType {
+function createNewTask(columns: TaskDetailProps['columns']): TaskType {
+  if (!columns || !columns[0]) throw new Error('Cannot create a task without first creating a column')
   return {
     title: '',
     description: '',
     subtasks: [],
     id: createId(),
-    columnTitle: '',
-    position: '',
-    columnId: '',
+    columnTitle: columns[0]?.title,
+    position: generateKeyBetween(columns[0]?.tasks[columns[0].tasks.length - 1]?.position ?? null, null),
+    columnId: columns[0]?.id,
   }
 }
 
 export default function TaskDetail(props: TaskDetailProps): JSX.Element {
-  const [task, dispatch] = useReducer<typeof reducer>(reducer, props.task ?? createNewTask());
+  const [task, dispatch] = useReducer<typeof reducer>(reducer, props.task ?? createNewTask(props.columns));
   const [newSubtask, setNewSubtask] = useState<string>('');
 
   const completedSubtasks = useMemo((): number => {
@@ -181,7 +182,7 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
       {props.columns && (
         <Select
           options={props.columns.map((column: ColumnType): SelectOption => ({ label: column.title, id: column.id }))}
-          selected={task.columnId}
+          selected={task.columnId ?? 'None'}
           setSelected={(selectedOptionId: string): void => {
             const column: ColumnType = props.columns.find((c: ColumnType): boolean => c.id === selectedOptionId)!
             if (!column) return

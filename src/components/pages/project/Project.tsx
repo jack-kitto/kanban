@@ -1,4 +1,5 @@
 "use client"
+import toast from 'react-hot-toast';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Modal } from "~/components/atoms";
@@ -26,6 +27,15 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const router = useRouter()
 
   const createProjectMutation = api.project.create.useMutation({
+    onError: (e) => {
+      console.error(e)
+    },
+    onSuccess: (d) => {
+      console.log("Success", d)
+    }
+  })
+
+  const createTaskMutation = api.task.create.useMutation({
     onError: (e) => {
       console.error(e)
     },
@@ -63,6 +73,11 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     setIsClient(true)
   }, [])
 
+  function openTaskDetail() {
+    if (!currentProject?.columns[0]) return toast('Please create a column before creating a task.');
+    setShowTaskDetail(true)
+  }
+
   if (!isClient) {
     return (<></>)
   }
@@ -90,6 +105,8 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
             updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))
             setShowTaskDetail(false)
             setNewTask(false)
+            console.info("creating task", task)
+            createTaskMutation.mutate(task)
 
             //
             // TODO: make sure to caculate the new position based on the column chosen and the last task in that column
@@ -127,8 +144,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
             createProject={createProjectMutation.mutate}
             sidebarOpen={!sidebarHidden}
             project={currentProject}
-            updateTask={(task: TaskType): void => updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))}
-            onDeleteTask={(task: TaskType): void => setColumns(columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c))}
+            openTaskDetail={openTaskDetail}
           />
         }
       >

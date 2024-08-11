@@ -16,20 +16,12 @@ export const ProjectView: Story = {
   args: {
     project: fakeProject() as any,
     createProject: (p: Project) => { console.log("p", p) },
-    updateTask: (): void => { console.log("updateTask") },
-    onDeleteTask: (): void => { console.log("onDeleteTask") },
   },
   render: (args: NavbarProps) => {
     return (
       <MainLayout
         sidebarHidden={false}
-        navbar={
-          <Navbar
-            {...args}
-            updateTask={(): void => { console.log("updateTask") }}
-            onDeleteTask={(): void => { console.log("onDeleteTask") }}
-          />
-        }
+        navbar={<Navbar {...args} />}
         sidebar={<div className='w-full flex items-center justify-center h-full bg-lime-300'>Sidebar</div>}
       >
         <div className='w-full flex items-center justify-center h-full bg-teal-400'>Children</div>
@@ -40,21 +32,13 @@ export const ProjectView: Story = {
 
 export const HomeView: Story = {
   args: {
-    updateTask: (): void => { console.log("updateTask") },
-    onDeleteTask: (): void => { console.log("onDeleteTask") },
     createProject: (): void => { console.log("onDeleteTask") },
   },
   render: (args: NavbarProps) => {
     return (
       <MainLayout
         sidebarHidden={false}
-        navbar={
-          <Navbar
-            {...args}
-            updateTask={(): void => { console.log("updateTask") }}
-            onDeleteTask={(): void => { console.log("onDeleteTask") }}
-          />
-        }
+        navbar={<Navbar {...args} />}
         sidebar={<div className='w-full flex items-center justify-center h-full bg-lime-300'>Sidebar</div>}
       >
         <div className='w-full flex items-center justify-center h-full bg-teal-400'>Children</div>
