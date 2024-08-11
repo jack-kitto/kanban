@@ -1,21 +1,12 @@
-import { z } from "zod";
+import { promise, z } from "zod";
 import { type ColumnType, projectSchema } from "~/components/types";
 
 import {
   createTRPCRouter,
   protectedProcedure,
-  publicProcedure,
 } from "~/server/api/trpc";
 
 export const projectRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
   create: protectedProcedure
     .input(projectSchema)
     .mutation(async ({ ctx, input }) => {
@@ -49,4 +40,40 @@ export const projectRouter = createTRPCRouter({
         }
       })
     }),
+  update: protectedProcedure
+    .input(projectSchema)
+    .mutation(async ({ ctx, input }) => {
+      const promises: Promise<boolean>[] = []
+      promises.push(ctx.db.project.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          title: input.title,
+          description: input.description,
+        }
+      }).then(() => true))
+      for (const column of input.columns) {
+        promises.push(ctx.db.project.update({
+          where: {
+            id: input.id,
+          },
+          data: {
+            columns: {
+              connectOrCreate: {
+                where: {
+                  id: column.id
+                },
+                create: {
+                  id: column.id,
+                  title: column.title,
+                  colour: column.colour,
+                  position: column.position
+                }
+              }
+            }
+          }
+        }).then(() => true))
+      }
+    })
 });
