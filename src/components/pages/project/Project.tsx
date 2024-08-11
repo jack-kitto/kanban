@@ -29,18 +29,21 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const createProjectMutation = api.project.create.useMutation({
     onError: (e) => {
       console.error(e)
+      toast(`🤦 ${e.message}`)
     },
     onSuccess: (d) => {
-      console.log("Success", d)
+      toast('🔥 Successfully saved new project')
+      setCreateProjectOpen(false)
     }
   })
 
   const createTaskMutation = api.task.create.useMutation({
     onError: (e) => {
       console.error(e)
+      toast(`🤦 ${e.message}`)
     },
     onSuccess: (d) => {
-      console.log("Success", d)
+      toast('🔥 Successfully saved task')
     }
   })
 
