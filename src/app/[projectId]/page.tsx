@@ -16,12 +16,11 @@ export default async function Page({ params }: { params: { projectId: string } }
 
   const projectsData = await db.project.findMany({
     where: {
-      // TODO: Enable this when we can create projects or see projects that we are attached to users
-      // users: {
-      //   some: {
-      //     id: session.user.id
-      //   }
-      // }
+      users: {
+        some: {
+          id: session.user.id
+        }
+      }
     },
     include: {
       columns: {
