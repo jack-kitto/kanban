@@ -17,7 +17,7 @@ export interface BoardDetailProps {
   newBoard: boolean;
   setNewBoard?: (newProject: boolean) => void;
   setEditing?: (editing: boolean) => void;
-  saveChanges: (project: Project) => void;
+  saveChanges: (project: Project, removedColumns?: string[]) => void;
   loading?: boolean
 }
 
@@ -43,6 +43,7 @@ function createNewProject(): Project {
 export default function BoardDetail(props: BoardDetailProps): JSX.Element {
   const [project, dispatch] = useReducer<typeof reducer>(reducer, props.project ?? createNewProject());
   const [newColumn, setNewColumn] = useState<string>('');
+  const [removedColumns, setRemovedColumns] = useState<string[]>([])
 
 
   useEffect((): void => {
@@ -100,7 +101,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
             <EditableCheckboxInput
               text={column.title}
               setText={(text: string): void => { dispatch({ type: ActionTypes.UPDATE_COLUMN, payload: { ...column, title: text } }) }}
-              onDelete={(): void => { if (column.id) dispatch({ type: ActionTypes.REMOVE_COLUMN, payload: column.id }) }}
+              onDelete={(): void => { if (column.id) dispatch({ type: ActionTypes.REMOVE_COLUMN, payload: column.id }); setRemovedColumns((prev) => [...prev, column.id]) }}
               editing={true}
             />
           </div>
@@ -142,7 +143,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
               loading={props.loading}
               btn={{
                 onMouseDown: (): void => {
-                  props.saveChanges(project)
+                  props.saveChanges(project, removedColumns)
                   props.setNewBoard!(false)
                 }
               }}

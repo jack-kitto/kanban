@@ -31,6 +31,28 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [newBoard, setNewBoard] = useState<boolean>(false)
   const router = useRouter()
 
+  const deleteColumnMutation = api.column.delete.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+    onSuccess: () => {
+      toast('🔥 Successfully saved project')
+      setCreateProjectOpen(false)
+    }
+  })
+
+  const updateProjectMutation = api.project.update.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+    onSuccess: () => {
+      toast('🔥 Successfully saved project')
+      setCreateProjectOpen(false)
+    }
+  })
+
   const createProjectMutation = api.project.create.useMutation({
     onError: (e) => {
       console.error(e)
@@ -178,16 +200,20 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           newBoard={true}
           loading={createProjectMutation.isPending}
           editing={true}
-          saveChanges={createProjectMutation.mutate}
+          saveChanges={(project: Project) => { createProjectMutation.mutate(project) }}
         />
       </Modal>
       <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
         <BoardDetail
+          project={currentProject}
           newBoard={newBoard}
           setNewBoard={setNewBoard}
           editing={editingBoard}
           setEditing={setEditingBoard}
-          saveChanges={(project: Project) => { console.log(project) }}
+          saveChanges={(project: Project, removedColumns?: string[]) => {
+            updateProjectMutation.mutate(project)
+            if (removedColumns && removedColumns?.length > 0) deleteColumnMutation.mutate(removedColumns)
+          }}
           menuOptions={[
             {
               text: 'Edit Project',
