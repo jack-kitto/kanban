@@ -12,11 +12,11 @@ import type { ColumnType, Project } from '~/components/types';
 
 export interface BoardDetailProps {
   project?: Project;
-  menuOptions: TooltipMenuOption[];
+  menuOptions?: TooltipMenuOption[];
   editing: boolean;
   newBoard: boolean;
-  setNewBoard: (newProject: boolean) => void;
-  setEditing: (editing: boolean) => void;
+  setNewBoard?: (newProject: boolean) => void;
+  setEditing?: (editing: boolean) => void;
   saveChanges: (project: Project) => void;
   loading?: boolean
 }
@@ -81,7 +81,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
                 <h2 className="prose-hl dark:text-white">
                   {project.title}
                 </h2>
-                <TooltipMenu options={props.menuOptions} angle="S">
+                <TooltipMenu options={props.menuOptions ?? []} angle="S">
                   <MenuButton type="hover" />
                 </TooltipMenu>
               </div>
@@ -143,7 +143,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
               btn={{
                 onMouseDown: (): void => {
                   props.saveChanges(project)
-                  props.setNewBoard(false)
+                  props.setNewBoard!(false)
                 }
               }}
               type="primary"

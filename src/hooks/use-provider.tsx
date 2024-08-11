@@ -1,8 +1,8 @@
 'use client';
 
 import {
-  FC,
-  ReactNode,
+  type FC,
+  type ReactNode,
   createContext,
   useContext,
   type Context,

@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import Navbar, { NavbarProps } from './Navbar';
+import Navbar, { type NavbarProps } from './Navbar';
 import { MainLayout } from '~/components/templates';
-import { fakeProject } from 'prisma/fake-data';
-import { Project } from '@prisma/client';
-import { } from '@nextui-org/react';
+import { type Project, fakeProject } from '~/components/types';
 
 const meta = {
   component: Navbar,
@@ -14,7 +12,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 export const ProjectView: Story = {
   args: {
-    project: fakeProject() as any,
+    project: fakeProject(),
     createProject: (p: Project) => { console.log("p", p) },
   },
   render: (args: NavbarProps) => {

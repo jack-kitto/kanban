@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Subtask, taskTypeSchema } from "~/components/types";
+import { type Subtask, taskTypeSchema } from "~/components/types";
 import {
   createTRPCRouter,
   protectedProcedure,

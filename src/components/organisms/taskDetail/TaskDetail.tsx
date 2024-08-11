@@ -32,7 +32,7 @@ function createSubtask(title?: string): Subtask {
 }
 
 function createNewTask(columns: TaskDetailProps['columns']): TaskType {
-  if (!columns || !columns[0]) throw new Error('Cannot create a task without first creating a column')
+  if (!columns[0]) throw new Error('Cannot create a task without first creating a column')
   return {
     title: '',
     description: '',

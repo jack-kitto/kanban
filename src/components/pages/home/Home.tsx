@@ -17,7 +17,7 @@ export default function HomePage(props: HomePageProps) {
       console.error(e)
       toast(`🤦 ${e.message}`)
     },
-    onSuccess: (d) => {
+    onSuccess: () => {
       toast('🔥 Successfully saved new project')
     }
   })

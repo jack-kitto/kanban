@@ -131,9 +131,7 @@ export default function Navbar(props: NavbarProps): JSX.Element {
             newBoard={true}
             setNewBoard={setNewBoard}
             editing={true}
-            setEditing={() => { }}
             saveChanges={createProject}
-            menuOptions={[]}
           />
         </Modal>
       }

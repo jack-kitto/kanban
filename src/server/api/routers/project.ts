@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ColumnType, projectSchema } from "~/components/types";
+import { type ColumnType, projectSchema } from "~/components/types";
 
 import {
   createTRPCRouter,
@@ -41,15 +41,4 @@ export const projectRouter = createTRPCRouter({
         },
       });
     }),
-
-  // getLatest: protectedProcedure.query(({ ctx }) => {
-  //   return ctx.db.post.findFirst({
-  //     orderBy: { createdAt: "desc" },
-  //     where: { createdBy: { id: ctx.session.user.id } },
-  //   });
-  // }),
-  //
-  // getSecretMessage: protectedProcedure.query(() => {
-  //   return "you can now see this secret message!";
-  // }),
 });

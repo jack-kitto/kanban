@@ -31,7 +31,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
       console.error(e)
       toast(`🤦 ${e.message}`)
     },
-    onSuccess: (d) => {
+    onSuccess: () => {
       toast('🔥 Successfully saved new project')
       setCreateProjectOpen(false)
     }
@@ -42,7 +42,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
       console.error(e)
       toast(`🤦 ${e.message}`)
     },
-    onSuccess: (d) => {
+    onSuccess: () => {
       toast('🔥 Successfully saved task')
     }
   })
@@ -122,11 +122,8 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         <BoardDetail
           newBoard={true}
           loading={createProjectMutation.isPending}
-          setNewBoard={() => { }}
           editing={true}
-          setEditing={() => { }}
           saveChanges={createProjectMutation.mutate}
-          menuOptions={[]}
         />
       </Modal>
       <MainLayout

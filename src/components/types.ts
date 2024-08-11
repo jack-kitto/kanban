@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { zocker } from "zocker";
 
 export const subtaskSchema = z.object({
   completed: z.boolean(),
@@ -34,6 +35,8 @@ export const projectSchema = z.object({
   id: z.string()
 })
 export type Project = z.infer<typeof projectSchema>
+export const fakeProject = (): Project => zocker(projectSchema).generate()
+export const fakeProjects = (): Project[] => zocker(projectSchema).generateMany(10)
 
 export const dndItemSchema = z.object({
   position: z.string(),
