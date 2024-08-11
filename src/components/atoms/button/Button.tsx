@@ -1,4 +1,7 @@
 import { Icon, type IconType } from "../icon"
+import { ring } from 'ldrs'
+
+ring.register()
 
 const buttonTypes = ['primary', 'secondary', 'destructive', 'login'] as const
 export type ButtonType = typeof buttonTypes[number]
@@ -12,6 +15,7 @@ export interface ButtonProps {
   children?: React.ReactNode
   disabled?: boolean
   icon?: IconType
+  loading?: boolean
 }
 
 const bgMap: Record<ButtonType, string> = {
@@ -41,27 +45,50 @@ const sizeMap = {
 }
 
 const roundMap = {
-  sm: 'rounded-[20px]',
-  lg: 'rounded-[24px]',
+  sm: 'rounded-[40px]',
+  lg: 'rounded-[40px]',
+}
+
+function Loader() {
+  return (
+    <div className="px-4 flex items-center justify-center">
+      <l-ring
+        size="20"
+        stroke="2"
+        bg-opacity="0"
+        speed="2"
+        color="white"
+      ></l-ring>
+    </div>
+
+  )
 }
 
 export default function Button(props: ButtonProps): JSX.Element {
   if (props.children) {
     return (
-      <button {...props.btn} className={`transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
-        {props.children}
+      <button {...props.btn} disabled={props.loading || props.disabled} className={`transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-90 select-none`}>
+        {!!props.loading && <Loader />}
+        {!props.loading && props.children}
       </button>
     )
   }
   return (
     <button
       {...props.btn}
-      className={`${bgMap[props.type ?? 'primary']} outline-none ${!props.disabled && hoverBgMap[props.type ?? 'primary']} ${props.disabled && 'cursor-default opacity-50'} ${textMap[props.type ?? 'primary']} px-5 prose-hm ${sizeMap[props.size ?? 'sm']} w-full ${roundMap[props.size ?? 'sm']} ${!props.disabled && 'transition hover-duration-150 ease-in-out hover:scale-105 active:scale-90'} select-none`}
-      disabled={props.disabled}
+      className={`${bgMap[props.type ?? 'primary']} p-4 w-fit h-fit outline-none ${!props.disabled && !props.loading && hoverBgMap[props.type ?? 'primary']} ${(props.disabled || props.loading) && 'cursor-default opacity-50'} ${textMap[props.type ?? 'primary']} px-5 prose-hm ${sizeMap[props.size ?? 'sm']} w-full ${roundMap[props.size ?? 'sm']} ${!props.disabled && !props.loading && 'transition hover-duration-150 ease-in-out hover:scale-105 active:scale-90'} select-none`}
+      disabled={props.disabled || !!props.loading}
     >
-      {props.icon
-        ? <Icon color="white" icon={props.icon} />
-        : props.text}
+      {!!props.loading && <Loader />}
+      {!props.loading &&
+        <>
+          {
+            props.icon
+              ? <Icon color="white" icon={props.icon} />
+              : props.text
+          }
+        </>
+      }
     </button>
   )
 }
