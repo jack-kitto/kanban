@@ -14,13 +14,6 @@ export default function ProjectCard(props: ProjectCardProps): JSX.Element {
       onMouseDown={() => props.onClick?.(props.project)}
     >
       <h1 className='prose-hxl dark:text-white'>{props.project.title}</h1>
-      <div className='flex flex-col gap-2 mt-2 items-start'>
-        {
-          props.project.columns.map((column, index) => (
-            <Tag key={index} label={`${column.title} (${column.tasks.length})`} colour={column.colour} />
-          ))
-        }
-      </div>
     </button>
   )
 }
