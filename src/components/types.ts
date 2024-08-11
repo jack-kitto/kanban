@@ -1,37 +1,42 @@
-import type { ColourName } from "./atoms/bubble/Bubble";
+import { z } from "zod"
 
-export type Subtask = {
-  completed: boolean;
-  title: string;
-  id: string;
-}
+export const subtaskSchema = z.object({
+  completed: z.boolean(),
+  title: z.string(),
+  id: z.string()
+})
+export type Subtask = z.infer<typeof subtaskSchema>
 
-export type TaskType = {
-  title: string;
-  description: string;
-  subtasks: Subtask[];
-  id: string;
-  columnTitle: string
-  columnId: string;
-  position: string;
-}
+export const taskTypeSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  subtasks: z.array(subtaskSchema),
+  id: z.string(),
+  columnTitle: z.string(),
+  columnId: z.string(),
+  position: z.string()
+})
+export type TaskType = z.infer<typeof taskTypeSchema>
 
-export type ColumnType = {
-  title: string;
-  id: string;
-  colour: ColourName;
-  position: string;
-  tasks: TaskType[];
-}
+export const columnTypeSchema = z.object({
+  title: z.string(),
+  id: z.string(),
+  colour: z.string(),
+  position: z.string(),
+  tasks: z.array(taskTypeSchema)
+})
+export type ColumnType = z.infer<typeof columnTypeSchema>
 
-export type Project = {
-  title: string;
-  description: string;
-  columns: ColumnType[];
-  id: string;
-}
+export const projectSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  columns: z.array(columnTypeSchema),
+  id: z.string()
+})
+export type Project = z.infer<typeof projectSchema>
 
-export type DndItem = {
-  position: string;
-  id: string;
-}
+export const dndItemSchema = z.object({
+  position: z.string(),
+  id: z.string()
+})
+export type DndItem = z.infer<typeof dndItemSchema>

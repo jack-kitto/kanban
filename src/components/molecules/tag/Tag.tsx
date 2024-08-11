@@ -1,7 +1,7 @@
 import Bubble, { type ColourName } from "~/components/atoms/bubble/Bubble";
 
 export interface TagProps {
-  colour: ColourName,
+  colour: string,
   label: string
 }
 

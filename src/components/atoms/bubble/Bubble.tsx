@@ -7,6 +7,7 @@ export const bubbleColours = [
     hex: '#e1eff6',
     name: 'Alice Blue',
   },
+
   {
     hex: '#97d2fb',
     name: 'Light Sky Blue',
@@ -56,14 +57,17 @@ export const bubbleColours = [
 export type BubbleColour = typeof bubbleColours[number];
 export type ColourName = BubbleColour['name'];
 export interface BubbleProps {
-  colour: ColourName
+  colour: string
 }
 
 export default function Bubble(props: BubbleProps): JSX.Element {
   return (
     <div
       className={`rounded-full prose-hm min-h-[15px] min-w-[15px] max-h-[15px] max-w-[15px]`}
-      style={{ backgroundColor: bubbleColours.find((bubbleColour) => bubbleColour.name === props.colour)?.hex }}
+      style={{
+        backgroundColor: bubbleColours
+          .find((bubbleColour) => bubbleColour.name === props.colour)?.hex ?? bubbleColours[0].hex
+      }}
     />
   )
 }
