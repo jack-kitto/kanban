@@ -4,15 +4,12 @@ import { Analytics } from "@vercel/analytics/react"
 import { GeistSans } from "geist/font/sans";
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { TRPCReactProvider } from "~/trpc/react";
-import posthog from 'posthog-js'
-import { env } from "~/env";
+import dynamic from 'next/dynamic'
+import { PHProvider } from "./providers";
 
-posthog.init(env.NEXT_PUBLIC_POSTHOG_TOKEN,
-  {
-    api_host: 'https://us.i.posthog.com',
-    person_profiles: 'always' // or 'always' to create profiles for anonymous users as well
-  }
-)
+const PostHogPageView = dynamic(() => import('./PostHogPageView'), {
+  ssr: false,
+})
 
 export const metadata = {
   title: "Kanban",
@@ -42,10 +39,15 @@ export default function RootLayout({
       lang="en"
       className={`${GeistSans.variable} ${plusJakartaSans.variable}`}
     >
-      <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-        <Analytics />
-      </body>
+      <PHProvider>
+        <body>
+          <PostHogPageView />
+          <TRPCReactProvider>
+            {children}
+          </TRPCReactProvider>
+          <Analytics />
+        </body>
+      </PHProvider>
     </html>
   );
 }
