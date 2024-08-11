@@ -13,12 +13,31 @@ export interface NavbarProps {
   onSidebarOpen?: () => void;
   sidebarOpen?: boolean;
   onAddTask?: () => void;
+  createProject: (p: Project) => void
 }
 
 export default function Navbar(props: NavbarProps): JSX.Element {
   const [projectDetailOpen, setProjectDetailOpen] = useState<boolean>(false)
+  const [createProjectOpen, setCreateProjectOpen] = useState<boolean>(false)
   const [editing, setEditing] = useState<boolean>(true)
   const [newBoard, setNewBoard] = useState<boolean>(false)
+
+  function handleAddProject() {
+    setCreateProjectOpen(true)
+  }
+
+  function handleAddTask() {
+    if (props.onAddTask) props.onAddTask()
+  }
+
+  function createProject(p: Project) {
+    try {
+      setCreateProjectOpen(false)
+      props.createProject(p)
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <div className="w-full h-full bg-white dark:bg-darkGray flex justify-between items-center px-8">
       <div className="flex justify-center items-center">
@@ -34,54 +53,96 @@ export default function Navbar(props: NavbarProps): JSX.Element {
       </div>
       <div className="flex gap-6 justify-center items-center">
         <div className="sm:hidden">
-          <Button
-            btn={{ onMouseDown: (): void => props.onAddTask && props.onAddTask() }}
-            type="primary"
-            icon="AddIcon"
-          />
+          {
+            !!props.project ||
+            <Button
+              btn={{ onMouseDown: handleAddProject }}
+              type="primary"
+              icon="AddIcon"
+            />
+          }
+          {
+            props.project &&
+            <Button
+              btn={{ onMouseDown: handleAddTask }}
+              type="primary"
+              icon="AddIcon"
+            />
+          }
         </div>
         <div className="max-sm:hidden">
-          <Button
-            btn={{ onMouseDown: (): void => props.onAddTask && props.onAddTask() }}
-            text="+ Add New Task"
-            type="primary"
-          />
+          {
+            !!props.project ||
+            <Button
+              btn={{ onMouseDown: handleAddProject }}
+              text="+ Add New Project"
+              type="primary"
+            />
+          }
+          {
+            props.project &&
+            <Button
+              btn={{ onMouseDown: handleAddTask }}
+              disabled={false}
+              text="+ Add New Task"
+              type="primary"
+            />
+          }
         </div>
-        <PopoverMenu
-          position="bottom-start"
-          options={[
-            {
-              text: 'Edit Project',
-              onClick: (): void => { setProjectDetailOpen(true) }
-            },
-            {
-              text: 'Delete Project',
-              destructive: true,
-              onClick: (): void => { console.log('Delete Project') }
-            }
-          ]}
-        />
+        {
+          props.project &&
+          <PopoverMenu
+            position="bottom-start"
+            options={[
+              {
+                text: 'Edit Project',
+                onClick: (): void => { setProjectDetailOpen(true) }
+              },
+              {
+                text: 'Delete Project',
+                destructive: true,
+                onClick: (): void => { console.log('Delete Project') }
+              }
+            ]}
+          />
+        }
       </div>
-      <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
-        <BoardDetail
-          newBoard={newBoard}
-          setNewBoard={setNewBoard}
-          editing={editing}
-          setEditing={setEditing}
-          saveChanges={(project: Project) => { console.log(project) }}
-          menuOptions={[
-            {
-              text: 'Edit Project',
-              onClick: () => { console.log('Edit Project') }
-            },
-            {
-              text: 'Delete Project',
-              destructive: true,
-              onClick: () => { console.log('Delete Project') }
-            }
-          ]}
-        />
-      </Modal>
+      {
+        props.project &&
+        <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
+          <BoardDetail
+            newBoard={newBoard}
+            setNewBoard={setNewBoard}
+            editing={editing}
+            setEditing={setEditing}
+            saveChanges={(project: Project) => { console.log(project) }}
+            menuOptions={[
+              {
+                text: 'Edit Project',
+                onClick: () => { console.log('Edit Project') }
+              },
+              {
+                text: 'Delete Project',
+                destructive: true,
+                onClick: () => { console.log('Delete Project') }
+              }
+            ]}
+          />
+        </Modal>
+      }
+      {
+        !!props.project ||
+        <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
+          <BoardDetail
+            newBoard={true}
+            setNewBoard={setNewBoard}
+            editing={true}
+            setEditing={() => { }}
+            saveChanges={createProject}
+            menuOptions={[]}
+          />
+        </Modal>
+      }
     </div>
   )
 }

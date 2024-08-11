@@ -3,10 +3,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Modal } from "~/components/atoms";
 import { updateTaskInListOfColumns } from "~/components/helpers";
-import { Board, Navbar, TaskDetail } from "~/components/organisms";
+import { Board, BoardDetail, Navbar, TaskDetail } from "~/components/organisms";
 import Sidebar from "~/components/organisms/sidebar/Sidebar";
 import { MainLayout } from "~/components/templates";
 import type { ColumnType, Project, TaskType } from "~/components/types";
+import { api } from "~/trpc/react";
 
 export interface ProjectPageProps {
   projects: Project[]
@@ -16,13 +17,22 @@ export interface ProjectPageProps {
 export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [currentProject, setCurrentProject] = useState<Project | null>(props.project)
   const [isClient, setIsClient] = useState(false)
-  const [, setCreateProjectOpen] = useState<boolean>(false)
+  const [createProjectOpen, setCreateProjectOpen] = useState<boolean>(false)
   const [columns, setColumns] = useState<ColumnType[]>([])
   const [sidebarHidden, setSidebarHidden] = useState<boolean>(false)
   const [showTaskDetail, setShowTaskDetail] = useState<boolean>(false)
   const [editing, setEditing] = useState<boolean>(true)
   const [newTask, setNewTask] = useState<boolean>(true)
   const router = useRouter()
+
+  const createProjectMutation = api.project.create.useMutation({
+    onError: (e) => {
+      console.error(e)
+    },
+    onSuccess: (d) => {
+      console.log("Success", d)
+    }
+  })
 
   useEffect(() => {
     const data = currentProject?.columns.map((column) => ({
@@ -88,6 +98,17 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           }}
         />
       </Modal>
+      <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
+        <BoardDetail
+          newBoard={true}
+          loading={createProjectMutation.isPending}
+          setNewBoard={() => { }}
+          editing={true}
+          setEditing={() => { }}
+          saveChanges={createProjectMutation.mutate}
+          menuOptions={[]}
+        />
+      </Modal>
       <MainLayout
         sidebarHidden={sidebarHidden}
         sidebar={
@@ -103,7 +124,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         }
         navbar={
           <Navbar
-            onAddTask={(): void => setShowTaskDetail(true)}
+            createProject={createProjectMutation.mutate}
             sidebarOpen={!sidebarHidden}
             project={currentProject}
             updateTask={(task: TaskType): void => updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))}
