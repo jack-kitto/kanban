@@ -18,6 +18,7 @@ export interface BoardDetailProps {
   setNewBoard: (newProject: boolean) => void;
   setEditing: (editing: boolean) => void;
   saveChanges: (project: Project) => void;
+  loading?: boolean
 }
 
 function createColumn(title: string, prevPosition: string | null): ColumnType {
@@ -43,9 +44,6 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
   const [project, dispatch] = useReducer<typeof reducer>(reducer, props.project ?? createNewProject());
   const [newColumn, setNewColumn] = useState<string>('');
 
-  useEffect((): void => {
-    console.log('project', project)
-  }, [project]);
 
   useEffect((): void => {
     if (props.project)
@@ -141,6 +139,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
           <div className="pt-6">
             <Button
               text={!props.newBoard ? `Save Changes` : "Create New Board"}
+              loading={props.loading}
               btn={{
                 onMouseDown: (): void => {
                   props.saveChanges(project)
