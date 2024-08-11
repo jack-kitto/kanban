@@ -1,6 +1,5 @@
 import "~/styles/globals.css";
-import { Analytics } from "@vercel/analytics/react"
-
+import { Toaster } from 'react-hot-toast';
 import { GeistSans } from "geist/font/sans";
 import { Plus_Jakarta_Sans } from 'next/font/google'
 import { TRPCReactProvider } from "~/trpc/react";
@@ -44,16 +43,13 @@ export default function RootLayout({
         <Provider>
           <body>
             <PostHogPageView />
+            <Toaster />
             <TRPCReactProvider>
               {children}
             </TRPCReactProvider>
-            <Analytics />
           </body>
         </Provider>
       </PHProvider>
     </html>
   );
 }
-
-
-// test commit
