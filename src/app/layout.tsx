@@ -6,6 +6,7 @@ import { Plus_Jakarta_Sans } from 'next/font/google'
 import { TRPCReactProvider } from "~/trpc/react";
 import dynamic from 'next/dynamic'
 import { PHProvider } from "./providers";
+import { Provider } from "~/hooks/use-provider";
 
 const PostHogPageView = dynamic(() => import('./PostHogPageView'), {
   ssr: false,
@@ -40,13 +41,15 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${plusJakartaSans.variable}`}
     >
       <PHProvider>
-        <body>
-          <PostHogPageView />
-          <TRPCReactProvider>
-            {children}
-          </TRPCReactProvider>
-          <Analytics />
-        </body>
+        <Provider>
+          <body>
+            <PostHogPageView />
+            <TRPCReactProvider>
+              {children}
+            </TRPCReactProvider>
+            <Analytics />
+          </body>
+        </Provider>
       </PHProvider>
     </html>
   );
