@@ -69,6 +69,16 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     }
   })
 
+  const updateTaskMutation = api.task.update.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+    onSuccess: () => {
+      toast('🔥 Successfully saved task')
+    }
+  })
+
   useEffect(() => {
     const data = currentProject?.columns.map((column) => ({
       // trim to  10 characters
@@ -183,12 +193,17 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
       >
         <div className="w-full h-full p-6 bg-lightGray dark:bg-veryDarkGray">
           <Board
-            updateTask={(task: TaskType): void => updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))}
+            updateTask={(task: TaskType): void => {
+              updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))
+              updateTaskMutation.mutate(task)
+            }}
             onDeleteTask={(task: TaskType): void => {
               setColumns(columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c))
               deleteTaskMutation.mutate(task.id)
             }}
-            updateColumns={(columns: ColumnType[]): void => setColumns(columns)}
+            updateColumns={(columns: ColumnType[]): void => {
+              setColumns(columns)
+            }}
             columns={columns}
           />
         </div>
