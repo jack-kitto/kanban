@@ -10,7 +10,6 @@ import { MainLayout } from "~/components/templates";
 import type { ColumnType, Project, TaskType } from "~/components/types";
 import { api } from "~/trpc/react";
 import { Confirmation } from '~/components/molecules';
-import { deleteAppClientCache } from 'next/dist/server/lib/render-server';
 
 export interface ProjectPageProps {
   projects: Project[]
