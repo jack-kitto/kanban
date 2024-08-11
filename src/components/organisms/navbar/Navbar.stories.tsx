@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import Navbar, { type NavbarProps } from './Navbar';
 import { MainLayout } from '~/components/templates';
-import { type Project, fakeProject } from '~/components/types';
+import { fakeProject } from '~/components/types';
 
 const meta = {
   component: Navbar,
@@ -13,7 +13,6 @@ type Story = StoryObj<typeof meta>;
 export const ProjectView: Story = {
   args: {
     project: fakeProject(),
-    createProject: (p: Project) => { console.log("p", p) },
   },
   render: (args: NavbarProps) => {
     return (
@@ -30,7 +29,6 @@ export const ProjectView: Story = {
 
 export const HomeView: Story = {
   args: {
-    createProject: (): void => { console.log("onDeleteTask") },
   },
   render: (args: NavbarProps) => {
     return (
