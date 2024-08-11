@@ -1,4 +1,4 @@
-import { promise, z } from "zod";
+import { z } from "zod";
 import { type ColumnType, projectSchema } from "~/components/types";
 
 import {
