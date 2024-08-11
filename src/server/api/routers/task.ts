@@ -47,7 +47,6 @@ export const taskRouter = createTRPCRouter({
   update: protectedProcedure
     .input(taskTypeSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(input)
       await ctx.db.task.update({
         where: {
           id: input.id
@@ -60,26 +59,26 @@ export const taskRouter = createTRPCRouter({
           position: input.position,
         }
       })
-      const promises: Promise<any>[] = []
-      for (let i = 0; i < input.subtasks.length; i++) {
+      const promises: Promise<boolean>[] = []
+      for (const subtask of input.subtasks) {
         promises.push(ctx.db.subtask.upsert({
           where: {
-            id: `${input.subtasks[i]?.id}`,
+            id: `${subtask.id}`,
           },
           update: {
-            title: input.subtasks[i]?.title ?? '',
-            completed: input.subtasks[i]?.completed ?? false,
+            title: subtask.title,
+            completed: subtask.completed,
           },
           create: {
-            title: input.subtasks[i]?.title ?? 'New subtask',
-            completed: input.subtasks[i]?.completed ?? false,
+            title: subtask.title,
+            completed: subtask.completed,
             task: {
               connect: {
                 id: input.id
               }
             }
           }
-        }))
+        }).then(() => true).catch(() => false))
       }
       return Promise.all(promises)
     })
