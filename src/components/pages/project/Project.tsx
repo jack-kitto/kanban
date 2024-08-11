@@ -9,6 +9,8 @@ import Sidebar from "~/components/organisms/sidebar/Sidebar";
 import { MainLayout } from "~/components/templates";
 import type { ColumnType, Project, TaskType } from "~/components/types";
 import { api } from "~/trpc/react";
+import { Confirmation } from '~/components/molecules';
+import { deleteAppClientCache } from 'next/dist/server/lib/render-server';
 
 export interface ProjectPageProps {
   projects: Project[]
@@ -24,6 +26,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [showTaskDetail, setShowTaskDetail] = useState<boolean>(false)
   const [editing, setEditing] = useState<boolean>(true)
   const [newTask, setNewTask] = useState<boolean>(true)
+  const [confirmDeleteProjectOpen, setConfirmDeleteProjectOpen] = useState<boolean>(false)
   const router = useRouter()
 
   const createProjectMutation = api.project.create.useMutation({
@@ -44,6 +47,16 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     },
     onSuccess: () => {
       toast('🔥 Successfully saved task')
+    }
+  })
+
+  const deleteProjectMutation = api.project.delete.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+    onSuccess: () => {
+      toast('✅ Successfully deleted project')
     }
   })
 
@@ -118,6 +131,16 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           }}
         />
       </Modal>
+      <Modal open={confirmDeleteProjectOpen} close={() => setConfirmDeleteProjectOpen(false)}>
+        <Confirmation
+          title='Delete this board?'
+          message={`Are you sure you want to delete the '${currentProject.title}' board? This action will remove all columns and task and cannot be reversed.`}
+          confirmText='Delete'
+          cancelText='Cancel'
+          onCancel={() => setConfirmDeleteProjectOpen(false)}
+          onConfirm={() => { setConfirmDeleteProjectOpen(false); deleteProjectMutation.mutate(currentProject.id); router.push('/') }}
+        />
+      </Modal>
       <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
         <BoardDetail
           newBoard={true}
@@ -145,6 +168,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
             sidebarOpen={!sidebarHidden}
             project={currentProject}
             openTaskDetail={openTaskDetail}
+            deleteProject={() => setConfirmDeleteProjectOpen(true)}
           />
         }
       >

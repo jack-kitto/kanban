@@ -11,7 +11,8 @@ export interface NavbarProps {
   onSidebarOpen?: () => void;
   sidebarOpen?: boolean;
   openTaskDetail?: () => void;
-  createProject: (p: Project) => void
+  createProject?: (p: Project) => void
+  deleteProject?: (id: string) => void
 }
 
 export default function Navbar(props: NavbarProps): JSX.Element {
@@ -27,12 +28,20 @@ export default function Navbar(props: NavbarProps): JSX.Element {
   function createProject(p: Project) {
     try {
       setCreateProjectOpen(false)
-      props.createProject(p)
+      if (props.createProject) props.createProject(p)
     } catch (error) {
       console.error(error)
     }
   }
+
+  function deleteProject() {
+    if (!props.deleteProject) return
+    if (!props.project) return
+    props.deleteProject(props.project.id)
+  }
+
   return (
+
     <div className="w-full h-full bg-white dark:bg-darkGray flex justify-between items-center px-8">
       <div className="flex justify-center items-center">
         <div className="pr-4 sm:hidden">
@@ -95,7 +104,7 @@ export default function Navbar(props: NavbarProps): JSX.Element {
               {
                 text: 'Delete Project',
                 destructive: true,
-                onClick: (): void => { console.log('Delete Project') }
+                onClick: deleteProject
               }
             ]}
           />
