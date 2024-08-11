@@ -19,7 +19,6 @@ export const projectRouter = createTRPCRouter({
   create: protectedProcedure
     .input(projectSchema)
     .mutation(async ({ ctx, input }) => {
-      ctx.session.user.id
       return ctx.db.project.create({
         data: {
           title: input.title,
@@ -40,5 +39,14 @@ export const projectRouter = createTRPCRouter({
           }
         },
       });
+    }),
+  delete: protectedProcedure
+    .input(z.string().min(1))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.project.delete({
+        where: {
+          id: input
+        }
+      })
     }),
 });
