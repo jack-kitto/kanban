@@ -26,6 +26,9 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [editing, setEditing] = useState<boolean>(true)
   const [newTask, setNewTask] = useState<boolean>(true)
   const [confirmDeleteProjectOpen, setConfirmDeleteProjectOpen] = useState<boolean>(false)
+  const [projectDetailOpen, setProjectDetailOpen] = useState<boolean>(false)
+  const [editingBoard, setEditingBoard] = useState<boolean>(true)
+  const [newBoard, setNewBoard] = useState<boolean>(false)
   const router = useRouter()
 
   const createProjectMutation = api.project.create.useMutation({
@@ -178,6 +181,26 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           saveChanges={createProjectMutation.mutate}
         />
       </Modal>
+      <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
+        <BoardDetail
+          newBoard={newBoard}
+          setNewBoard={setNewBoard}
+          editing={editingBoard}
+          setEditing={setEditingBoard}
+          saveChanges={(project: Project) => { console.log(project) }}
+          menuOptions={[
+            {
+              text: 'Edit Project',
+              onClick: () => { console.log('Edit Project') }
+            },
+            {
+              text: 'Delete Project',
+              destructive: true,
+              onClick: () => { console.log('Delete Project') }
+            }
+          ]}
+        />
+      </Modal>
       <MainLayout
         sidebarHidden={sidebarHidden}
         sidebar={
@@ -198,6 +221,8 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
             project={currentProject}
             openTaskDetail={openTaskDetail}
             deleteProject={() => setConfirmDeleteProjectOpen(true)}
+            setProjectDetailOpen={setProjectDetailOpen}
+            setNewBoard={setNewBoard}
           />
         }
       >

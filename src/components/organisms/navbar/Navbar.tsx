@@ -13,13 +13,12 @@ export interface NavbarProps {
   openTaskDetail?: () => void;
   createProject?: (p: Project) => void
   deleteProject?: (id: string) => void
+  setProjectDetailOpen?: (b: boolean) => void
+  setNewBoard?: (b: boolean) => void
 }
 
 export default function Navbar(props: NavbarProps): JSX.Element {
-  const [projectDetailOpen, setProjectDetailOpen] = useState<boolean>(false)
   const [createProjectOpen, setCreateProjectOpen] = useState<boolean>(false)
-  const [editing, setEditing] = useState<boolean>(true)
-  const [newBoard, setNewBoard] = useState<boolean>(false)
 
   function handleAddProject() {
     setCreateProjectOpen(true)
@@ -99,7 +98,7 @@ export default function Navbar(props: NavbarProps): JSX.Element {
             options={[
               {
                 text: 'Edit Project',
-                onClick: (): void => { setProjectDetailOpen(true) }
+                onClick: (): void => { if (props.setProjectDetailOpen) props.setProjectDetailOpen(true) }
               },
               {
                 text: 'Delete Project',
@@ -111,34 +110,11 @@ export default function Navbar(props: NavbarProps): JSX.Element {
         }
       </div>
       {
-        props.project &&
-        <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
-          <BoardDetail
-            newBoard={newBoard}
-            setNewBoard={setNewBoard}
-            editing={editing}
-            setEditing={setEditing}
-            saveChanges={(project: Project) => { console.log(project) }}
-            menuOptions={[
-              {
-                text: 'Edit Project',
-                onClick: () => { console.log('Edit Project') }
-              },
-              {
-                text: 'Delete Project',
-                destructive: true,
-                onClick: () => { console.log('Delete Project') }
-              }
-            ]}
-          />
-        </Modal>
-      }
-      {
         !!props.project ||
         <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
           <BoardDetail
             newBoard={true}
-            setNewBoard={setNewBoard}
+            setNewBoard={props.setNewBoard}
             editing={true}
             saveChanges={createProject}
           />
