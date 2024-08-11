@@ -12,6 +12,15 @@ function Dot(): JSX.Element {
 }
 
 export default function MenuButton(props: MenuButtonProps): JSX.Element {
+  if (!props.btn) {
+    return (
+      <div className={`flex flex-col gap-[3px] ${props.type === 'click' && 'transition hover-duration-150 ease-in-out hover:scale-125 active:scale-90'}`}>
+        <Dot />
+        <Dot />
+        <Dot />
+      </div>
+    )
+  }
   return (
     <button  {...props.btn} className={`flex flex-col gap-[3px] ${props.type === 'click' && 'transition hover-duration-150 ease-in-out hover:scale-125 active:scale-90'}`}>
       <Dot />
