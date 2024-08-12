@@ -32,7 +32,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const router = useRouter()
   useEffect(() => {
     if (!props.project) setCreateProjectOpen(true)
-  }, [])
+  }, [props.project])
 
   const deleteColumnMutation = api.column.delete.useMutation({
     onError: (e) => {

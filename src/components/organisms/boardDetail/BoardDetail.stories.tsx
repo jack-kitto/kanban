@@ -161,6 +161,7 @@ export const DarkEditing: Story = {
 
 export const NewBoardLight: Story = {
   args: {
+    project: null,
     menuOptions: options,
     newBoard: true,
     saveChanges: (): void => { console.log("saveChanges") },
@@ -211,6 +212,7 @@ export const NewBoardLight: Story = {
 export const NewBoardDark: Story = {
   args: {
     menuOptions: options,
+    project: null,
     newBoard: true,
     saveChanges: (): void => { console.log("saveChanges") },
     editing: true,

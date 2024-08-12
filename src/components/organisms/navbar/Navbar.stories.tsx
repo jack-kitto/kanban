@@ -29,6 +29,7 @@ export const ProjectView: Story = {
 
 export const HomeView: Story = {
   args: {
+    project: null
   },
   render: (args: NavbarProps) => {
     return (

@@ -53,7 +53,7 @@ export const Default: Story = {
     projects,
     setCreateProjectOpen: () => { console.log("setCreateProjectOpen") },
     onClickProject: (project: Project) => { console.log("onClickProject", project) },
-    currentProject: projects[0]
+    currentProject: projects[0]!
   },
   render: (args) => {
     const [{ currentProject, sidebarHidden }, updateArgs] = useArgs<SidebarProps>();
@@ -88,7 +88,7 @@ export const Popup: Story = {
     sidebarHidden: false,
     projects,
     onClickProject: (project: Project) => { console.log("onClickProject", project) },
-    currentProject: projects[0]
+    currentProject: projects[0]!
   },
   render: (args) => {
     const [{ currentProject }, updateArgs] = useArgs<SidebarProps>();
