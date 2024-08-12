@@ -88,9 +88,6 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
       console.error(e)
       toast(`🤦 ${e.message}`)
     },
-    onSuccess: () => {
-      toast('🔥 Successfully updated board')
-    }
   })
 
   const deleteTaskMutation = api.task.delete.useMutation({
@@ -118,9 +115,6 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
       console.error(e)
       toast(`🤦 ${e.message}`)
     },
-    onSuccess: () => {
-      toast('🔥 Successfully saved task')
-    }
   })
 
   const setCurrentProjectMutation = api.user.setCurrentProject.useMutation({
@@ -161,6 +155,8 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
 
   function openTaskDetail() {
     if (!currentProject?.columns[0]) return toast('Please create a column before creating a task.');
+    setNewTask(true)
+    setEditing(true)
     setShowTaskDetail(true)
   }
 
@@ -170,36 +166,35 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
 
   return (
     <>
-      <Modal
-        open={showTaskDetail}
-        close={(): void => {
-          setShowTaskDetail(false)
-          setEditing(true)
-          setNewTask(true)
-        }}
-      >
-        <TaskDetail
-          columns={columns}
-          newTask={newTask}
-          editing={editing}
-          setEditing={setEditing}
-          menuOptions={[]}
-          saveChanges={(task: TaskType): void => {
-            updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))
-            setShowTaskDetail(false)
-            setNewTask(false)
-            console.info("creating task", task)
-            createTaskMutation.mutate(task)
-
-            //
-            // TODO: make sure to caculate the new position based on the column chosen and the last task in that column
-            //
-
-          }}
-        />
-      </Modal>
       {
-        currentProject &&
+        showTaskDetail &&
+        <Modal
+          open={showTaskDetail}
+          close={(): void => {
+            setShowTaskDetail(false)
+            setEditing(true)
+            setNewTask(true)
+          }}
+        >
+          <TaskDetail
+            columns={columns}
+            newTask={newTask}
+            editing={editing}
+            setEditing={setEditing}
+            menuOptions={[]}
+            saveChanges={(task: TaskType): void => {
+              updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))
+              setShowTaskDetail(false)
+              setNewTask(false)
+              console.info("creating task", task)
+              console.info("task.position", task.position)
+              createTaskMutation.mutate(task)
+            }}
+          />
+        </Modal>
+      }
+      {
+        currentProject && confirmDeleteProjectOpen &&
         <Modal open={confirmDeleteProjectOpen} close={() => setConfirmDeleteProjectOpen(false)}>
           <Confirmation
             title='Delete this board?'
@@ -211,45 +206,51 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           />
         </Modal>
       }
-      <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
-        <BoardDetail
-          project={null}
-          newBoard={true}
-          loading={createProjectMutation.isPending}
-          editing={true}
-          saveChanges={(project: Project) => {
-            setNewProject(project)
-            createProjectMutation.mutate(project);
-          }}
-        />
-      </Modal>
-      <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
-        <BoardDetail
-          project={currentProject}
-          newBoard={newBoard}
-          setNewBoard={setNewBoard}
-          editing={editingBoard}
-          setEditing={setEditingBoard}
-          saveChanges={(project: Project, removedColumns?: string[]) => {
-            updateProjectMutation.mutate(project)
-            setCurrentProject(project)
-            setColumns((prev: ColumnType[]): ColumnType[] => prev.filter((c: ColumnType): boolean => !removedColumns?.includes(c.id)))
-            setProjects((prev: Project[]): Project[] => prev.map((p: Project): Project => p.id === project.id ? project : p))
-            if (removedColumns && removedColumns?.length > 0) deleteColumnMutation.mutate(removedColumns)
-          }}
-          menuOptions={[
-            {
-              text: 'Edit Project',
-              onClick: () => { console.log('Edit Project') }
-            },
-            {
-              text: 'Delete Project',
-              destructive: true,
-              onClick: () => { console.log('Delete Project') }
-            }
-          ]}
-        />
-      </Modal>
+      {
+        createProjectOpen &&
+        <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
+          <BoardDetail
+            project={null}
+            newBoard={true}
+            loading={createProjectMutation.isPending}
+            editing={true}
+            saveChanges={(project: Project) => {
+              setNewProject(project)
+              createProjectMutation.mutate(project);
+            }}
+          />
+        </Modal>
+      }
+      {
+        projectDetailOpen &&
+        <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
+          <BoardDetail
+            project={currentProject}
+            newBoard={newBoard}
+            setNewBoard={setNewBoard}
+            editing={editingBoard}
+            setEditing={setEditingBoard}
+            saveChanges={(project: Project, removedColumns?: string[]) => {
+              updateProjectMutation.mutate(project)
+              setCurrentProject(project)
+              setColumns((prev: ColumnType[]): ColumnType[] => prev.filter((c: ColumnType): boolean => !removedColumns?.includes(c.id)))
+              setProjects((prev: Project[]): Project[] => prev.map((p: Project): Project => p.id === project.id ? project : p))
+              if (removedColumns && removedColumns?.length > 0) deleteColumnMutation.mutate(removedColumns)
+            }}
+            menuOptions={[
+              {
+                text: 'Edit Project',
+                onClick: () => { console.log('Edit Project') }
+              },
+              {
+                text: 'Delete Project',
+                destructive: true,
+                onClick: () => { console.log('Delete Project') }
+              }
+            ]}
+          />
+        </Modal>
+      }
       <MainLayout
         sidebarHidden={sidebarHidden}
         sidebar={
@@ -281,8 +282,11 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         <div className="w-full h-full p-6 bg-lightGray dark:bg-veryDarkGray">
           <Board
             updateTask={(task: TaskType): void => {
-              updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => setColumns(newColumns))
               updateTaskMutation.mutate(task)
+              updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => {
+                updateColumnTasksMutation.mutate(newColumns)
+                setColumns(newColumns)
+              })
             }}
             onDeleteTask={(task: TaskType): void => {
               setColumns(columns.map((c: ColumnType): ColumnType => c.id === task.columnId ? { ...c, tasks: c.tasks.filter((t: TaskType): boolean => t.id !== task.id) } : c))
