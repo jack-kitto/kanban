@@ -50,11 +50,6 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
             props.updateTask(task)
             setShowTaskDetail(false)
             setNewTask(false)
-
-            //
-            // TODO: make sure to caculate the new position based on the column chosen and the last task in that column
-            //
-
           }}
         />
       </Modal>
