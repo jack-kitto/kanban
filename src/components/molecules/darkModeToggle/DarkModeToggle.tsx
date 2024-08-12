@@ -17,11 +17,9 @@ export default function DarkModeToggle(props: DarkModeToggleProps): JSX.Element 
         checked={isDarkMode}
         setChecked={setIsDarkMode}
         onChecked={() => {
-          window.localStorage.setItem('darkMode', 'true');
           props.setDarkMode && props.setDarkMode(true);
         }}
         onUnchecked={() => {
-          window.localStorage.setItem('darkMode', 'false');
           props.setDarkMode && props.setDarkMode(false);
         }}
       />

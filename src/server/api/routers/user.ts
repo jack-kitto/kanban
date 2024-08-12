@@ -16,5 +16,17 @@ export const userRouter = createTRPCRouter({
           currentProjectId: input
         }
       })
-    })
+    }),
+  setDarkTheme: protectedProcedure
+    .input(z.boolean())
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.user.update({
+        where: {
+          id: ctx.session.user.id
+        },
+        data: {
+          darkTheme: input
+        }
+      })
+    }),
 });

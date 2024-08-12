@@ -6,6 +6,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import dynamic from 'next/dynamic'
 import { PHProvider } from "./providers";
 import { Provider } from "~/hooks/use-provider";
+import { getServerAuthSession } from "~/server/auth";
 
 const PostHogPageView = dynamic(() => import('./PostHogPageView'), {
   ssr: false,
@@ -29,11 +30,12 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin']
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerAuthSession()
   return (
     <html
       lang="en"
@@ -41,7 +43,7 @@ export default function RootLayout({
     >
       <PHProvider>
         <Provider>
-          <body>
+          <body className={`${session?.user.darkTheme && 'bg-darkGray'}`}>
             <PostHogPageView />
             <Toaster />
             <TRPCReactProvider>

@@ -21,6 +21,7 @@ declare module "next-auth" {
     user: {
       id: string;
       currentProjectId?: string;
+      darkTheme: boolean
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
@@ -28,6 +29,7 @@ declare module "next-auth" {
 
   interface User extends DefaultUser {
     currentProjectId?: string
+    darkTheme: boolean
     // ...other properties
     // role: UserRole;
   }

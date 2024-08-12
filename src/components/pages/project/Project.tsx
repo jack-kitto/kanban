@@ -14,6 +14,7 @@ import { Confirmation } from '~/components/molecules';
 export interface ProjectPageProps {
   projects: Project[]
   project?: Project
+  darkTheme: boolean
 }
 
 export default function ProjectPage(props: ProjectPageProps): JSX.Element {
@@ -32,6 +33,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [newBoard, setNewBoard] = useState<boolean>(false)
   const [newProject, setNewProject] = useState<Project | null>(null)
   const router = useRouter()
+
   useEffect(() => {
     if (!props.project) setCreateProjectOpen(true)
   }, [props.project])

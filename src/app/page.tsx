@@ -71,6 +71,7 @@ export default async function Page() {
   return (
     <div>
       <ProjectPage
+        darkTheme={session.user.darkTheme}
         project={project}
         projects={projects}
       />

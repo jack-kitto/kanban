@@ -32,8 +32,8 @@ function TaskComponent(props: TaskProps): JSX.Element {
   }, [props.task.subtasks]);
 
   const subtitle = useMemo((): string => {
-    return `${completedSubtasks} of ${totalSubtasks} subtasks (${props.task.position})`;
-  }, [completedSubtasks, totalSubtasks, props.task.position])
+    return `${completedSubtasks} of ${totalSubtasks} subtasks`;
+  }, [completedSubtasks, totalSubtasks])
 
   return (
     <>

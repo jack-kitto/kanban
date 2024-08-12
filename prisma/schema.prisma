@@ -97,6 +97,7 @@ model User {
   sessions         Session[]
   projects         Project[]
   currentProjectId String?
+  darkTheme        Boolean   @default(true)
 }
 
 model VerificationToken {

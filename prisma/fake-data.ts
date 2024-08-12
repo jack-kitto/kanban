@@ -126,6 +126,7 @@ export function fakeUserComplete() {
     emailVerified: undefined,
     image: undefined,
     currentProjectId: undefined,
+    darkTheme: true,
   };
 }
 export function fakeVerificationToken() {
