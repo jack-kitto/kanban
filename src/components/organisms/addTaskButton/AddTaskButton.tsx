@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Modal } from "~/components/atoms";
 import type { ColumnType, TaskType } from "~/components/types";
 import TaskDetail from "../taskDetail/TaskDetail";
+import { generateKeyBetween } from "fractional-indexing";
 
 export interface AddTaskButtonProps {
   columns: ColumnType[];
@@ -45,6 +46,7 @@ export default function AddTaskButton(props: AddTaskButtonProps): JSX.Element {
           setEditing={setEditing}
           menuOptions={[]}
           saveChanges={(task: TaskType): void => {
+            task.position = generateKeyBetween(props.columns.at(-1)?.position, null)
             props.updateTask(task)
             setShowTaskDetail(false)
             setNewTask(false)
