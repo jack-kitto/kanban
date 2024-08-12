@@ -1,6 +1,7 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import EmailProvider from 'next-auth/providers/email';
 import {
+  DefaultUser,
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
@@ -19,15 +20,17 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      currentProjectId?: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User extends DefaultUser {
+    currentProjectId?: string
+    // ...other properties
+    // role: UserRole;
+  }
 }
 
 /**
@@ -37,13 +40,17 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      session.user.currentProjectId = user.currentProjectId
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      }
+
+    },
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
