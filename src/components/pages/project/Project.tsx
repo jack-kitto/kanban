@@ -13,11 +13,11 @@ import { Confirmation } from '~/components/molecules';
 
 export interface ProjectPageProps {
   projects: Project[]
-  project: Project
+  project?: Project
 }
 
 export default function ProjectPage(props: ProjectPageProps): JSX.Element {
-  const [currentProject, setCurrentProject] = useState<Project | null>(props.project)
+  const [currentProject, setCurrentProject] = useState<Project | null>(props.project ?? null)
   const [isClient, setIsClient] = useState(false)
   const [createProjectOpen, setCreateProjectOpen] = useState<boolean>(false)
   const [columns, setColumns] = useState<ColumnType[]>([])
@@ -30,6 +30,9 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [editingBoard, setEditingBoard] = useState<boolean>(true)
   const [newBoard, setNewBoard] = useState<boolean>(false)
   const router = useRouter()
+  useEffect(() => {
+    if (!props.project) setCreateProjectOpen(true)
+  }, [])
 
   const deleteColumnMutation = api.column.delete.useMutation({
     onError: (e) => {
@@ -114,6 +117,13 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     }
   })
 
+  const setCurrentProjectMutation = api.user.setCurrentProject.useMutation({
+    onError: (e) => {
+      console.error(e)
+      toast(`🤦 ${e.message}`)
+    },
+  })
+
   useEffect(() => {
     const data = currentProject?.columns.map((column) => ({
       // trim to  10 characters
@@ -152,9 +162,6 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     return (<></>)
   }
 
-  if (!currentProject) {
-    return (<></>)
-  }
   return (
     <>
       <Modal
@@ -185,18 +192,22 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           }}
         />
       </Modal>
-      <Modal open={confirmDeleteProjectOpen} close={() => setConfirmDeleteProjectOpen(false)}>
-        <Confirmation
-          title='Delete this board?'
-          message={`Are you sure you want to delete the '${currentProject.title}' board? This action will remove all columns and task and cannot be reversed.`}
-          confirmText='Delete'
-          cancelText='Cancel'
-          onCancel={() => setConfirmDeleteProjectOpen(false)}
-          onConfirm={() => { setConfirmDeleteProjectOpen(false); deleteProjectMutation.mutate(currentProject.id); router.push('/') }}
-        />
-      </Modal>
+      {
+        currentProject &&
+        <Modal open={confirmDeleteProjectOpen} close={() => setConfirmDeleteProjectOpen(false)}>
+          <Confirmation
+            title='Delete this board?'
+            message={`Are you sure you want to delete the '${currentProject.title}' board? This action will remove all columns and task and cannot be reversed.`}
+            confirmText='Delete'
+            cancelText='Cancel'
+            onCancel={() => setConfirmDeleteProjectOpen(false)}
+            onConfirm={() => { setConfirmDeleteProjectOpen(false); deleteProjectMutation.mutate(currentProject.id); router.push('/') }}
+          />
+        </Modal>
+      }
       <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
         <BoardDetail
+          project={null}
           newBoard={true}
           loading={createProjectMutation.isPending}
           editing={true}
@@ -233,7 +244,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           <Sidebar
             currentProject={currentProject}
             projects={props.projects}
-            onClickProject={(project: Project): void => setCurrentProject(project)}
+            onClickProject={(project: Project): void => { setCurrentProject(project); setCurrentProjectMutation.mutate(project.id) }}
             setCreateProjectOpen={setCreateProjectOpen}
             setSidebarHidden={setSidebarHidden}
             sidebarHidden={sidebarHidden}

@@ -7,7 +7,7 @@ import { useState } from "react";
 import PopoverMenu from "~/components/molecules/popoverMenu/PopoverMenu";
 
 export interface NavbarProps {
-  project?: Project;
+  project: Project | null
   onSidebarOpen?: () => void;
   sidebarOpen?: boolean;
   openTaskDetail?: () => void;
@@ -113,6 +113,7 @@ export default function Navbar(props: NavbarProps): JSX.Element {
         !!props.project ||
         <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
           <BoardDetail
+            project={props.project}
             newBoard={true}
             setNewBoard={props.setNewBoard}
             editing={true}

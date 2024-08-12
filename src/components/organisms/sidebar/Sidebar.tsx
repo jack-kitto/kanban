@@ -6,7 +6,7 @@ import type { Project } from "~/components/types";
 export interface SidebarProps {
   projects: Project[]
   onClickProject: (project: Project) => void
-  currentProject?: Project
+  currentProject: Project | null
   modal?: boolean
   setSidebarHidden: (hidden: boolean) => void
   sidebarHidden: boolean

@@ -1,15 +1,17 @@
+import { user } from "@nextui-org/theme";
 import { redirect } from "next/navigation";
 import React from "react";
 import type { ColourName } from "~/components/atoms/bubble/Bubble";
-import { HomePage } from "~/components/pages";
+import ProjectPage from "~/components/pages/project/Project";
 import type { Project } from "~/components/types";
 import { getServerAuthSession } from "~/server/auth";
 import { db } from "~/server/db";
-export default async function Home() {
+export default async function Page() {
   const session = await getServerAuthSession()
   if (!session) {
     redirect('/login')
   }
+
   const projectsData = await db.project.findMany({
     where: {
       users: {
@@ -47,9 +49,9 @@ export default async function Home() {
               id: task.id,
               title: task.title,
               description: task.description,
-              position: column.position,
+              position: task.position,
               columnId: task.columnId,
-              columnTitle: column.title,
+              columnTitle: task.columnTitle,
               subtasks: task.subtasks.map((subtask) => {
                 return {
                   id: subtask.id,
@@ -65,8 +67,15 @@ export default async function Home() {
     }
   });
 
+  const project = !session.user.currentProjectId ? projects[0] : projects.find((project: Project): boolean => project.id === session.user.currentProjectId)
+
   return (
-    <HomePage projects={projects} />
+    <div>
+      <ProjectPage
+        project={project}
+        projects={projects}
+      />
+    </div>
   );
 }
 

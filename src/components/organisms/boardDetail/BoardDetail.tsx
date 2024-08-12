@@ -11,7 +11,7 @@ import { ActionTypes, reducer } from "./reducer";
 import type { ColumnType, Project } from '~/components/types';
 
 export interface BoardDetailProps {
-  project?: Project;
+  project: Project | null
   menuOptions?: TooltipMenuOption[];
   editing: boolean;
   newBoard: boolean;
@@ -144,7 +144,7 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
               btn={{
                 onMouseDown: (): void => {
                   props.saveChanges(project, removedColumns)
-                  props.setNewBoard!(false)
+                  if (props.setNewBoard) props.setNewBoard(false)
                 }
               }}
               type="primary"
