@@ -115,6 +115,7 @@ export function fakeUser() {
     email: undefined,
     emailVerified: undefined,
     image: undefined,
+    currentProjectId: undefined,
   };
 }
 export function fakeUserComplete() {
@@ -124,6 +125,7 @@ export function fakeUserComplete() {
     email: undefined,
     emailVerified: undefined,
     image: undefined,
+    currentProjectId: undefined,
   };
 }
 export function fakeVerificationToken() {
