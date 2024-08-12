@@ -35,6 +35,7 @@ export default function Board(props: BoardProps): JSX.Element {
             }
             // Move task to another column 
             draggedTask.columnTitle = destinationColumn.title
+            draggedTask.columnId = destinationColumn.id
             const destinationTasks = destinationColumn.tasks
             const destinationIndex = result.destination?.index
             if (destinationIndex === undefined) throw new Error('destinationIndex is undefined')
