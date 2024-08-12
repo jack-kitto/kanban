@@ -20,7 +20,7 @@ const ColumnComponent = (props: ColumnProps): JSX.Element => {
       <div className="w-full flex py-6">
         <Tag colour={props.column.colour} label={`${`${props.column.title} (${props.tasks.length})`.toUpperCase()}`} />
       </div>
-      <div className="h-[800px] overflow-auto no-scrollbar rounded-lg scroll-m-2">
+      <div className="h-[800px] min-w-[280px] overflow-auto no-scrollbar rounded-lg scroll-m-2">
         <TaskList
           tasks={props.tasks}
           columns={props.columns}

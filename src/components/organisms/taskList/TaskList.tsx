@@ -24,7 +24,7 @@ const TaskListComponent = (props: TaskListProps): JSX.Element => {
     >
       {(dropProvided: DroppableProvided): JSX.Element => (
         <div
-          className="flex flex-col"
+          className="flex min-w-[280px] h-full flex-col"
           ref={dropProvided.innerRef}
           {...dropProvided.droppableProps}
         >
