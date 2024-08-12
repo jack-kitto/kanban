@@ -18,6 +18,7 @@ export interface ProjectPageProps {
 
 export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [currentProject, setCurrentProject] = useState<Project | null>(props.project ?? null)
+  const [projects, setProjects] = useState<Project[]>(props.projects)
   const [isClient, setIsClient] = useState(false)
   const [createProjectOpen, setCreateProjectOpen] = useState<boolean>(false)
   const [columns, setColumns] = useState<ColumnType[]>([])
@@ -29,6 +30,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
   const [projectDetailOpen, setProjectDetailOpen] = useState<boolean>(false)
   const [editingBoard, setEditingBoard] = useState<boolean>(true)
   const [newBoard, setNewBoard] = useState<boolean>(false)
+  const [newProject, setNewProject] = useState<Project | null>(null)
   const router = useRouter()
   useEffect(() => {
     if (!props.project) setCreateProjectOpen(true)
@@ -64,6 +66,8 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
     onSuccess: () => {
       toast('🔥 Successfully saved new project')
       setCreateProjectOpen(false)
+      setCurrentProject(newProject)
+      setProjects((prev: Project[]): Project[] => prev.concat(newProject!))
     }
   })
 
@@ -211,7 +215,10 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           newBoard={true}
           loading={createProjectMutation.isPending}
           editing={true}
-          saveChanges={(project: Project) => { createProjectMutation.mutate(project) }}
+          saveChanges={(project: Project) => {
+            setNewProject(project)
+            createProjectMutation.mutate(project);
+          }}
         />
       </Modal>
       <Modal open={projectDetailOpen} close={() => setProjectDetailOpen(false)}>
@@ -223,6 +230,9 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           setEditing={setEditingBoard}
           saveChanges={(project: Project, removedColumns?: string[]) => {
             updateProjectMutation.mutate(project)
+            setCurrentProject(project)
+            setColumns((prev: ColumnType[]): ColumnType[] => prev.filter((c: ColumnType): boolean => !removedColumns?.includes(c.id)))
+            setProjects((prev: Project[]): Project[] => prev.map((p: Project): Project => p.id === project.id ? project : p))
             if (removedColumns && removedColumns?.length > 0) deleteColumnMutation.mutate(removedColumns)
           }}
           menuOptions={[
@@ -243,7 +253,7 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         sidebar={
           <Sidebar
             currentProject={currentProject}
-            projects={props.projects}
+            projects={projects}
             onClickProject={(project: Project): void => { setCurrentProject(project); setCurrentProjectMutation.mutate(project.id) }}
             setCreateProjectOpen={setCreateProjectOpen}
             setSidebarHidden={setSidebarHidden}
@@ -253,7 +263,10 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         }
         navbar={
           <Navbar
-            createProject={createProjectMutation.mutate}
+            createProject={(project: Project) => {
+              setNewProject(project)
+              createProjectMutation.mutate(project)
+            }}
             sidebarOpen={!sidebarHidden}
             project={currentProject}
             openTaskDetail={openTaskDetail}
