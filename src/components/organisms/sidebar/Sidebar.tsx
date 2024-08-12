@@ -18,7 +18,7 @@ export default function Sidebar(props: SidebarProps): JSX.Element {
 
   if (props.sidebarHidden) {
     return (
-      <button onMouseDown={() => props.setSidebarHidden(false)} className="absolute bottom-8 left-0 h-12 flex justify-center items-center rounded-r-full z-50 bg-mainPurple w-[56px] transition outline-none hover-duration-150 ease-in-out hover:scale-105 active:scale-100 select-none">
+      <button onMouseDown={() => props.setSidebarHidden(false)} className="bg-mainPurple rounded-r-full flex items-center justify-center select-none w-full h-full">
         <Icon icon="Eye" />
       </button>
     );
