@@ -12,15 +12,19 @@ export function useDarkmode() {
       document.body.classList.remove('bg-lightGray');
       document.body.classList.add('dark');
       document.body.classList.add('bg-darkGray');
-      darkModeMutation.mutate(true)
     } else {
-      darkModeMutation.mutate(false)
       document.body.classList.remove('dark');
       document.body.classList.remove('bg-darkGray');
       document.body.classList.add('bg-lightGray');
     }
     localStorage.setItem('darkMode', isDarkMode ? 'ENABLED' : 'DISABLED');
-  }, [isDarkMode, darkModeMutation]);
+  }, [isDarkMode]);
 
-  return { isDarkMode, setIsDarkMode }
+  return {
+    isDarkMode,
+    setIsDarkMode: (b: boolean) => {
+      darkModeMutation.mutate(b)
+      setIsDarkMode(b)
+    }
+  }
 }
