@@ -3,10 +3,8 @@ import { generateKeyBetween } from 'fractional-indexing';
 import { useEffect, useMemo, useReducer, useState } from "react";
 import { z } from "zod";
 import { Button, MenuButton, TextField, TooltipMenu } from "~/components/atoms";
-import { Icon } from "~/components/atoms/icon";
 import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMenu";
 import { EditableCheckboxInput } from "~/components/molecules";
-import { colors } from "~/styles";
 import { ActionTypes, reducer } from "./reducer";
 import type { ColumnType, Project } from '~/components/types';
 
@@ -32,17 +30,19 @@ function createColumn(title: string, prevPosition: string | null): ColumnType {
 }
 
 function createNewProject(): Project {
+  const todo = createColumn('Todo', null)
+  const doing = createColumn('Doing', todo.position)
+  const done = createColumn('Done', doing.position)
   return {
     title: '',
     description: '',
-    columns: [],
+    columns: [todo, doing, done],
     id: createId(),
   }
 }
 
 export default function BoardDetail(props: BoardDetailProps): JSX.Element {
   const [project, dispatch] = useReducer<typeof reducer>(reducer, props.project ?? createNewProject());
-  const [newColumn, setNewColumn] = useState<string>('');
   const [removedColumns, setRemovedColumns] = useState<string[]>([])
 
 
@@ -106,20 +106,6 @@ export default function BoardDetail(props: BoardDetailProps): JSX.Element {
             />
           </div>
         ))}
-
-        {props.newBoard && project.columns.length < 1 && (
-          <div className="flex gap-2 justify-between w-full items-center ">
-            <TextField
-              placeholder="Todo"
-              text={newColumn}
-              setText={setNewColumn}
-            />
-            <Icon icon="Save" onClick={(): void => {
-              dispatch({ type: ActionTypes.ADD_COLUMN, payload: createColumn(newColumn, `${project.columns[project.columns.length - 1]?.position}`) })
-              setNewColumn('')
-            }} color={colors.mediumGray} size="small" />
-          </div>
-        )}
         {
           props.editing && (
             <div className="pt-6">
