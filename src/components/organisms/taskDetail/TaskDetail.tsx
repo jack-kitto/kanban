@@ -46,6 +46,7 @@ function createNewTask(columns: TaskDetailProps['columns']): TaskType {
 
 export default function TaskDetail(props: TaskDetailProps): JSX.Element {
   const [task, dispatch] = useReducer<typeof reducer>(reducer, props.task ?? createNewTask(props.columns));
+  const [currentColumn, setCurrentColumn] = useState<ColumnType>(props.task ? props.columns.find((c: ColumnType) => c.id === props.task?.columnId)! : props.columns[0]!)
   const [newSubtask, setNewSubtask] = useState<string>('');
 
   const completedSubtasks = useMemo((): number => {
@@ -186,6 +187,7 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
           setSelected={(selectedOptionId: string): void => {
             const column: ColumnType = props.columns.find((c: ColumnType): boolean => c.id === selectedOptionId)!
             if (!column) return
+            setCurrentColumn(column)
             dispatch({ type: ActionTypes.SET_COLUMN_ID, payload: column.id })
             dispatch({ type: ActionTypes.SET_COLUMN_TITLE, payload: column.title })
 
@@ -204,7 +206,6 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
             }
             newTask.position = generateKeyBetween(finalPositionInNewColumn, null)
             props.saveChanges(newTask)
-
           }}
         />
       )}
@@ -216,7 +217,12 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
               disabled={!canSave}
               btn={{
                 onClick: (): void => {
-                  props.saveChanges(task)
+                  props.saveChanges({
+                    ...task,
+                    columnId: currentColumn.id,
+                    columnTitle: currentColumn.title,
+                    position: generateKeyBetween(currentColumn.tasks.at(-1)?.position, null),
+                  })
                   if (props.setNewTask)
                     props.setNewTask(false)
                   props.setEditing(false)
