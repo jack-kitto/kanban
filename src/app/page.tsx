@@ -1,4 +1,3 @@
-import { user } from "@nextui-org/theme";
 import { redirect } from "next/navigation";
 import React from "react";
 import type { ColourName } from "~/components/atoms/bubble/Bubble";
