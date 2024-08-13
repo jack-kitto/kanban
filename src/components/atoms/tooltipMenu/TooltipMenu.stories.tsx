@@ -16,7 +16,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Left: Story = {
   args: {
-    angle: 'NW',
     options: [
       {
         text: 'Option 1',

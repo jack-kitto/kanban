@@ -104,7 +104,7 @@ export default function TaskDetail(props: TaskDetailProps): JSX.Element {
                 <h2 className="prose-hl dark:text-white">
                   {task.title}
                 </h2>
-                <TooltipMenu options={props.menuOptions} angle="S">
+                <TooltipMenu options={props.menuOptions}>
                   <MenuButton type="hover" />
                 </TooltipMenu>
               </div>

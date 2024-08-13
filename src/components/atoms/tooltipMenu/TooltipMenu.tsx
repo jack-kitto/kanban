@@ -37,8 +37,8 @@ export default function TooltipMenu(props: TooltipMenuProps): JSX.Element {
   React.useEffect(() => {
     if (triggerRef.current) {
       const triggerRect = triggerRef.current.getBoundingClientRect();
-      const menuHeight = menuRef.current?.offsetHeight || 0;
-      const menuWidth = menuRef.current?.offsetWidth || 0;
+      const menuHeight = menuRef.current?.offsetHeight ?? 0;
+      const menuWidth = menuRef.current?.offsetWidth ?? 0;
 
       const spaceBelow = window.innerHeight - triggerRect.bottom;
       const spaceAbove = triggerRect.top;
