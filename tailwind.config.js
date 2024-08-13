@@ -24,7 +24,8 @@ export default {
         mainPurple25: '#D8D7F1',
         mainPurpleHover: '#A8A4FF',
         red: '#EA5555',
-        redHover: '#FF9898'
+        redHover: '#FF9898',
+        lightHover: '#979797',
       },
       fontFamily: {
         plusJakartaSans: ['var(--font-plus-jakarta-sans)'],
@@ -95,4 +96,6 @@ export default {
   plugins: [require('@tailwindcss/typography'), nextui()],
   darkMode: 'class',
 }
+
+
 
