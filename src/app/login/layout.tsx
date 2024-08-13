@@ -1,7 +1,6 @@
 import "~/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import { Plus_Jakarta_Sans } from 'next/font/google'
-import { getServerAuthSession } from "~/server/auth";
 
 export const metadata = {
   title: "Kanban",
@@ -26,7 +25,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerAuthSession()
   return (
     <html
       lang="en"

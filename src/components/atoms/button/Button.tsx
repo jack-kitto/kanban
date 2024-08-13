@@ -78,6 +78,7 @@ export default function Button(props: ButtonProps): JSX.Element {
       {...props.btn}
       className={`
                   p-4 w-full h-fit outline-none px-5 prose-hm select-none
+                  ${props.loading && 'cursor-default'}
                   ${bgMap[props.type ?? 'primary']} 
                   ${!props.disabled && !props.loading && hoverBgMap[props.type ?? 'primary']} 
                   ${(props.disabled ?? props.loading) && 'cursor-default opacity-50'} 
