@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: kanban
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - kanban
+
+  prisma:
+    image: node:18-alpine
+    container_name: prisma_migrate
+    restart: "no"
+    working_dir: /app
+    volumes:
+      - .:/app
+    entrypoint: ["sh", "-c", "yarn install && npx prisma migrate deploy"]
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres_db:5432/kanban
+    depends_on:
+      - postgres
+    networks:
+      - kanban
+
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs_app
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres_db:5432/kanban
+      VIRTUAL_HOST: kanban.kitto.sh
+      LETSENCRYPT_HOST: kanban.kitto.sh
+      LETSENCRYPT_EMAIL: kanban@kitto.sh
+    expose:
+      - '3000'
+    depends_on:
+      - postgres
+      - prisma
+    networks:
+      - kanban
+      - webproxy
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
+      - /etc/nginx/certs
+    networks:
+      - webproxy
+
+  letsencrypt:
+    image: nginxproxy/acme-companion
+    container_name: letsencrypt
+    restart: always
+    environment:
+      DEFAULT_EMAIL: youremail@example.com
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/nginx/certs
+    depends_on:
+      - nginx-proxy
+    networks:
+      - webproxy
+
+volumes:
+  pgdata:
+
+networks:
+  kanban:
+    driver: bridge
+  webproxy:
+    external: false
