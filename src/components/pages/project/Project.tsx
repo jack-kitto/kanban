@@ -287,8 +287,9 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
           />
         }
       >
-        <div className="w-full h-full p-6 bg-lightGray dark:bg-veryDarkGray">
+        <div className="w-full h-full pt-[26px] px-6 bg-lightGray dark:bg-veryDarkGray">
           <Board
+            onNewColPress={() => setProjectDetailOpen(true)}
             updateTask={(task: TaskType): void => {
               updateTaskMutation.mutate(task)
               updateTaskInListOfColumns(task, columns, (newColumns: ColumnType[]): void => {

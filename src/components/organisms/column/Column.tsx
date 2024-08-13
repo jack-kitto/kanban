@@ -17,7 +17,7 @@ const ColumnComponent = (props: ColumnProps): JSX.Element => {
   //TODO: Make it so that changing the amount of tasks in a column doesn't affect the width of the column
   return (
     <div className="flex flex-col pr-5 max-w-[500px] justify-center items-center">
-      <div className="w-full flex py-6">
+      <div className="w-full flex pb-6">
         <Tag colour={props.column.colour} label={`${`${props.column.title} (${props.tasks.length})`.toUpperCase()}`} />
       </div>
       <div className="h-[800px] min-w-[280px] overflow-auto no-scrollbar rounded-lg scroll-m-2">
