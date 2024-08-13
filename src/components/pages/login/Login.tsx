@@ -74,7 +74,7 @@ export default function Login(): JSX.Element {
             />
           ) : (
             <div className="flex gap-2 items-center justify-center">
-              <p className="prose-bm text-black">Didn't receive an email?</p>
+              <p className="prose-bm text-black">Didn&apos;t receive an email?</p>
               <button onClick={onPress} className="prose-bl font-bold text-mainPurple">Try again.</button>
             </div>
           )}
