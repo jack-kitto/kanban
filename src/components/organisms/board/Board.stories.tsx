@@ -43,6 +43,7 @@ const columns: ColumnType[] = Array.from({ length: 3 }, (_, i) => {
 
 export const Light: Story = {
   args: {
+    onNewColPress: () => console.log("New col pressed"),
     updateColumnTasks: (): void => { console.log("updateColumns") },
     columns: columns,
     updateTask: (): void => { console.log("updateTask") },
