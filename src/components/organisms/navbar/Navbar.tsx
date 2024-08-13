@@ -1,6 +1,6 @@
 import { BoardDetail } from "~/components/organisms";
 import type { Project } from "~/components/types";
-import { Button, Modal } from "~/components/atoms";
+import { Button, MenuButton, Modal, TooltipMenu } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
 import { useState } from "react";
@@ -93,20 +93,23 @@ export default function Navbar(props: NavbarProps): JSX.Element {
         </div>
         {
           props.project &&
-          <PopoverMenu
-            position="bottom-start"
-            options={[
+          <TooltipMenu options={
+
+            [
               {
-                text: 'Edit Project',
-                onClick: (): void => { if (props.setProjectDetailOpen) props.setProjectDetailOpen(true) }
+                text: "Edit Board",
+                onClick: () => {
+                  if (props.setProjectDetailOpen) props.setProjectDetailOpen(true)
+                }
               },
               {
-                text: 'Delete Project',
-                destructive: true,
-                onClick: deleteProject
-              }
-            ]}
-          />
+                text: "Delete Board",
+                onClick: deleteProject,
+                destructive: true
+              }]
+          } >
+            <MenuButton type="hover" />
+          </TooltipMenu>
         }
       </div>
       {
