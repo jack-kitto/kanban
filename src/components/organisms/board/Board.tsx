@@ -4,6 +4,7 @@ import type { ColumnType as ColumnType, TaskType } from "~/components/types";
 import { Column } from "../column/Column";
 import { handleDragEnd, handleInsertItem, sortItems } from "~/components/helpers";
 import { StrictModeDroppable } from "~/components/atoms/strictModeDroppable/StrictModeDroppable";
+import { Button } from "~/components/atoms";
 
 export interface BoardProps {
   columns: ColumnType[];
@@ -14,6 +15,18 @@ export interface BoardProps {
 }
 
 export default function Board(props: BoardProps): JSX.Element {
+  if (props.columns.length === 0) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="w-[500px] flex items-center justify-center flex-col">
+          <p className="prose-hl text-mediumGray pb-8">This board is empty. Create a new column to get started.</p>
+          <div>
+            <Button btn={{ onMouseDown: props.onNewColPress }} text="+ Add New Column" />
+          </div>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="flex">
       <div>
