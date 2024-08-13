@@ -19,6 +19,7 @@ export interface TextFieldProps {
   placeholder?: string;
   label?: string;
   rows?: number;
+  type?: HTMLInputElement['type']
 }
 
 export default function TextField(props: TextFieldProps): JSX.Element {
@@ -74,7 +75,7 @@ export default function TextField(props: TextFieldProps): JSX.Element {
             <input
               placeholder={props.placeholder}
               className={`bg-white dark:bg-darkGray dark:border-linesDark appearance-none border outline-none dark:text-white min-h-10 min-w-40 max-w-md ${borderStyles}  rounded h-10 w-full px-3 prose-bl transition-colors duration-300 ease-in-out`}
-              type="text"
+              type={props.type ?? "text"}
               maxLength={props.maxLength}
               minLength={props.minLength}
               value={text}
