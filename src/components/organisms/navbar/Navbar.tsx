@@ -1,42 +1,29 @@
-import { BoardDetail } from "~/components/organisms";
 import type { Project } from "~/components/types";
-import { Button, MenuButton, Modal, TooltipMenu } from "~/components/atoms";
+import { Button, MenuButton, TooltipMenu } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
 import { colors } from "~/styles";
-import { useState } from "react";
-import PopoverMenu from "~/components/molecules/popoverMenu/PopoverMenu";
 
 export interface NavbarProps {
   project: Project | null
   onSidebarOpen?: () => void;
   sidebarOpen?: boolean;
   openTaskDetail?: () => void;
-  createProject?: (p: Project) => void
-  deleteProject?: (id: string) => void
+  deleteProject?: () => void
   setProjectDetailOpen?: (b: boolean) => void
+  setNewProjectOpen?: (b: boolean) => void
   setNewBoard?: (b: boolean) => void
 }
 
 export default function Navbar(props: NavbarProps): JSX.Element {
-  const [createProjectOpen, setCreateProjectOpen] = useState<boolean>(false)
 
   function handleAddProject() {
-    setCreateProjectOpen(true)
-  }
-
-  function createProject(p: Project) {
-    try {
-      setCreateProjectOpen(false)
-      if (props.createProject) props.createProject(p)
-    } catch (error) {
-      console.error(error)
-    }
+    if (props.setNewProjectOpen) props.setNewProjectOpen(true)
   }
 
   function deleteProject() {
     if (!props.deleteProject) return
     if (!props.project) return
-    props.deleteProject(props.project.id)
+    props.deleteProject()
   }
 
   return (
@@ -112,18 +99,6 @@ export default function Navbar(props: NavbarProps): JSX.Element {
           </TooltipMenu>
         }
       </div>
-      {
-        !!props.project ||
-        <Modal open={createProjectOpen} close={() => setCreateProjectOpen(false)}>
-          <BoardDetail
-            project={props.project}
-            newBoard={true}
-            setNewBoard={props.setNewBoard}
-            editing={true}
-            saveChanges={createProject}
-          />
-        </Modal>
-      }
     </div>
   )
 }

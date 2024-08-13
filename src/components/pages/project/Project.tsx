@@ -202,7 +202,18 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
             confirmText='Delete'
             cancelText='Cancel'
             onCancel={() => setConfirmDeleteProjectOpen(false)}
-            onConfirm={() => { setConfirmDeleteProjectOpen(false); deleteProjectMutation.mutate(currentProject.id); router.push('/') }}
+            onConfirm={() => {
+              setConfirmDeleteProjectOpen(false);
+              const index = projects.map((p: Project) => p.id).indexOf(currentProject.id)
+              const oldCurrentProject: Project = currentProject
+              const newProjectIndex = index === 0 ? 0 : index - 1
+              const newProjects = projects.filter((p: Project) => p.id !== oldCurrentProject.id)
+              setProjects(newProjects)
+              setCurrentProject(newProjects[newProjectIndex]!)
+              deleteProjectMutation.mutate(currentProject.id);
+              if (newProjects.length === 0) setCreateProjectOpen(true)
+              router.push('/')
+            }}
           />
         </Modal>
       }
@@ -266,15 +277,12 @@ export default function ProjectPage(props: ProjectPageProps): JSX.Element {
         }
         navbar={
           <Navbar
-            createProject={(project: Project) => {
-              setNewProject(project)
-              createProjectMutation.mutate(project)
-            }}
             sidebarOpen={!sidebarHidden}
             project={currentProject}
             openTaskDetail={openTaskDetail}
             deleteProject={() => setConfirmDeleteProjectOpen(true)}
             setProjectDetailOpen={setProjectDetailOpen}
+            setNewProjectOpen={setCreateProjectOpen}
             setNewBoard={setNewBoard}
           />
         }
