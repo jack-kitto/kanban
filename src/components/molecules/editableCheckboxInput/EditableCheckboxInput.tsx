@@ -44,7 +44,7 @@ export default function EditableCheckboxInput(props: EditableCheckboxInputProps)
         <Checkbox checked={checked} setChecked={setChecked} />
       </div>
       <div className="flex justify-center">
-        <p className={`prose-bm cursor-pointer text-center dark:text-white ${checkStyle}`}>
+        <p className={`prose-bm text-left cursor-pointer dark:text-white ${checkStyle}`}>
           {text}
         </p>
       </div>
