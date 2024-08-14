@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from "react";
+import ReactDOM from "react-dom";
 
 export interface ModalProps {
   open: boolean;
@@ -15,27 +16,32 @@ function handleEscape(e: KeyboardEvent, onClose: () => void): void {
 export function Modal(props: ModalProps): JSX.Element | null {
   const displayStyles = useMemo(() => {
     if (props.open) {
-      return 'flex'
+      return 'flex';
     }
-    if (!props.open) {
-      return 'hidden'
-    }
-  }, [props.open])
+    return 'hidden';
+  }, [props.open]);
 
   useEffect(() => {
-    window.addEventListener('keydown', (e) => handleEscape(e, props.close));
+    const handleKeyDown = (e: KeyboardEvent) => handleEscape(e, props.close);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', (e) => handleEscape(e, props.close));
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [props.open, props.close])
-  if (!props.open) return null
+  }, [props.close]);
 
-  return (
+  if (!props.open) return null;
+
+  const modalContent = (
     <div className={`${displayStyles} fixed z-50 top-0 left-0 right-0 bottom-0 w-full h-full`}>
-      <button onMouseDown={props.close} className={`${displayStyles} absolute z-10 cursor-default bg-black bg-opacity-75 w-full h-full`} />
-      <div className="z-20 align-middle w/full sm:2/3 md:w-1/3 m-auto p-4 rounded-lg">
+      <button
+        onMouseDown={props.close}
+        className="absolute z-10 cursor-default bg-black bg-opacity-75 w-full h-full"
+      />
+      <div className="z-20 align-middle w/full sm:w-2/3 md:w-1/3 m-auto p-4 rounded-lg">
         {props.children}
       </div>
     </div>
   );
+
+  return ReactDOM.createPortal(modalContent, document.body);
 }
