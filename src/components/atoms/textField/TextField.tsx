@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useEffect, useState } from "react";
+import React, { type ForwardedRef, forwardRef, useEffect, useState } from "react";
 import { useCallback, useMemo } from "react";
 import { z } from "zod";
 
@@ -23,7 +23,7 @@ export interface TextFieldProps {
   handleReturn?: () => void
 }
 
-const TextField = forwardRef((props: TextFieldProps, ref: ForwardedRef<HTMLInputElement>): JSX.Element => {
+const TextField = forwardRef(function TextField(props: TextFieldProps, ref: ForwardedRef<HTMLInputElement>): JSX.Element {
   const [text, setText] = useState(props.text);
 
   useEffect((): void => {
