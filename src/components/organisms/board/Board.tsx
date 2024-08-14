@@ -120,7 +120,7 @@ export default function Board(props: BoardProps): JSX.Element {
         </DragDropContext>
       </div>
       <div className="flex flex-col group pt-[39px] pr-5 max-w-[500px] cursor-pointer justify-center items-center">
-        <button onMouseDown={props.onNewColPress} className="h-[800px] group-hover:text-mainPurple min-w-[280px] flex items-center justify-center bg-gradient-to-b from-[#E9EFFA] to-[rgba(233,239,250,0.5)] dark:bg-gradient-to-b dark:from-[rgba(43,44,55,0.25)] dark:to-[rgba(43,44,55,0.125)] rounded-[6px] prose-hxl text-mediumGray">
+        <button onMouseDown={props.onNewColPress} className="h-[800px] group-hover:text-mainPurpleHover min-w-[280px] flex items-center justify-center bg-gradient-to-b from-[#E9EFFA] to-[rgba(233,239,250,0.5)] dark:bg-gradient-to-b dark:from-[rgba(43,44,55,0.25)] dark:to-[rgba(43,44,55,0.125)] rounded-[6px] prose-hxl text-mediumGray">
           + New Column
         </button>
       </div>

@@ -97,7 +97,7 @@ export default function TooltipMenu(props: TooltipMenuProps): JSX.Element {
                 option.onClick();
                 setIsOpen(false);
               }}
-              className={`bg-white dark:bg-veryDarkGray p-2 select-none prose-bl w-full text-left hover:bg-gray-100 dark:hover:bg-gray-800 ${option.destructive ? 'text-red' : 'text-gray-700 dark:text-mediumGray'}`}
+              className={`bg-white dark:bg-veryDarkGray p-2 select-none prose-bl w-full text-left hover:text-mainPurpleHover  ${option.destructive ? 'text-red' : ' dark:text-mediumGray hover:dark:text-mainPurpleHover'}`}
             >
               {option.text}
             </button>
