@@ -1,7 +1,7 @@
 'use client'
 import { useMutation } from "@tanstack/react-query";
 import { signIn } from "next-auth/react"
-import { useMemo, useState } from "react";
+import { FormEvent, FormEventHandler, useMemo, useState } from "react";
 import { z } from "zod";
 import { Button, TextField } from "~/components/atoms";
 import { Icon } from "~/components/atoms/icon";
@@ -29,6 +29,10 @@ export default function Login(): JSX.Element {
     }
   }
 
+  const disabled = useMemo(() => {
+    return !email || !z.string().email().safeParse(email).success
+  }, [email])
+
   return (
     <div className="h-screen w-screen flex justify-center items-center px-4">
       <div className="max-w-md w-full p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
@@ -46,6 +50,12 @@ export default function Login(): JSX.Element {
                 type="email"
                 text={email}
                 placeholder="anakin.skywalker@gmail.com"
+                handleReturn={() => {
+                  console.log("handleSubmit")
+                  if (!disabled) {
+                    onPress()
+                  }
+                }}
                 setText={setEmail}
                 validationErrors={[]}
               />
@@ -66,7 +76,7 @@ export default function Login(): JSX.Element {
         <div className="flex items-center justify-center">
           {view === 'landing' ? (
             <Button
-              disabled={!email || !z.string().email().safeParse(email).success}
+              disabled={disabled}
               btn={{ onMouseDown: onPress }}
               type="login"
               loading={signInMutation.isPending}
