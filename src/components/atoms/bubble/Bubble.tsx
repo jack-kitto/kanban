@@ -54,6 +54,11 @@ export const bubbleColours = [
   }
 ] as const
 
+export function getRandomButtonColorName(): string {
+  const randomIndex = Math.floor(Math.random() * bubbleColours.length);
+  return bubbleColours[randomIndex]!.name;
+}
+
 export type BubbleColour = typeof bubbleColours[number];
 export type ColourName = BubbleColour['name'];
 export interface BubbleProps {

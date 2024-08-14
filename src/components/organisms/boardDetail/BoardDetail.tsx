@@ -7,6 +7,7 @@ import type { TooltipMenuOption } from "~/components/atoms/tooltipMenu/TooltipMe
 import { EditableCheckboxInput } from "~/components/molecules";
 import { ActionTypes, reducer } from "./reducer";
 import type { ColumnType, Project } from '~/components/types';
+import { getRandomButtonColorName } from '~/components/atoms/bubble/Bubble';
 
 export interface BoardDetailProps {
   project: Project | null
@@ -23,7 +24,7 @@ function createColumn(title: string, prevPosition: string | null): ColumnType {
   return {
     title: title ?? '',
     id: createId(),
-    colour: 'Aqua Blue',
+    colour: getRandomButtonColorName(),
     position: generateKeyBetween(prevPosition, null),
     tasks: []
   }
