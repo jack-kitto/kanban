@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ForwardedRef, forwardRef, useEffect, useState } from "react";
 import { useCallback, useMemo } from "react";
 import { z } from "zod";
 
@@ -20,9 +20,10 @@ export interface TextFieldProps {
   label?: string;
   rows?: number;
   type?: HTMLInputElement['type']
+  handleReturn?: () => void
 }
 
-export default function TextField(props: TextFieldProps): JSX.Element {
+const TextField = forwardRef((props: TextFieldProps, ref: ForwardedRef<HTMLInputElement>): JSX.Element => {
   const [text, setText] = useState(props.text);
 
   useEffect((): void => {
@@ -73,10 +74,14 @@ export default function TextField(props: TextFieldProps): JSX.Element {
         {
           !props.rows && (
             <input
+              ref={ref}
               placeholder={props.placeholder}
               className={`bg-white dark:bg-darkGray dark:border-linesDark appearance-none border outline-none dark:text-white min-h-10 min-w-40 max-w-md ${borderStyles}  rounded h-10 w-full px-3 prose-bl transition-colors duration-300 ease-in-out`}
               type={props.type ?? "text"}
               maxLength={props.maxLength}
+              onKeyPress={(ev) => {
+                if (ev.key === 'Enter' && props.handleReturn) props.handleReturn()
+              }}
               minLength={props.minLength}
               value={text}
               onChange={handleInputTextChange}
@@ -99,4 +104,5 @@ export default function TextField(props: TextFieldProps): JSX.Element {
       </div>
     </div>
   );
-}
+})
+export default TextField
